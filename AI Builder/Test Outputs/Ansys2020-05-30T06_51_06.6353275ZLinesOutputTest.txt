@@ -1,0 +1,216 @@
+SOFTWARE LICENSE AGREEMENT (Web Version January 9, 2020) Licensor and Licensee shall execute a License Form referencing and incorporating by reference this Software License Agreement ("Agreement") in each instance in which Licensee licenses Program(s) from Licensor
+By signing a License Form, each party has caused this Agreement to be executed by its duly authorized representatives and agrees to be bound by the terms and conditions of this Agreement
+1
+DEFINITIONS A
+"Affiliate" of a company means any person or other entity directly or indirectly controlling, controlled by, or under common control of such company
+A joint venture shall not be considered an Affiliate of either party
+B
+"Channel Partner" means Licensor's Affiliate or an unaffiliated business entity that is authorized by Licensor to distribute and/or support Program(s)
+C
+"Contract User(s)" means an individual or entity, not a regular employee of Licensee, who is engaged to perform Licensee's internal data processing services
+D
+"Data" means information relating to (i) materials (i.e
+matter from which a thing is composed or can be made) that belongs to Licensor, its Affiliates or suppliers that Licensor makes available to users of the Program(s), or (ii) simulation results, inputs, outputs or other information that may be created or inputted by the Licensee and that is available to users of the Program(s)
+E
+"Database" means an organized collection of Data that enables Licensee to easily access the Data
+F
+"Designated Network" means the network identified in the License Key
+G
+"Designated Site" means Licensee's physical location where use of the Program(s) is authorized by Licensor
+H
+"Effective Date of Program(s)" means the date specified in the License Key as the start date for the Program(s)
+I
+"LAN License" means a license of the Program(s) that permits Licensee's and its Affiliates' employees and Contract Users located within a 25-mile (40-km) radius of the Designated Site to use the Program(s)
+J
+"Lease License" means a license with a fixed expiration date, with a License Term commencing on the Effective Date of Program(s) and ending on the date specified in the License Key
+K
+"License Form" means any document referencing this Agreement which (i) is signed by the Licensor and Licensee, and (ii) incorporates the terms and conditions set forth herein
+Each License Form will be treated as a separate agreement
+L
+"License Key" means a software licensing management and security tool or other device that Licensor uses to allow Licensee access to the Program(s) and which may have an expiration date
+M
+"License Term" means the period during which Licensee is authorized to use Program(s) in accordance with the applicable license grant
+N
+"License Type" means either a LAN License or WAN License
+Except as otherwise indicated in the License Form or the Quotation and excluding Named User Licenses, the License Type will be deemed to be a LAN License
+Except as otherwise indicated in the License Form or Quotation, the License Type for a Named User License will be deemed to be a global WAN License
+K
+"Licensee" means the entity identified on the License Form, including its Affiliates
+"Licensor" means ANSYS, Inc
+unless an Affiliate of ANSYS, Inc
+is identified as Licensor on the License Form
+L
+"Manual" means Licensor's most current user manual(s)
+M
+"Named User" means an employee or Contract User of the Licensee or its Affiliate, who has been authorized by Licensee to be a user of the Program and who is identifiable as a unique user by his or her e-mail address
+N
+"Named User License" means a license that authorizes a single Named User to use a single Program
+O
+"Paid-Up License" means a license that has a License Term commencing on the Effective Date of Program(s) and continuing in perpetuity unless earlier terminated in accordance with the terms of this Agreement
+P
+"Program(s)" means the software referenced in the Quotation, any accompanying documentation (including the Manual), and any Technical Enhancements to such software
+Certain Program(s) may require the use of a relational database management system and/or a cross-platform document-oriented database program (collectively referred to as "Database Program(s)")
+Database Program(s) are not included with the Program(s)
+Q
+"Quotation" means Licensor's or the Channel Partner's proposal identified in the License Form that contains no less than the Program(s) to be licensed, the number of licenses or Named Users, and the license and/or TECS fees
+S
+R
+"TECS" or "Technical Enhancements and Customer Support" means the services described in Section 9(a) below
+"WAN License" means a license of the Program(s) that permits Licensee's and its Affiliates' employees and Contract Users located greater than 25-miles (40-km) from the Designated Site as specified in the Quotation to use the Program(s)
+2
+GRANT (a) Upon execution of the License Form, subject to the terms and conditions therein and in this Agreement, Licensor grants to Licensee a nonassignable, nonexclusive, nontransferable license, without the right to grant sublicenses, to use the Program(s), for the License Term, and within the scope of the License Type
+Software License Agreement 1 of 7 Web Version January 9, 2020 (b) For all licenses that are not Named User Licenses, Licensee shall have the right to use the number of simultaneous tasks or active processes of the Program(s) indicated in the License Form or Quotation
+c) For Named User Licenses, Licensee may only allow Named Users to use the Program(s)
+Designation of Named Users will be determined by Licensee
+Each Named User will have a username and password to access his or her Named User License(s)
+For each Named User License, a Named User will be authorized to install a Program on only one computer or workstations for which the Named User is the primary user
+A Named User may not share his or her Named User License(s) with any other person, including other Named Users
+Named Users may reasonably be changed by Licensee during the License Term for a Lease License provided that such change does not result in Licensee exceeding the number of Named User Licenses it has procured
+If Licensee has procured a Paid-Up License but is not current on TECS for the Named User License, Licensor may permit Licensee to change Named Users provided that such change will not result in Licensee exceeding the number of Named User Licenses it has procured
+d) Upon payment of the applicable WAN License fee, a LAN License shall become a WAN License for the term set forth in the Quotation
+(e) Licensee will use the Program(s) only for Licensee's own internal data processing purposes and will not make all or any part of any Program(s) available to any third party other than to Contract Users, solely for the purpose of supporting Licensee's internal data processing
+Internal data processing purposes includes using the Program(s) for providing consulting services to third parties but does not include providing data processing services, serving as an application service provider, or providing batch processing services
+(f) Licensor is not conveying to Licensee any title, ownership, copyright or any other intellectual property rights in or related to Program(s), and Licensor reserves all rights in and to the Program(s) which are not expressly granted in writing by Licensor to Licensee
+(g) Licensee will not permit the use of the Program(s) by persons other than its employees and its Contract Users
+Licensee is responsible for use of the Program(s) by Contract Users and for ensuring that the Contract Users (i) use the Program(s) only to perform internal data processing services for Licensee and (ii) agree to and comply with the terms of this Agreement
+h) For any WAN License, upon request by Licensor, Licensee agrees to submit a usage report once per year that identifies and lists the site locations, machine identifiers, time, date, and number of hours of access of all Program(s) per license of Program to Licensor within twenty days of Licensor's request for same
+(i) Licensee is responsible for installation of the Program(s)
+Licensee may make copies of the Program(s) only as are necessary for Licensee's back-up or archival purposes
+In no event will Licensee remove or modify any copyright notices or other proprietary markings contained within the Program(s) and will ensure that such notices are reproduced within all copies of the Program(s)
+() Licensor will provide Licensee access to the Program(s) via License Key(s)
+LICENSE KEYS MAY LIMIT THE PROGRAM(S)' USE AND REQUIRE LICENSEE TO OBTAIN NEW LICENSE KEYS FROM TIME TO TIME
+For periods in which Licensee is entitled to receive TECS for a Program, Licensee may request, at no additional charge, three (3) replacement License Keys per TECS period for such Program(s) due to a change of the Designated Network
+Licensor may charge an additional fee if Licensor agrees to provide replacement License Keys more than three time per TECS period or during periods in which Licensee is not entitled to receive TECS
+k) Licensee will not modify the License Key provided with the Program(s) in any way
+Except as expressly permitted by this Section 2(k) or as required by local law, Licensee will not (and will not attempt to nor allow any third party to or attempt to) adapt, alter, amend, modify, reverse engineer, decompile, disassemble or decode the whole or any part of the Program(s) or translate the whole or any part of the Program(s) into another language
+To the extent that local law expressly grants or requires Licensor to grant Licensee the right to decompile the Program(s) to obtain the information necessary to render the Program(s) interoperable with other computer programs used or to be created by Licensee, Licensor will make such information available to Licensee and Licensee will not decompile (or attempt to do so) the Program(s) without first requesting such information from Licensor
+Licensor will have the right to impose reasonable conditions (such as the imposition of a reasonable fee) for making the information available
+To ensure that Licensee receives the appropriate information, Licensee must first give Licensor sufficient details of Licensee's objectives and other software concerned
+All requests for the appropriate information will be given by notice to be delivered in accordance with the terms of this Agreement
+Licensee may not distribute the Program(s) (the whole or any part) to any third party (excluding Contract Users to the extent expressly permitted therein) or link or compile the Program(s) to or with any third-party software without Licensor's prior written permission, which consent Licensor may grant or withhold in its sole discretion
+Licensee acknowledges and agrees that the Program(s) are subject to U.S
+laws and other applicable laws governing the export and/or re-export of Program(s) including, but not limited to, the Export Administration Regulations, regulations promulgateng financial transaction restrictions administered by the Office of Foreign Asset Controls of the U.S
+Department of the Treasury, the International Emergency Economic Powers Act, the United States Export Administration Act, the United States Trading with the Enemy Act, and all regulations, orders and licenses issued thereunder (collectively the "Export Laws")
+Licensee warrants that it and its Contract Users are and will remain in Software License Agreement 2 of 7 Web Version January 9, 2020 compliance with all such Export Laws with respect to the Program(s) and acknowledges that Export Laws may change over time
+Licensee additionally warrants that it has not been, and is not currently, debarred, suspended, prohibited or impaired from exporting, re-exporting, receiving, purchasing, procuring, or otherwise obtaining any product, commodity, or technical data regulated by any agency of the government of the United States
+Licensee gives assurance that unless notice is given to Licensor, and prior authorization is obtained as required by the Export Laws, Licensee will not knowingly re-export, directly or indirectly, any Programs or any technical data transferred by Licensor to Licensee to any destination or person or entity in violation of the Export Laws or this Agreement
+3
+TERM AND TERMINATION (a) Lease Licenses are non-cancelable by Licensee, will commence on the Effective Date of Program(s), and will have a License Term that ends as of the expiration date specified in the License Key
+Except as set forth below, at the end of the then-current License Term, the Lease License will automatically renew at the renewal fees agreed between Licensee and either Licensor or Channel Partner, as applicable, for a renewal License Term equal to the duration of (as applicable) the immediately preceding License Term (provided that the term may be extended or shortened by mutual agreement in any given renewal term for that License Term in order to make the License Term coterminous with the term of other Lease Licenses or the TECS for Paid-Up Licenses licensed by Licensee)
+The Lease License will not renew if Licensee, Channel Partner, or Licensor gives prior notice of its intent to not renew
+Licensee shall be deemed to have provided notice not to renew if Licensee does not issue a purchase order to Licensor or the Channel Partner for the Lease Licenses prior to the expiration of the then-current License Term
+Licensor and Channel Partner shall be deemed to have provided notice not to renew if Licensor or Channel Partner does not provide a renewal Quotation for the Lease Licenses prior to the expiration of the then-current License Term
+Lease Licenses that do not automatically renew but that are purchased in the same configuration within three (3) months of the expiration date of the Lease License shall not require a new License Form to be signed for such Lease License(s) as the terms of this Agreement will be deemed to continue to apply from the start date of such Lease License(s)
+b) Licensor may terminate Lease License(s) if Licensee fails to pay the then-current license fees to the Channel Partner or Licensor, as applicable, within thirty (30) days of the due date for such payment
+In the event a Lease License is terminated prior to the end of the Term, no refund will be due to Licensee for any portion of the prepaid Lease License fee
+c) The license for a Paid-Up License will commence on the Effective Date of the Program(s) and will be perpetual unless terminated as provided in Section 3(d)
+d) Licensor may immediately terminate this Agreement and any Program(s) license upon any of the following: (i) Licensee materially breaches any provision of this Agreement or a License Form and fails to cure such breach within thirty (30) days of notice of such breach from Licensor or Channel Partner, provided that Licensor may terminate this Agreement and any Program(s) licenses for any material breach by Licensee that is not capable of being cured; (ii) Licensee ceases to do business for any reason; (iii) Licensee has a receiver or administrator appointed over all or part of its assets; (iv) Licensee becomes subject to any bankruptcy, insolvency, reorganization, liquidation or other similar proceedings, which proceedings are not dismissed within fifteen (15) days thereafter; (v) the transfer of a majority of Licensee's assets or outstanding voting securities (including, without limitation, by way of merger of Licensee with or into any other person or entity), or the sale of Licensee's business, or any other transaction or series of related transactions in which the security holders of Licensee immediately prior to such transaction(s) do not hold at least a majority of the outstanding voting securities of Licensee immediately after the transaction(s); or (vi) any attempted assignment of this Agreement or License Form by Licensee without prior written approval by Licensor
+Licensee may terminate this Agreement and any Lease License or TECS upon any of the following: (i) Licensor materially breaches any provision of this Agreement or a License Form and fails to cure such breach within thirty (30) days of notice of such breach from Licensee; or (ii) Licensor ceases to do business for any reason, in which event Licensor will refund to Licensee a pro rata portion of the amounts paid for such Lease Licenses or TECS
+This Agreement may also be terminated
+terminated by Licensor if pursuant to Section 6(e)(iii) or 7(a) all of Licensee's licenses of the Program(s) are (e) If the license for Program(s) granted hereunder is terminated for any reason, Licensee will immediately uninstall the Program(s) from the computer(s) on which it is installed and will certify to Licensor in writing that the Program(s) is no longer installed and that all copies thereof have either been destroyed or returned to Licensor or the Channel Partner
+Licensee will immediately return to Licensor or the Channel Partner any information or material provided to Licensee in connection with the Program(s), unless otherwise specified by Licensor or the Channel Partner
+4
+PAYMENT For sales of licenses of the Program(s) and/or TECS in which Licensor or its Affiliates will receive payment, Licensee or its Affiliate will pay the applicable fees within thirty (30) days from the date of the invoice from Licensor or its Affiliate
+For any late payment, Licensor or its Affiliate (as applicable) may charge Licensee interest in an amount equal to the lesser of 1.5% per month of the unpaid balance or the greatest amount legally permitted
+For sales of Lease Licenses, Paid-Up Licenses and/or TECS in which Channel Partners that are not Affiliates of Licensor will receive payment, Licensee or its Affiliates will pay the applicable fees within thirty (30) days of receipt of an invoice from such Channel Partner unless otherwise agreed
+License fees and TEC'S fees quoted to Licensee are exclusive of all value added taxes, sales taxes, use taxes, and the like
+Licensee will pay all taxes associated with the transaction, exclusive of any tax based on the income of Licensor or the Channel Partner
+Licensee must provide a valid tax exemption certificate if claiming a tax exemption
+5
+CONFIDENTIAL INFORMATION a) Licensee acknowledges that the Program(s) embodies confidential and proprietary information, including trade secrets, owned or licensed by Licensor or its Affiliates (the "Program Confidential Information")
+Software License Agreement 3 of 7 Web Version January 9, 2020 (b) Excluding the Program(s) and the Program Confidential Information, the parties agree that any other information disclosed by one party (the "Disclosing Party") to the other party (the "Receiving Party") under this Agreement that is marked or identified as confidential or given the nature of the information or circumstances surrounding disclosure should reasonably be understood to be confidential ("Other Confidential Information") and, together with the Program Confidential Information, ("Confidential Information") will remain the property of the Disclosing Party
+Any information relating to Licensor's, its Affiliates', technology suppliers', or Channel Partner's or to Licensee's or its Affiliates' business plans, strategies, technology, research and development, current and prospective customers, billing records, and products or services will be deemed Confidential Information even if not explicitly marked or identified
+The Receiving Party will protect the Confidential Information from disclosure to others using no less than a reasonable degree of care
+The Receiving Party agrees that it will not (i) use the Disclosing Party's Confidential Information in any way, for its own account or the account of any third party, except for the exercise of its rights and performance of its obligations under this Agreement, or (ii) disclose any such Confidential Information, other than furnishing such Confidential Information to (a) its employees, Affiliates, Channel Partners and consultants who are required to have access to such Confidential Information in connection with the exercise of its rights and performance of its obligations under this Agreement; and (b) professional advisers and, in the case of Licensor, technology suppliers (solely for support purposes); provided that such employees, Affiliates, consultants, Channel Partners, professional advisers and technology suppliers are bound to protect the Confidential Information from unauthorized use and disclosure consistent with these terms
+(c) The obligations of Section 3(b) will not extend to any information that the Receiving Party can demonstrate with competent evidence: () is or becomes publicly known through no fault of the Receiving Party; Disclosing Party; (ii) was possessed by the Receiving Party free of any obligation of confidentiality prior to receipt from the (iii) Information; is independently developed by the Receiving Party without use of the Disclosing Party's Confidential restriction; or (iv) is rightfully obtained by the Receiving Party from third parties authorized to make such disclosure without (v) is identified as no longer confidential by the Disclosing Party
+(d) The Receiving Party may disclose Confidential Information to the extent required by law, regulation or court order, provided that (i) the Receiving Party makes reasonable efforts to notify Disclosing Party in writing prior to disclosing the Confidential Information and takes reasonable steps to obtain protective treatment of the Confidential Information; and (ii) any information so disclosed shall continue to be treated as Confidential Information between the Receiving Party and Disclosing Party
+(c) Receiving Party has the burden of proving the exceptions in section 3(c) above
+(f) For disclosures between the parties within the U.S., the Disclosing Party shall not disclose without the Receiving Party's prior approval any Confidential Information that is subject to export or re-export restrictions that would limit the Receiving Party's ability to share such information with individuals working for the Receiving Party in the U.S
+who are neither US citizens nor US green holders
+g) The obligations of the parties respecting Other Confidential Information will survive for a period of three (3) years from the date of the first disclosure of such Other Confidential Information
+(h) If the parties have separately entered into a confidentiality agreement regarding the exchange of Other Confidential Information in connection with this Agreement, then the terms of that separate confidentiality agreement will govern the disclosure and use of Other Confidential Information between the parties and not this Section 5
+Any existing this Section 5
+confidentiality agreements between the parties will remain in full force and effect and will not be varied by the terms of 6
+WARRANTIES; LIMITATION OF REMEDY a) Licensor warrants to Licensee that the Program(s) will perform in all material respects as specified in the Manual applicable to the Program(s) for the longer of ninety (90) days from the Effective Date of the Program(s), the License Term of the Lease License, or for the period during which Licensee has purchased TECS for the Paid-Up License
+The warranty provided in this Section 6 will only apply to the two (2) most current releases of the Program(s)
+This warranty will not apply if Licensor has notified Licensee in writing that Licensor no longer supports the operating system version (b) on which such Program(s) is licensed
+Licensor, its Affiliates, Channel Partners and technology suppliers do not warrant the accuracy or the applicability of the results obtained from the use of the Program(s)
+No other documents or oral conversations, statements or representations will be offered by Licensee as evidence to explain, expand, alter, add to or invalidate the express warranty set forth above
+(c) The warranty set forth herein is the sole warranty provided to Licensee and extends only to Licensee itself
+Licensor, its Affiliates, Channel Partners and technology suppliers will not be responsible for any breach of warranty caused by (i) modifications (or attempted modifications) to the Program(s) made by or on behalf of Licensee, (ii) any combination of the Program(s) with any other software, excluding any operating systems for which the Program(s) are licensed to be used, (iii) any use of the Program(s) other than on the Designated Network, or (iv) use of other than the most current release of the Program(s)
+(d) THE EXPRESS WARRANTY SET FORTH IN SECTION 6(a) OF THIS AGREEMENT IS IN LIEU OF, AND LICENSOR, ITS AFFILIATES, CHANNEL PARTNERS AND TECHNOLOGY SUPPLIERS DISCLAIM ANY AND ALL OTHER WARRANTIES, CONDITIONS, OR REPRESENTATIONS (EXPRESS OR IMPLIED, ORAL OR WRITTEN), WITH RESPECT TO THE PROGRAM(S) OR ANY PART THEREOF, INCLUDING BUT NOT LIMITED TO ANY AND ALL IMPLIED WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS OR SUITABILITY FOR ANY PURPOSE (whether or not Licensor, its Software License Agreement 4 of 7 Web Version January 9, 2020 Affiliates, Channel Partners and/or its technology suppliers know, have reason to know, have been advised of, or are otherwise in fact aware of any such purpose), whether alleged to arise by law, by reason of custom or usage in the trade, or by course of dealing
+In addition, Licensor, its Affiliates, Channel Partners and technology suppliers expressly disclaim any warranty or representation to any person other than Licensee with respect to the Program(s) or any part thereof
+(c) If the Program(s) fails to perform in all material respects as warranted in this Agreement, Licensee's sole remedy will be for Licensor, at Licensor's option, to: (i) Provide a correction or work-around to correct the breach; (ii) Modify the Program(s) to conform substantially to the Manual; or (iii) If neither (i) nor (ii) are commercially feasible, terminate the license for that Program(s) and/or this Agreement and require Licensee to return the Program(s) to Licensor, in which event Licensor will refund to Licensee a pro-rata portion of the amounts paid for such Program(s)
+For a Paid-Up License, such pro-rata calculation will be based on straight-line depreciation over a 36-month period following the applicable delivery date
+f) LICENSEE'S REMEDIES AS SET FORTH IN THIS SECTION ARE THE SOLE AND EXCLUSIVE REMEDIES TO WHICH LICENSEE IS ENTITLED FOR BREACH OF WARRANTY
+7
+INDEMNIFICATION (a) Licensor will defend at its expense any claim, suit or proceeding (each, a "Claim") brought against Licensee by any third party to the extent such Claim asserts that the Program(s) infringes or misappropriates the third party's patent, copyright, trade secret or trademark ("Infringement Claim")
+Licensor will pay all costs and damages finally awarded against Licensee by a court of competent jurisdiction or any settlement amounts finally agreed to by Licensor as a result of any such Infringement Claim; provided, however, that Licensee (i) promptly notifies Licensor in writing of such Infringement Claim; (ii) promptly gives Licensor the right to control and direct the investigation, preparation, defense and settlement of such Infringement Claim, with counsel of Licensor's own choosing (provided that Licensee will have the right to reasonably participate, at its own expense, in the defense of any such Infringement Claim); and (iii) gives assistance and full cooperation for the defense of same
+Licensor may, at its option, as a way of remedying any Infringement Claim or potential Infringement Claim, (i) replace or modify the Program(s) so as to avoid infringement, (ii) procure the right for Licensee to continue the use of the Program(s), or (iii) if neither (i) nor (ii) are commercially feasible, Licensor may terminate any licenses to the Program(s) and/or this Agreement and require Licensee to return the Program(s) to Licensor, in which event Licensor will refund to Licensee a pro rata portion of the amounts paid for such Program(s)
+For a Paid-Up License, such pro rata calculation will be based on straight-line depreciation over a 36-month period following the applicable delivery date
+This indemnity will not apply to any Infringement Claim based upon or arising from (i) use of the Program(s) in a manner for which it was not designed or not in accordance with the Manual, (ii) use of the Program(s), when use of a subsequent software release that Licensor has made commercially available would have avoided such infringement; (iii) any combination of the Program(s) with any other software, excluding any operating system for which the Program(s) are licensed to be used or (iv) Licensee's continued use of the Program(s) subsequent to receipt of notice of any claimed infringement
+This Section 7 is Licensee's sole and exclusive remedy and sets forth Licensor's entire liability and obligations with respect to any Infringement Claim
+For the purposes of Section 8(a), all damages awarded against Licensee or settlement amounts agreed to by Licensor in connection with Licensor's indemnification obligations set forth in Section 7(a) will be treated as direct damages, regardless of the characterization of any such damages in any such award or settlement 8
+LIMITATION OF LIABILITY AND INDEMNITY a) TO THE MAXIMUM EXTENT PERMITTED BY LAW, LICENSOR, ITS AFFILIATES, CHANNEL PARTNERS AND TECHNOLOGY SUPPLIERS WILL NOT BE LIABLE TO LICENSEE OR ANY OTHER PARTY FOR ANY INDIRECT, SPECIAL, PUNITIVE, CONSEQUENTIAL, EXEMPLARY OR INCIDENTAL DAMAGES OR LOSSES
+Except for Licensor's obligations set forth in Section 7(a) and for Licensor's material breach of Section 5, in no event will Licensor's, its Affiliates', Channel Partners' and technology suppliers' aggregate liability to Licensee exceed, in the case of a Paid-Up License, the license fee initially paid for such Paid-Up License (not including any TECS fees or other fees) or, in the case of a Lease License, the license fee paid for such Lease License during the preceding twelve (12) months
+Licensee acknowledges that given all the circumstances, the limits on Licensor's liability are reasonable because of, among other things, the likelihood that without those limitations the amount of damages awardable to Licensee for a breach by Licensor or Channel Partner of this Agreement may be disproportionately greater than the license fees paid or payable for the Program(s)
+For the avoidance of doubt, Licensee is entirely responsible for keeping full back up copies of its software, data and database configurations in accordance with best industry practice
+The foregoing limitations of liability apply regardless of whether the parties have been advised of the likelihood of such damages or losses and regardless of the theory of liability
+b) Each of Licensor's Affiliates, Channel Partners and technology suppliers may rely upon and enforce the exclusions and restrictions of liability in this Section 8 in that entity's own name and for that entity's own benefit against Licensee and (c) its Affiliates solely as it relates to liability arising against such parties under this Agreement
+Notwithstanding anything to the contrary in this Agreement, Licensor does not limit its liability (if any) to Licensee for any matter which it would be illegal for Licensor to exclude or to attempt to exclude its liability, but nothing in this clause confers any right or remedy upon the other party to which it would not otherwise be entitled
+(d) The Program(s) is a mathematical analysis tool intended to assist Licensee in Licensee's development and design processes and requires considerable skill and judgment for its correct use and for the interpretation of the computed results
+The Program(s) is not intended to be nor is it a substitute for rigorous and comprehensive prototype or other testing by Licensee of products prior to production and sale
+Software License Agreement 5 of 7 Web Version January 9, 2020 9
+TECHNICAL ENHANCEMENTS AND CUSTOMER SUPPORT (TECS) a) TECS will consist of (i) reasonable telephone, e-mail or web-based support respecting the use of the Program(s) "Customer Support"); and (ii) Program releases or corrections provided by Licensor without additional charge to TECS customers generally ("Technical Enhancements")
+Customer Support will be provided by Licensor, its Affiliate or solely by Licensor
+Channel Partner (as applicable)
+Technical Enhancements will be provided by Licensor at such times as determined b) For a Lease License, TECS is included as part of the Lease License fee
+c) For a Paid-up License (excluding Named User Licenses), installation support will be provided without charge for thirty (30) days from the Effective Date of Program
+For Paid-up Licenses currently on TECS, Licensor or Channel Partner will provide TECS
+Except as set forth below, at the end of the then-current TECS period, TECS will automatically renew at the prior year's TECS rate plus an increase consistent with the increase in the price of the associated Program(s) for a renewal term of a like duration
+TECS will not renew if Licensee, Channel Partner, or Licensor gives prior notice of its intent to not renew
+Licensee shall be deemed to have provided notice not to renew if Licensee does not issue a purchase order to Licensor or the Channel Partner for TECS prior to the expiration of the then-current TECS period
+Licensor and Channel Partner shall be deemed to have provided notice not to renew if Licensor or Channel Partner does not provide a renewal Quotation for TECS prior to the expiration of the then-current TECS period
+TECS that does not automatically renew but that is purchased in the same configuration within three (3) months of the expiration date of the last TECS period shall not require a new License Form to be signed for such TECS as the terms of this Agreement will be deemed to continue to apply from the new start date of such TECS
+Except as specifically set forth in this Agreement, if TECS is terminated prior to the end of the term, Licensee shall not be entitled to any refund for any portion of the prepaid TECS fee
+d) For any WAN License, Licensor or its Channel Partners shall provide TECS to the Designated Site and any other Licensee site identified in the Quotation as being entitled to receive TECS
+e) TECS does not include any database set-up or configuration
+For Named User Licenses, TECS also does not include any Program installation support
+(f) Licensor and the Channel Partner have no obligation to provide TECS: (i) for other than the two most recent commercially available releases of each Program(s); (ii) for any Program(s) that have been altered, damaged or modified by Licensee or on Licensee's behalf; (iii) for any applications, models or other customizations provided by Licensor or Channel Partner as part of a consulting services engagement; or (iv) for any problems caused by Licensee's negligence or use of the Program(s) other than in accordance with the Manual and this Agreement
+(g) If TECS on a Program license is discontinued by Licensee for more than three (3) months, Licensor shall have no obligation to permit reinstatement of TECS on such Program license
+Except as otherwise agreed between the parties, Licensor's election to permit reinstatement shall be subject to Licensor's then-current TECS reinstatement policy
+h) For Named User Licenses, Customer Support will be provided to Licensee and its Affiliates at their locations specified in the Quotation
+10
+MISCELLANEOUS (a) All notices required in this Agreement will be given in writing to all parties and delivered by registered mail, courier, or mutually-agreed equivalent
+Notices will be effective when received as indicated by the delivery receipt
+Except as otherwise agreed, all notices will be given using the contact information indicated on the License Form
+b) Licensee will not assign this Agreement or individual Program(s) license to any third party by operation of law, or in bankruptcy, or otherwise without prior written consent of Licensor
+This Agreement will be binding upon and inure to the benefit of the parties hereto and their respective successors, permitted assigns and permitted transferees
+c) Licensor, upon reasonable notice to Licensee, at Licensor's own cost and no more than one (1) time per year, may have a third-party independent auditing firm review and examine license usage
+Licensee shall provide the auditing firm access to (i) Licensee's premises during business hours and upon reasonable notice and (ii) all relevant data, files and information
+d) The provisions of Sections 2(k), 2(1), 3(e), 4, 5, 6(d), 6(e), 6(f), 7, 8, 10 and 13 will survive termination of this Agreement or any individual Program(s) license
+e) This Agreement may be executed in any number of counterparts (including digitally, electronically scanned and e-mailed PDF copies, and any similarly signed and electronically or digitally transmitted copies), each of which will be deemed to be an original and all of which will constitute together one and the same agreement
+The rights and obligations of the parties hereto will be governed by the substantive law of the Commonwealth of Pennsylvania, excluding the United Nations Convention on the International Sale of Goods and choice of law provisions
+g) The parties hereto consent to the venue and jurisdiction of the federal and state courts maintaining jurisdiction over Washington County, Pennsylvania for purposes of any legal proceedings arising under or relating to this Agreement
+h) If any provision of this Agreement is invalid, such provision will be ineffective only to the extent of such invalidity without invalidating the remainder of this Agreement
+(i) Any failure of any party to enforce any of the provisions of this Agreement will not be construed as a waiver of such right of the party thereafter to enforce any such provision
+() This Agreement, the applicable License Form, the Quotation and any exhibits, appendices or amendments that incorporate the Agreement by reference, constitute the complete and exclusive statement of the agreement between the parties and supersedes all proposals, oral or written, and all other communications between the parties relating to the subject matter of this Agreement
+This Agreement supersedes the terms of any click-wrap, shrink-wrap, or break-the-seal license agreement included in any Program(s) package
+Except as specifically provided herein, this Agreement may be modified only by a written amendment executed by duly authorized officers or representatives of the parties
+Unless Software License Agreement 6 of 7 Web Version January 9, 2020 otherwise specified in the License Form, the terms and conditions contained in the Software License Agreement will take precedence over any conflicting provisions contained in any Quotation, appendix, exhibit, License Form or amendment incorporating the Software License Agreement by reference
+No purchase order, procurement agreement or any other standardized business forms issued by Licensee, and even if such purchase order, procurement agreement or other standardized business forms provides that it takes precedence over any other agreement between the parties, shall be effective to contradict, modify, or delete from the terms of this Agreement in any manner whatsoever
+Any acknowledgment, written or oral, of any such purchase order, procurement agreement or standardized business form is not recognized as a subsequent writing and will not act as acceptance of such terms
+(k) The parties have required that this Agreement and all documents relating thereto be drawn up in English
+11
+LICENSE COMPLIANCE SOFTWARE Licensee is aware that Licensor may embed the Program(s) with third-party license compliance technology ("License Compliance Technology") that reports information to both the third-party licensor of the License Compliance Technology ("Technology Provider") and Licensor relating to unique user and network identification with respect to the use of the Program(s) (including, but not limited to, user names, e-mail addresses, IP addresses and the domains from which the use of the Program(s) originated)
+Licensor and the Technology Provider collect such information if modifications to certain code files of the Program(s) have been made or that the Program(s) are being accessed by a License Key that was not authorized by Licensor
+12
+DATA ANALYTICS Licensee is aware that as part of Licensor's Program(s)improvement process Licensor may obtain feedback from the Program(s) regarding the hardware profile and operating system of Licensee's users, internal errors that are arising with respect to the Program(s) and the regions of functionality of the Program(s) that Licensee is using
+13
+DATA (a) The terms of this Section 13 apply only with respect to any licenses that Licensee may procure of Program(s) containing Data
+(b) Excluding Databases associated with Named User Licenses, Licensee may not download any Database and may only permit its employees and Contract Users to download any Data that Licensee currently needs
+Excluding Databases associated with Named User Licenses, after termination of any license enabling Licensee to access Data, with respect to Data that Licensee has downloaded or used, Licensee shall not further access any such Data for the purpose of taking any additional materials-related decisions or analyses or otherwise analyzing any material properties contained in the Data
+(c) Licensee may add its own information to certain of the Program(s) containing Data
+Excluding Databases associated with Named User Licenses, Licensee is aware that upon expiration or termination of any license of any such Program, Licensee will no longer have access through the Program to any such information
+In the event that Licensee has no other copies of such information, Licensee understands that should it desire to have access to such information it should take measures to ensure that it makes copies of any of its information in a manner that is accessible by Licensee without use of the Program(s) before the license of any such Program terminates or expires
+Software License Agreement 7 of 7 Web Version January 9, 2020 
