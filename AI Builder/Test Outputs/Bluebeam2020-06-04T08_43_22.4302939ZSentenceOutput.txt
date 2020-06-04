@@ -1,0 +1,492 @@
+5/16/2020 End-User License Agreement | Bluebeam, Inc
+Download a Trial END-USER LICENSE AGREEMENT Bluebeam Revu IMPORTANT-READ CAREFULLY PRIOR TO USING THE SOFTWARE: THIS END-USER LICENSE AGREEMENT (THE "EULA") IS A LEGAL AGREEMENT BETWEEN YOU ("YOU" OR "LICENSEE") AND BLUEBEAM, INC
+"BLUEBEAM") FOR USE OF THE BLUEBEAM REVU" SOFTWARE APPLICATION (THE "SOFTWARE") AND THE RELATED USER GUIDES AND SPECIFICATIONS MADE AVAILABLE BY BLUEBEAM FOR ONLY THAT VERSION OF THE SOFTWARE LICENSED BY LICENSEE HEREUNDER (THE "DOCUMENTATION")
+BY ACCESSING, DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING ALL OR ANY PORTION OF THE SOFTWARE, LICENSEE AGREES TO BE BOUND BY THE TERMS OF THIS EULA
+IF YOU DO NOT AGREE TO THE TERMS OF THIS EULA, DO NOT INSTALL OR OTHERWISE USE THE SOFTWARE
+YOU AGREE THAT YOUR USE OF THE SOFTWARE REPRESENTS YOUR ACKNOWLEDGEMENT THAT YOU HAVE READ THIS EULA, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS
+IF YOU ARE ENTERING INTO THIS EULA ON BEHALF OF A COMPANY OR OTHER LEGAL ENTITY, YOU REPRESENT THAT YOU HAVE THE POWER AND AUTHORITY TO BIND SUCH ENTITY TO THE TERMS AND CONDITIONS OF THIS EULA, IN WHICH CASE THE TERM "LICENSEE" SHALL REFER TO SUCH ENTITY
+IF YOU DO NOT HAVE SUCH AUTHORITY, DO NOT INSTALL OR OTHERWISE USE THE SOFTWARE
+1
+Single User License
+a
+Subject to Licensee's continuous compliance with this EULA and payment of the applicable license fees ("License Fees"), Bluebeam grants Licensee a limited, non-exclusive, personal, non-sublicensable, non- transferable right and license to download, install and use one (1) copy of the Software (a "Seat") on one (1) personal computer that is in the possession of or otherwise under the control of Licensee (a "Device") for use by one (1) end-user (a "Licensed User") in accordance with the terms of this EULA
+If Licensee is an organization, company, entity, partnership or other non-natural person, Licensed Users are limited to employees or duly authorized agents or independent contractors of Licensee
+b
+Even though copies of the Software may be provided on media of different formats, copies of the Software on different media formats do not constitute multiple licenses of the Software
+c
+Licensee may only use the Software in connection with the internal conduct of Licensee's business
+d
+Certain features of or functionality available in connection with the Software (collectively the "Optional Features") may be subject to additional terms and conditions, such as Maintenance subscriptions in accordance with Addendum A, Enterprise License subscriptions in accordance with Addendum B, Open License subscription in accordance with Addendum C, Studio Terms of Use in accordance with the terms https://www.bluebeam.com/legal/eula 1/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+published at www.bluebeam.com/legal/studio-terms-of-use, Studio Prime License in accordance with a separate written agreement, and such other offerings as Bluebeam may make available from time to time
+e
+The Software may include authorization or registration technology designed to prevent unauthorized use and copying of the Software
+This technology may cause Licensee's Device to automatically connect to the internet or to prompt Licensee to contact Bluebeam and may prevent uses of the Software that are not permitted
+2
+License Restrictions
+Except where Bluebeam is required to permit such activity under the terms of an applicable open source license or applicable law, Licensee may not a
+Use any software, hardware or other services (i) to bypass any of the terms, conditions or restrictions set forth herein or any application technology restrictions; or (ii) to modify the number of Devices, Licensed Users or Seats that access or utilize the Software outside of the validly licensed number of each, including for purposes of "multiplexing," "pooling," or "virtualization" (i.e., the validly licensed Devices, Licensed Users or Seats must equal the number of distinct inputs to the multiplexing or pooling software or hardware "front end")
+If the number of Devices or Licensed Users that can connect to an individual Seat exceeds a one-to-one ratio or has the potential to exceed the one-to-one ratio, Licensee shall be in breach of this EULA and required to immediately cease such actions and/or license additional Seats of the Software to maintain the one-to-one ratio
+Failure to take corrective action is grounds for immediate termination of this EULA; b
+Modify or create any derivative works based on the Software, including customization, translation, or localization; (ii) decompile, disassemble, reverse engineer, or otherwise attempt to derive the source code of the Software, or in any way ascertain, decipher, or obtain the communications protocols for accessing the Software, or the underlying ideas or algorithms of the Software (e.g., in an effort to develop other applications or services that provide similar or substitute or complimentary functionality to the Software), except where such activity is permitted by applicable law; c
+redistribute, encumber, sell, rent, lease, sublicense, loan, assign, commercialize or otherwise transfer rights to the Software or make any similar commercial use of the Software, except where such activity is permitted by applicable law; d
+Benefit from the Software via a facility management, timesharing, service bureau or other arrangement or allow a third party (including, without limitation, Licensee's parent, affiliates, subsidiaries, employees or agents) to so benefit; e
+use the Software on Devices that are not under Licensee's exclusive control; f
+remove or alter any trademark, logo, copyright or other proprietary notices, legends, symbols or labels in or on the Software; and g
+reproduce, republish, display, frame, download (except as expressly authorized herein), distribute, or transmit the Software; (ii) copy, reproduce, reuse in another product or service, modify, alter, or display in any manner any software or files, or parts thereof, included as part of the Software; and h
+Use the Software in an attempt to, or in conjunction with, any device, program or service designed to circumvent technological measures employed to control access to, or the rights in, a content file or other work protected by the copyright laws of any jurisdiction
+3
+Archival Copy
+Licensee may make one (1) archival copy of the Software solely for back-up and archival purposes
+Licensee agrees that the archival copy will contain the same proprietary notices that appear on and in the Software and related Documentation
+4
+Updates
+Bluebeam may, in its sole discretion, make bug fixes, patches and/or service packs available to address certain issues that may not be working as intended (each an "Update")
+Updates are made available free of charge and are subject to all of the terms and conditions of this EULA
+https://www.bluebeam.com/legal/eula 2/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+5
+Upgrades
+Bluebeam may, in its sole discretion, offer new versions of the Software that replace the prior version in its entirety and offer significant changes and improvements over the prior version (each an "Upgrade")
+Upon release of an Upgrade, Bluebeam's obligation to support the previous versions may end
+Upgrades are not licensed to Licensee in this EULA unless otherwise agreed in writing by Bluebeam
+If an Upgrade is licensed by Licensee, the previous version of the Software must be removed from Licensee's Device and no further use or access is permitted except archival copies in accordance with Section 3 above
+6
+Ownership and Reservation of Rights
+a
+Software
+All right, title and interest in and to the Software, including without limitation all copyrights, patents (whether pending or issued), trade secret rights, trademarks and other intellectual property rights, are owned and retained by Bluebeam
+The Software and Documentation are protected by patent, copyright and/or other intellectual property laws of the United States and other countries and by international treaty provisions
+Except as expressly set forth herein, Licensee's possession, use or installation of the Software does not grant Licensee any intellectual property rights in the Software and all rights, title, and interest not expressly granted are reserved by Bluebeam
+All rights not expressly granted by Bluebeam are hereby reserved
+Licensee agrees that it will not take any action to interfere with Bluebeam's ownership of or rights in the Software
+b
+Licensee Content
+Title, ownership rights and intellectual property rights in and to any Files and Metadata created by Licensee while using the Software ("Licensee Content") shall be retained by Licensee and may be protected by applicable copyright or other intellectual property laws
+"Files" include documents (regardless of format, pdf, Word, Excel, text, etc.) images (regardless of format, jpeg, tiff, gift, etc.), Project Files and Session Files
+"Metadata" means information that describes a File including without limitation file name, Project name, Session name, Project ID, Session ID, markup information, whether created by a Licensed User or automatically generated by the Software or one of the Optional Features 7
+License Fees and Payments
+a
+Purchases from Bluebeam
+If purchased directly from Bluebeam, Licensee agrees to pay Bluebeam the License Fees on the date Licensee downloads the Software or the date that that thirty (30) day trial ends, whichever is later
+License Fees for any additional Seats of the Software shall be at the License Fee in effect on the date such new Seats are downloaded and not at License Fees previously paid or advertised b
+Purchases from an Authorized Reseller
+If purchased through a Bluebeam authorized reseller (a "Reseller"), Licensee agrees to pay Reseller such fee as may be published by Reseller or mutually agreed upon between Licensee and Reseller
+Licensee further acknowledges and agrees that the Reseller has no authority to bind Bluebeam, provide any warranty or other commitment or obligation on behalf of Bluebeam or the Software, or to modify any the terms of this EULA
+c
+Optional Feature Fees
+Provided Licensee elects to purchase an Optional Feature that requires the payment of subscription or other fees, Licensee agrees to pay such fees as outlined in the applicable Optional Features addendum
+8
+Right to Audit
+Bluebeam reserves the right to periodically conduct audits of Licensee's use and installation records related to the Software to verify compliance with the terms of this EULA and the applicable Optional Features (each an "Audit")
+Licensee shall be given no less than thirty (30) days prior written notice of Bluebeam's intent to conduct an Audit
+Audits will be conducted during Licensee's normal business hours and will occur no more than once in any twelve (12) month period
+In the event an Audit shows that Licensee is using or accessing Software that is not licensed or is beyond the terms of this EULA, Bluebeam shall have the right to immediately invoice Licensee for the unauthorized use, https://www.bluebeam.com/legal/eula 3/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+including applicable late fees and interest at the legally allowable rate, and the reasonable costs of the Audit
+If Licensee fails to pay such invoice on Net 30 terms, Bluebeam may terminate this EULA in additional to all other remedies that may be available to it in law or in equity
+9
+Limited Warranty and Disclaimer
+a
+Limited Warranty Bluebeam represents and warrants that the Software, excluding the Optional Features, will perform substantially in accordance with the Documentation when used on the recommended operating system and hardware configuration for a period of one (1) year from the date Licensee first downloads the Software
+If the Software does not perform substantially in accordance with the Documentation, the entire liability of Bluebeam and Licensee's exclusive remedy will be limited to either, at Licensee's option, replacement of the Software or a refund of the License Fee paid by Licensee
+The Optional Features are provided "as is" and without warranty of any kind, express or implied, unless expressly set forth in the applicable Optional Feature Addendum
+b
+DISCLAIMER
+To the maximum extent permitted by applicable law, and except for the Limited Warranty set forth herein, THE SOFTWARE (AND ACCOMPANYING DOCUMENTATION AND OPTIONAL FEATURES) IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, WHETHER BY STATUTE, COMMON LAW, USAGE, INDUSTRY CUSTOM, OR OTHERWISE AS TO ANY MATTER, INCLUDING BUT NOT LIMITED TO PERFORMANCE, NON-INFRINGEMENT OF THIRD PARTY RIGHTS, INTEGRATION, CONDITIONS OF MERCHANTABILITY, TITLE, QUIET ENJOYMENT, QUIET POSSESSION, SECURITY, QUALITY OR WORKMANSHIP, FITNESS FOR A PARTICULAR PURPOSE, OR A LACK OF VIRUSES
+SOME STATES AND JURISDICTIONS DO NOT ALLOW LIMITATIONS ON IMPLIED WARRANTIES, SO THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU
+10
+Indemnification
+The parties hereto agree to defend, indemnify and hold harmless the other party and its directors, officers, and employees (the "Indemnified Party.") from and against all costs, expenses, losses, damages, penalties, taxes, liabilities, judgments, settlements, reasonable attorneys' fees, claims, demands, actions, suits, proceedings or other causes of action of any nature (individually and collectively referred to herein as "Damages") arising out of any breach of the terms and conditions of this EULA by the non-Indemnified Party
+In addition, Licensee agrees to defend, indemnify and hold harmless Bluebeam and its officers, directors, employees, affiliates and agents from and against any Damages arising out of claims related to (a) Licensee's use of the Software, (b) Licensee or any of the Licensed User's violation of this EULA, (c) any infringement or violation by Licensee of any intellectual property or other right of any person or third party, or (iv) if the Software is exported from the United States, export duties or other claims arising from such exportation
+The Indemnified Party agrees to promptly notify the other party in writing of any such claim for Damages or threat thereof, allow the other party sole control over the defense and/or settlement of such claim through counsel of the other party's choice, and give the other party all reasonably requested information and assistance to enable the defense and/or settlement of the claim
+11
+Infringement Indemnification
+Subject to the terms and conditions of this Section 11, Bluebeam agrees to defend, indemnify and hold harmless Licensee against any and all Damages arising out of or relating to a third party claim that the Software violates, misappropriates or infringes upon any issued U.S
+patent, copyright, trademark, trade secret or other intellectual property right owned by such third party
+a
+The indemnification provided in this Section 11 is expressly conditioned upon (i) Licensee giving Bluebeam immediate notice in writing of any such third party claim or threat thereof; (ii) Licensee permitting Bluebeam https://www.bluebeam.com/legal/eula 4/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+sole control, through counsel of Bluebeam's choice, to defend and/or settle the claim; and (iii) Licensee giving Bluebeam all reasonably requested information, assistance and authority, at Bluebeam's expense, to enable Bluebeam to defend or settle such claim
+Licensee may participate in the defense of such claim with counsel of Licensee's choice and at Licensee's sole expense
+b
+The indemnification provided in this Section 11 will not apply to any claim to the extent such claims arises from or relates to (a) use of the Software not in accordance with the Documentation (b) any modification, alteration or conversion of the Software not created or approved in writing by Bluebeam, (c) any combination or use of the Software with any computer, hardware, software, service or data not approved by Bluebeam where the infringement arises out of such combination or use, (d) Bluebeam's compliance with specifications, requirements or requests of Licensee, or (e) Licensee's gross negligence or willful misconduct
+c
+If the Software becomes, or Bluebeam reasonably determines that the Software is likely to become subject to a claim of infringement for which Bluebeam must indemnify Licensee as described in this Section 11 Bluebeam may at its option (i) procure for Licensee the right to continue to access and use the Software; (ii) replace or modify the Software so that it becomes non-infringing without causing a material negative effect on the functionality provided by the infringing version; or (iii) if neither (i) or (ii) are viable options, remove the infringing part of the Software and refund Licensee a portion of the Licensee Fee paid which shall be negotiated in good faith with Licensee considering the materiality of the portion of the Software that is removed
+d
+This Section 11 states the entire liability and obligation of Bluebeam and the exclusive remedy of Licensee with respect to any claims of infringement relating to or arising out of the Software
+12
+Limitation of Liability
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, UNDER NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, WHETHER IN TORT, CONTRACT, OR OTHERWISE, SHALL BLUEBEAM OR ITS AFFILIATES, SUPPLIERS OR RESELLERS BE LIABLE TO LICENSEE OR TO ANY OTHER PERSON OR ENTITY FOR ANY INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, LOSS OF GOODWILL, LOSS OF CONFIDENTIAL OR OTHER INFORMATION, FOR BUSINESS INTERRUPTION, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, FOR PERSONAL INJURY, LOSS OF PRIVACY, FOR FAILURE TO MEET ANY DUTY INCLUDING A DUTY OF GOOD FAITH OR OF REASONABLE CARE, FOR NEGLIGENCE, AND FOR ANY OTHER PECUNIARY OR OTHER LOSS WHATSOEVER) ARISING OUT OF OR IN ANY WAY RELATED TO THE USE OR INABILITY TO USE THE SOFTWARE, OR OTHERWISE UNDER OR IN CONNECTION WITH ANY PROVISION OF THIS EULA, EVEN IN THE EVENT OF FAULT, NEGLIGENCE, BREACH OF CONTRACT, OR BREACH OF WARRANTY BY BLUEBEAM, ITS RESELLERS OR ITS SUPPLIERS, AND EVEN IF BLUEBEAM OR ITS SUPPLIERS HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+IN NO EVENT WILL BLUEBEAM, ITS RESELLERS OR ITS SUPPLIERS BE LIABLE FOR ANY DAMAGES IN EXCESS OF THE LICENSES FEES PAID FOR THE SOFTWARE HEREUNDER, IF ANY
+13
+Term and Termination
+a
+Term
+This EULA is effective as of the date the Software is downloaded by Licensee (the "Effective Date") and shall continue until terminated by Bluebeam or Licensee as provided herein (the "Term")
+b
+Termination by Bluebeam
+Bluebeam may terminate this EULA upon the occurrence of any of the following: 
+Immediately and without notice if Licensee fails to make any payment as required hereunder; i
+At the expiration of a thirty (30) day cure period and upon written notice to the breaching party in the event of a breach of this EULA that is capable of being cured within thirty (30) days; iii
+Pursuant to Section 8; and https://www.bluebeam.com/legal/eula 5/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+iv
+Immediately and without notice if Licensee ceases to do business as a going concern, becomes the object of the institution of voluntary or involuntary proceedings in bankruptcy or liquidation, which is not dismissed within sixty (60) days after the initial filing or a receiver is appointed with respect to a substantialportion of its assets
+c
+Termination by Licensee
+Licensee may terminate this EULA at any time, with or without cause, upon providing Bluebeam with thirty (30) days written notice of termination
+d
+Effect of Termination
+Upon the termination of this EULA, the license provided herein shall immediately cease and Licensee shall (i) discontinue use of the Software; (ii) unregister the Software from all Devices; and (ili) delete and/or destroy all copies of the Software including all copies or extracts of the documentation but excluding one (1) archival copy
+e
+Survival
+The following sections shall survive the termination or expiration of this EULA: Section 2 "License Restrictions"; Section 3 "Archival Copy"; Section 6 "Ownership and Reservation of Rights"; Section 8 "Right to Audit" for a period of three (3) years; Section 9.b
+"Disclaimer"; Section 12 "Limitation of Liability"; Section 15 "Confidentiality"; Section 16 "Additional Provisions - Software Features"; Section 17 "Licensed User Data; Consent; Transfer; and Security"; Section 19 "Export Controls"; and Section 20 "General Terms" 14
+Government Users; Pre-Release Users; Educational Users
+a
+United States Government Users
+The Software and documentation qualify as "commercial computer software" and "commercial computer software documentation," respectively, pursuant to DFAR Section 227.7202 and FAR Section 12.212, as applicable
+Government users acquire the Software and documentation with only those rights herein that apply to non-governmental customers and any use, modification, reproduction, release, performance, display or disclosure of the Software and accompanying documentation shall be governed solely by the terms of this Agreement and shall be prohibited except to the extent expressly permitted by the terms of this Agreement
+b
+Pre-release Users
+Pre-commercial releases or beta software releases ("Beta Software") do not represent a final commercial software application and may contain bugs, errors, inconsistencies or other problems that can cause system or other failures and/or data loss
+If You elect to participate in Bluebeam's beta program, Your use and license of the Beta Software will be governed by this EULA and a separate beta program agreement and nondisclosure agreement
+All rights hereunder to the Beta Software will terminate upon the commercial release of such Beta Software
+YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT, TO THE EXTENT PERMITTED BY APPLICABLE LAW, USE OF THE BETA SOFTWARE IS AT YOUR SOLE RISK AND THAT THE BETA SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITH ALL FAULTS AND WITH NO WARRANTY OF ANY KIND
+BLUEBEAM HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS WITH RESPECT TO THE BETA SOFTWARE, EXPRESS, IMPLIED OR STATUTORY, INCLUDING WITHOUT LIMITATION WARRANTIES OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, AND NON- INFRINGEMENT OF THIRD PARTY RIGHTS
+c
+Educational Users
+If the Software is licensed as part of Bluebeam's academic program, Licensee warrants and represents that Licensee is a current and registered student or faculty member (full-time, part-time or adjunct) with a public or private high school or an accredited college or university
+Academic verification is required and Licensee must submit a valid academic email address
+Alumni do not qualify
+Limited one (1) Seat per educational end-user
+15
+Confidentiality a
+Except as otherwise authorized by the relevant party in writing, Bluebeam and Licensee will keep confidential all non-public information reasonably disclosed by or on behalf of, and belonging to, the other party in connection with the transactions contemplated by this EULA and Licensee's use of the Software, provided https://www.bluebeam.com/legal/eula 6/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+however, Bluebeam is permitted to use and disclose Licensed User Data to the extent permitted by Section 17 below
+b
+The receiving party will protect the other party's confidential information with the same degree of care as it uses to protect its own confidential information, and may share the confidential information with its advisors and consultants and authorized affiliates who are bound by confidentiality obligations consistent with the receiving party's obligations
+If the receiving party receives a request pursuant to a court order, governmental body request or other legal process to disclose the other party's confidential information, the receiving party will promptly notify the other party and provide reasonable assistance to maintain the confidentiality of such information
+The receiving party will not be subject to confidentiality obligations for confidential information that (a) at the time of receipt was already known to it without confidentiality obligations; (b) becomes publicly known through no wrongful act of the receiving party; (c) was received from a third party without confidentiality obligations or knowledge that the information was subject to confidentiality obligations; (d) was disclosed to third parties by the other party without confidentiality obligations; (e) is independently developed by the receiving party without use of the confidential information of the other party, or (f) was released pursuant to prior written authorization by the other party
+16
+Additional Provisions - Software Features
+a
+Internet Access
+The Software allows Licensee to access the Internet
+Bluebeam does not control, endorse or accept responsibility for any online services or websites offered by third parties that Licensee or the Licensed Users may access via the Software
+Any transaction between Licensee and a third party in connection with a website or online service, including the delivery of and payment for goods or services and any other terms or conditions, warranties or representations associated with such transactions, are between Licensee and the third party
+ANY USE OF THIRD PARTY WEBSITES AND ONLINE SERVICES IS AT YOUR OWN RISK AND BLUEBEAM PROVIDES NO WARRANTY OR INDEMNIFICATION RELATED TO SUCH USE OR ACCESS
+b
+Digital Certificates and Signatures
+The Software allows Licensee to use digital signatures
+The Software uses digital certificates to sign and validate signatures within PDF files and to validate certified PDF files
+Licensee's Device may access the Internet in order to validate or certify a digital certificate that is self-signed or issued by a third party
+The purchase, use, and application of digital certificates are Licensee's sole responsibility and undertaken at Licensee's own risk
+ANY USE OF THIRD PARTY DIGITAL CERTIFICATES IS AT YOUR OWN RISK AND BLUEBEAM PROVIDES NO WARRANTY OR INDEMNIFICATION RELATED TO SUCH USE CERTIFICATES
+Further, Licensee agrees to hold Bluebeam harmless from any and all liabilities, losses, actions, damages, or claims arising out of or relating to the use of, or the reliance on, any digital certificate or service of a certificate authority
+c
+Third Party Applications
+Use of third party software or applications or the integration of such software or applications with the Software ("Third Party Applications") may result in the Licensee Content being transferred to a third party
+Bluebeam is not responsible for and Licensee agrees to hold Bluebeam harmless for any data or materials (including the Licensee Content) transferred to third parties in connection with your use of Third Party Applications
+ANY USE OF THIRD PARTY APPLICATIONS IS AT YOUR OWN RISK AND BLUEBEAM PROVIDES NO WARRANTY OR INDEMNIFICATION RELATED TO SUCH USE
+d
+Open Source Software
+The Software may contain certain open source software
+The license terms for open source software and information on obtaining access to the source code to which Licensee is entitled under the applicable open source licenses will be made available upon request by emailing legal@bluebeam.com
+e
+Optional Features i
+Maintenance subscriptions are available to Licensee in accordance with Addendum A attached hereto and incorporated herein by this reference
+https://www.bluebeam.com/legal/eula 7/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+ii
+Enterprise License subscriptions are available to Licensee in accordance with Addendum B attached hereto and incorporated herein by this reference
+ii
+Open License subscriptions are available to Licensee in accordance with Addendum C attached hereto and incorporated herein by this reference iv
+Studio and Drawings cloud-collaboration services are available to Licensee in accordance with the Studio Terms of Use available at www.bluebeam.com/legal/studio-terms-of-use 17
+Licensed User Data; Consent; Transfer; and Security
+a
+Definitions
+"Personal Information" means any information relating to an identified or identifiable natural person
+"Licensed User Data" includes both Personal Information and non-personal information about Licensee and Licensee's Licensed Users including, without limitation, Licensee's name, Licensee's address, Licensee's telephone number (including those telephone numbers assigned by Licensee to its Licensed Users), Licensed User names, Licensed User email addresses, Licensee and/or Licensed User IP Addresses, and each Licensed User's computer names
+"Account Owner" means an individual designated by Licensee to administrator usage of the Software and Licensee's rights and obligations under this EULA
+b
+What Information We Collect
+Bluebeam collects, transmits, stores and uses Licensed User Data to (i) contact Licensee concerning Licensee's rights and obligations, the availability of Updates and Upgrades, and the performance of the Software; (ii) respond to Licensee's inquires and feedback; (iii) verify Licensed Users and Devices and compliance with the terms of this EULA; (iv) meet regulatory requirements; and (v) understand and assist Licensee and the Licensed Users with bugs, error reports, crash logs and other problems discovered with the Software
+The Software may automatically connect to Bluebeam's servers via the internet to communicate with Bluebeam for purposes such as license validation and to check for the availability of Updates and Upgrades
+Bluebeam may disclose Licensed User Data in accordance with applicable law
+c
+Aggregated Data
+Bluebeam and its authorized affiliates use Licensed User Data, specifically excluding Personal Information, in combination with data from other users to analyze, develop, manage and deliver the Software and Upgrades and Updates to the Software as well as to understand feature usage, performance, and other legitimate business purposes related to understanding, developing and providing Bluebeam's products and services
+d
+Transfer of Data to the US
+If Licensee and/or Licensed Users are located in the European Economic Area ("EEA"), Licensee and the Licensed Users hereby expressly consent to the transfer of Licensed User Data to a location outside of the EEA
+e
+Reasonable Security Measures
+Bluebeam shall implement and maintain commercially reasonable and appropriate technical, administrative, and physical safeguards and security methods designed to prevent any unauthorized release, access to or publication of Licensed User Data
+Bluebeam shall implement processes and maintain procedures designed to comply with applicable privacy laws
+If Bluebeam engages a subcontractor or affiliate to facilitate its obligations under the Agreement, Bluebeam shall use commercially reasonable measures to ensure that such subcontractor also implements and complies with reasonable security measures in handling any Licensed User Data
+f
+Account Owner Responsibilities and Obligations
+Licensee acknowledges and agrees that the Account Owner has the authority to manage Licensee's business relationship with Bluebeam and to act as Licensee's authorized representative for all matters under this EULA or concerning the Software
+Bluebeam will grant the Account Owner access to the licensing portal (the "Gateway.") for purposes of managing this license
+18
+Suggestions
+If Licensee provides Bluebeam with any suggested improvements to the Software, then that suggestion is provided as is and unrestricted
+No suggestion will be deemed the confidential information of Licensee
+Licensee grants Bluebeam a nonexclusive, perpetual, irrevocable, royalty free, worldwide https://www.bluebeam.com/legal/eula 8/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+license, with rights to transfer, sublicense, sell, use, reproduce, display, and make derivative works of such suggestions
+19
+Export Controls
+LICENSEE ACKNOWLEDGES THAT THE SOFTWARE AND RELATED TECHNOLOGY AND DOCUMENTATION ARE SUBJECT TO THE EXPORT LAWS AND REGULATIONS OF THE UNITED STATES, INCLUDING, WITHOUT LIMITATION, THE U.S
+EXPORT ADMINISTRATION REGULATIONS (COLLECTIVELY THE "EXPORT LAWS")
+THESE LAWS INCLUDE RESTRICTIONS ON DESTINATIONS, END USERS AND END USE OF THE SOFTWARE
+Licensee shall not export or re-export, or allow the export or re-export of the Software or any technology, documentation or information it obtains or learns pursuant to this EULA (or any direct product thereof) in violation of any such Export Laws
+Licensee shall obtain and bear all expenses relating to any necessary licenses and/or exemptions with respect to the export of the Software from the United States or other fulfillment locations into another country in compliance with all Export Laws
+The Software and related technology and documentation are prohibited for export or re-export to a number of countries, including without limitation, Cuba, Crimea, Iran, Iraq, Libya, North Korea, Sudan, and Syria, and to any person or entity on the U.S
+Department of Commerce's Denied Persons List or affiliated lists, on the U.S
+Department of Treasury's Specially Designated Nationals List or on any U.S
+Government export exclusion lists
+Licensee warrants, represents, covenants and agrees that to the best of its knowledge, neither Licensee nor its owners, officers, directors, employees or anyone affiliated or associated with Licensee, whether by common ownership, by contract, or otherwise, has been designated as, or is, a terrorist, a "Specially Designated National" or a "Blocked Person" under U.S
+Executive Order 13224, in lists published by the U.S
+Department of the Treasury's Office of Foreign Assets Control, or otherwise
+20
+General Terms a
+Governing Law and Arbitration
+This EULA shall be governed and construed in accordance with the laws of the State of California, excluding California's choice-of-law principles, and all claims relating to or arising out of this contract, or the breach thereof, whether sounding in contract, tort or otherwise, shall likewise be governed by the laws of the State of California, excluding California's choice-of-law principles
+The application of the United Nations Convention of Contracts for the International Sale of Goods is expressly excluded
+Any controversy or claim, whether in law or in equity, arising out of or relating to this EULA, or the breach thereof, shall be settled by arbitration in Los Angeles County administered by JAMS in accordance with its Streamlined Arbitration Rules & Procedures, and judgment on the award rendered by the arbitrator(s) is final and not appealable and may be entered in any court having jurisdiction thereof
+b
+Attorneys' Fees
+If either party employs attorneys to enforce any rights arising out of or relating to this EULA, the prevailing party shall be entitled to recover its reasonable attorneys' fees, costs, and other expenses
+The term "prevailing party" means that party, as plaintiff or defendant, who substantially prevails against the other party
+Notwithstanding the foregoing, if a written offer of compromise made by either party is not accepted by the other party within forty-five (45) days after receipt and the party not accepting such offer fails to obtain a more favorable judgment, the non-accepting party shall not be entitled to recover its costs of suit and reasonable attorney's fees and costs (even if it is the prevailing party) and shall be obligated to pay the costs of suit and reasonable attorney's fees and costs incurred by the offering party
+c
+Severability
+If any provision of this EULA is held to be unenforceable or invalid, the enforceability of the remaining provisions shall in no way be affected or impaired thereby but shall remain in full force and effect
+d
+Waiver
+No failure or delay in enforcing any right, power or privilege granted herein will be deemed a waiver unless made in writing and signed by a duly authorized representative of the party providing the waiver; and no https://www.bluebeam.com/legal/eula 9/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+single waiver will be considered a continuing or subsequent waiver
+e
+Equitable Relief
+Licensee acknowledges and agrees that any breach or alleged breach of this EULA would cause irreparable harm and significant injury to Bluebeam that may be difficult to ascertain and that a remedy at law would be inadequate
+Licensee agrees that Bluebeam shall have the right to seek and obtain, without the posting of a bond, immediate injunctionelief to enforce the obligations under this EULA in addition to any other rights and remedies it may have
+f
+Controlling Language
+This EULA has been prepared in the English language and the English language shall control its interpretation
+All notices to be provided by either party hereto shall be in the English language
+In the event of any conflict between the English language version and any translation of this EULA that may be provided for convenience only, the English language meaning shall control
+9
+Notices
+All notices required by this EULA shall be in writing, delivered via email, and effective upon receipt or if sent after 5pm PT then the next business day
+Notices to Licensee shall be emailed to the email address of the Account Owner appointed by Licensee
+Notices to Bluebeam shall be emailed to legal@bluebeam.com
+h
+No Assignment
+This EULA is personal to Licensee and may not be transferred or assigned, voluntarily, by operation of law or otherwise, without Bluebeam's express written consent which may be withheld, delayed or conditioned in the sole discretion of Bluebeam
+Provided Bluebeam grants such consent, this EULA shall be binding upon the assignee in the same manner that it is binding upon Licensee and Licensee is responsible for informing all Licensed Users and assignee's of the binding application of this EULA and all provisions contained herein
+i
+Entire Agreement
+This EULA, including all exhibits and addendums hereto, contains the entire agreement of the parties hereto with respect to the subject matter hereof and supersedes all prior or contemporaneous discussion, understandings, communications, proposals, and agreements, whether written or oral
+i
+This EULA may not be modified, amended or supplemented except in a writing signed by an authorized representative of Bluebeam except as allowed by Section 20.i.ii
+below ii
+This EULA expressly supersedes and completely replaces any and all prior end user license agreements for the Software
+Bluebeam reserves the right to update this EULA
+Any updates will be made available at www.bluebeam.com/revu/eula
+iii
+Bluebeam shall not be bound by or liable to Licensee for any pre-existing or contemporaneous written or oral representations or warranties made by a third party with respect to the Software, including, without limitation, by a Reseller or their respective agents, employees or representatives, nor shall Licensee be deemed a third party beneficiary of any obligations of Bluebeam to any such Reseller
+iv
+Any terms and conditions contained in Licensee's purchase order or other administrative document will not be effective as a modification or supplement to this EULA, regardless of whether Bluebeam objects to such form
+Bluebeam Customer Contact
+If You have any questions concerning these terms and conditions, or if You would like to contact Bluebeam for any other reason, please call (626) 788-4100, or write: Bluebeam, Inc., 443 S
+Raymond Avenue, Pasadena, California 91105 USA, Attention: Sales Operations
+You may also reach us at http://www.bluebeam.com
+MAINTENANCE SUBSCRIPTION ADDENDUM A 1
+Maintenance Subscription
+Upon timely payment of the Maintenance Fee, Bluebeam agrees to provide Licensee with Maintenance services with respect to the Software licensed hereunder
+Maintenance is https://www.bluebeam.com/legal/eula 10/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+valid for one (1) year commencing on the Maintenance Start Date unless otherwise set forth in Licensee's Direct Purchase Quote or other signed written agreement by and between Bluebeam and Licensee
+In no event will Bluebeam be required to perform Maintenance services in the event Licensee does not make timely payment of the Maintenance Fee
+2
+Renewal
+The Maintenance subscription may be renewed for additional periods of one (1) year upon payment of the Maintenance Renewal Fee on or before the Maintenance Renewal Date
+Failure to pay the Maintenance Renewal Fee on or before the Maintenance Renewal Date shall cause the Maintenance subscription to terminate
+In no event will Bluebeam be required to perform Maintenance services in the event Licensee does not make timely payment of the Maintenance Fee
+3
+Payment Terms
+The Maintenance Fee must be paid in advance of the commencement of the Maintenance subscription and each Maintenance Renewal Date or as otherwise set forth in a signed written agreement by and between Bluebeam and Licensee
+The Maintenance Fees and Maintenance Renewal Fees are non-transferable
+The Maintenance Fee is refundable only within the first thirty (30) days following the Maintenance Start Date
+After the first thirty (30) days the Maintenance Fee is non- refundable
+4
+Termination; Non-Renewal: a
+Termination by Licensee
+Licensee may terminate the Maintenance subscription at any time upon providing thirty (30) days prior written notice to Bluebeam
+Bluebeam will not refund any portion of the Maintenance Fee unless notice of termination is received by Bluebeam within thirty (30) days of the Maintenance Start Date b
+Termination by Bluebeam
+Bluebeam may terminate the Maintenance subscription (i) at any time and for any reason by providing Licensee with thirty (30) days prior written notice of termination or (ii) immediately upon written notice of termination due to a breach of Bluebeam's Acceptable Use Policy by Licensee or any Licensed User
+Provided Bluebeam terminates Licensee's Maintenance subscription, Bluebeam will refund Licensee the pro-rata portion (calculated on a per month basis) of the Maintenance Fee applicable to the terminated portion of the subscription period
+c
+Automatic Termination
+The Maintenance subscription will terminate upon Licensee's failure to pay the Maintenance Renewal Fee on or before the Maintenance Renewal Date or as may be set forth in a signed written agreement between Bluebeam and Licensee
+d
+Provided Licensee's Maintenance subscription terminates for any reason, Licensee's license to use the Software shall continue without the benefits of the Maintenance subscription
+5
+Reinstatement of Expired Maintenance
+If Licensee fails to renew the Maintenance subscription but subsequently desire to reinstate a Maintenance subscription, the following apply: a
+If the expired Maintenance is for the most recent version of the Software then being licensed by Bluebeam (e.g
+the latest version of the Software being licensed is 2018 and the expired Maintenance applied to Licensee's license of version 2018), then Licensee shall pay all unpaid Maintenance Fees (not previously paid) plus a delayed maintenance fee; and b
+If the expired Maintenance is for a version of the Software that is not the most recently released version being licensed by Bluebeam (e.g
+the version of the Software being licensed is 2018 and the expired Maintenance applies to a license of version 2016), then Licensee shall pay all applicable Licensee Fees for an Upgrade to the current version plus the then applicable Maintenance Fees
+6
+Definitions: All capitalized terms used herein but not defined shall have the meanings set forth in the EULA a
+"Maintenance" means an optional, add-on subscription service that includes (i) unlimited phone and email support during Bluebeam's standard support hours; (li) the ability to assign and otherwise transfer the Software and the rights and obligations under this EULA in the event of a merger, acquisition or other corporate https://www.bluebeam.com/legal/eula 11/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+divestiture or reorganization notwithstanding Section 20.h
+or the EULA and provided an assignment and assumption agreement is signed by Licensee (as the assignor), the assignee and Bluebeam; (iii) major version Upgrades at no additional charge; and (iv) access to Drawings on a one-for-one basis of Seats with active Maintenance for Drawings Uploaders b
+"Maintenance Fee" is the annual per Seat fee in effect on the date Maintenance is purchased and/or renewed, as applicable, paid by Licensee to secure or renew its Maintenance subscription
+C
+"Maintenance Renewal Date" is the on-going annual anniversary of the Maintenance Start Date
+The Maintenance Renewal Date is listed on the license certificate as the "Subscription Expiration" date
+d
+"Maintenance Start Date" is the later of the date on Licensee's purchase order or the Maintenance activation date
+ENTERPRISE LICENSE SUBSCRIPTION ADDENDUM B 1
+Enterprise License Subscription
+Upon timely payment of the ELS Fee, Bluebeam agrees to provide Licensee with one (1) Enterprise License Key
+Licensee agrees to use the Enterprise License Key to assign, un-assign and re-assign Seats between Licensee's Devices and Licensed Users provided the Single User Ratio is maintained at all times
+This Enterprise License is valid for one (1) year commencing on the ELS Start Date unless otherwise set forth in Licensee's Order Form or other signed written agreement by and between Bluebeam and Licensee
+Bluebeam will invalidate Licensee's Enterprise License Key if Licensee fails to pay the ELS Fee as agreed
+2
+Payment Terms
+The ELS Fee must be paid in advance of the commencement of the Enterprise License subscription and each ELS Renewal Date or as otherwise set forth in a signed written agreement by and between Bluebeam and Licensee
+The ELS Fee is non-transferable
+The ELS Fee is refundable only within the first thirty (30) days after its payment
+After the first thirty (30) days the ELS Fee is non-refundable
+3
+Enterprise License Subscription Requirements: a
+Maintenance
+Licensee is required to secure and maintain a Maintenance subscription to be eligible to license an Enterprise License Key
+If Licensee's Maintenance subscription terminates, for any reason, the Enterprise License subscription shall simultaneously terminate
+Licensee's license to use the Software shall continue without the benefits of the Maintenance subscription and Enterprise License subscription
+Licensee shall have thirty (30) days to unregister the Software from all Devices and re-register non-Enterprise License versions of the Software
+Failure to unregister and re-register non-enterprise License versions shall be deemed a material breach of this EULA and grounds for immediate termination
+b
+Upgrades
+Upon release of an Upgrade, Licensee is required to unregister the Software from all Devices and re-register the Upgrade
+Provided Licensee has not unregistered the Software but has already downloaded the Upgrade and Licensee fails to unregister the Software for a period of thirty (30) days, Bluebeam shall invoice Licensee for the then-current full retail price of the Software (not the discounted Upgrade price)
+Licensee agrees to pay such invoice within ten (10) days of the receipt thereof
+c
+Confidentiality of Enterprise License Key
+It is Licensee's sole responsibility to maintain the confidentiality and integrity of the Enterprise License Key
+Provided the confidentiality is breached or Licensee suspects it is breached, Licensee will notify Bluebeam immediately so that the Enterprise License Key can be disabled and a new Enterprise Licensee Key assigned to Licensee
+4
+Enterprise License Subscription Management https:/www.bluebeam.com/legal/eula 12/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+a
+Non-Compliance with Single User Ratio
+If at any time Licensee assigns Seats to a number of Devices and/or Licensed Users in excess of five percent (5%) of the total number of licensed Seats (the "Overage Allowance"), Licensee will be prohibited from assigning a Seat to a new Device until the overage has been corrected by Licensee or additional Seats have been licensed by Licensee
+For purposes of clarification only, if Licensee has licensed twenty (20) seats, Licensee may exceed the Single User Ratio by one (1) Device or Licensed User (but not both) for a period of up to but not exceeding thirty (30) days
+If at any time Licensee's Single User Ratio exceeds the Overage Allowance for a period of thirty (30) days, Bluebeam reserves the right to unregister the number of Devices as is required to obtain compliance with the Single User Ratio
+b
+Automatic Seat Release
+Licensee's Devices periodically communicate with Bluebeam's license server over the internet to validate the Single User Ratio and monitor the Overage Allowance
+After fifteen (15) days without a communication from Licensee's Device, the license server will automatically release the Seat from the Device
+All Inactive Seats will remain unassigned until such time as the earlier of (i) the Seat is affirmatively assigned to a Device by Licensee, or (ii) the previously assigned Device communicates with the Bluebeam's license server and re-engages the Seat c
+Gateway Access
+Promptly following the ELS Start Date, Bluebeam will issue Licensee's Enterprise License Key and grant Licensee access to the Gateway
+Licensee is required to create and maintain a password to access the Gateway
+It is Licensee sole responsibility to keep such password confidential and to prevent the unauthorized use of Licensee's password
+In the event the password is forgotten or compromised, Licensee must contact Bluebeam immediately
+5
+Term and Termination
+a
+Term
+The Enterprise License Key is valid for one (1) year commencing on the ELS Start Date unless otherwise set forth in Licensee's Order Form or other signed written agreement by and between Bluebeam and Licensee
+The Enterprise License subscription will automatically renew for additional periods of one (1) year upon Licensee's payment of the ELS Fee on or before the ELS Renewal Date
+b
+Termination by Licensee
+Licensee may terminate the Enterprise License subscription at any time upon providing thirty (30) days prior written notice to Bluebeam
+Bluebeam will not refund any portion of the ELS Fee unless notice of termination is received by Bluebeam within thirty (30) days of the ELS Start Date
+c
+Termination by Bluebeam
+Bluebeam may terminate the Enterprise License subscription at any time upon providing Licensee with thirty (30) days prior written notice
+Provided Bluebeam terminates Licensee's Enterprise License subscription, Bluebeam will refund Licensee the pro-rata portion (calculated on a per month basis) of the ELS Fee applicable to the terminated portion of the subscription period
+d
+Automatic Termination
+If Licensee's Single User Ratio exceeds the Overage Allowance for a period of sixty (60) days, Bluebeam reserves the right to terminate this Addendum and revoke the Enterprise License Key
+6
+Definitions
+All capitalized terms used herein but not defined shall have the meanings set forth in the EULA
+a
+"Enterprise License" means an optional, annual, add-on subscription service available that allows Licensee to use an Enterprise License Key to manage Licensee's Seat assignments to Licensed Users and Devices b
+"Enterprise License Key" means a unique identifier assigned by Bluebeam to Licensee that allows Licensee to access the Gateway and manage the Seats assigned to Licensee's Licensed Users and Devices
+C
+"ELS Fee" means the annual per Seat fee in effect on the date the Enterprise License Key is licensed and/or renewed, as applicable, that Licensee pays to secure or renew its annual Enterprise License subscription
+d
+"ELS Renewal Date" means each annual anniversary of the ELS Start Date
+e
+"ELS Start Date" means the later of (i) the date on Licensee's purchase order or (li) the Enterprise License subscription activation date; or (iii) the Maintenance Start Date
+f
+"Gateway." means Bluebeam's online portal accessible via the internet that allows Licensee to view and manage Licensee's Seat to Device to Licensed User assignments
+https:/www.bluebeam.com/legal/eula 13/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+g
+"Inactive Seat" means a Seat assigned to a Device that has not connected to the internet for a period of fifteen (15) days h
+"Single User Ratio" means ratio established in Section 1 of the EULA, by which Licensee may install and use one (1) Seat of the Software on one (1) Device for use by one (1) Licensed User
+OPEN LICENSE SUBSCRIPTION ADDENDUM C 1
+Open License Subscription
+Upon timely payment of the OL Fee, Bluebeam grants Licensee a limited, non- exclusive, personal, non-sublicenseable, non-transferable right and license to one (1) OL Key to access and use Bluebeam's cloud-based authorization system to distribute the OL Seats among Licensee's Licensed Users
+a
+Modification of Single User Ratio
+Notwithstanding anything to the contrary in the EULA and provided Licensee's Open License subscription remains current, the Software may be installed on an unlimited number of Devices provided that at no time shall the number of Licensed Users exceed the number of licensed OL Seats b
+Gateway Access
+Bluebeam will grant Licensee access to the Gateway to manage the OL Key and OL Seat assignments and reassignments
+c
+Confidentiality of OL Key
+It is Licensee's sole responsibility to maintain the confidentiality and integrity of the OL Key
+Provided the confidentiality is breached or Licensee suspects it is breached, Licensee will notify Bluebeam immediately so that the OL Key can be disabled and a new OL Key assigned to Licensee
+d
+Licensed OL Seats and New Ol Seats
+Licensee may add New OL Seats to Licensee's Open License subscription at any time during the Term upon payment of a pro-rated portion of the OL Fee (determined based on the number of months remaining in the then current annual subscription term)
+Licensee may only reduce the number of OL Seats once each annual period upon written notice to Bluebeam at least fifteen (15) days prior to the OL Renewal Date
+e
+OL Seat Usage
+The Gateway will show that an OL Seat is in use by a Licensed User when any of the following occur: (i) the Software is open and in Markup Mode and has connected to the internet within the last hour; or (ii) when the Script Editor or Stapler (features of the Software) are open and have connected to the internet within the last hour; or (iii) when a PDF processing action from a third party application running a Software plugin is in progress (see https://support.bluebeam.com/articles/bluebeam-revu-compatibility-chart/ for a list of current plugins) 2
+Payment Terms
+The OL Fee must be paid in advance of the commencement of the Open License subscription and each OL Renewal Date or as otherwise agreed by and between Bluebeam and Licensee
+The OL Fee is non-transferable
+The OL Fee is refundable only within the first thirty (30) days after its payment
+After the first thirty (30) days the OL Fee is non-refundable
+3
+Term and Termination: a
+Term
+The Open License subscription and OL Key is valid for one (1) year commencing on the OL Start Date unless otherwise set forth in Licensee's Order Form or other signed written agreement by and between Bluebeam and Licensee
+The Open License subscription will automatically renew for additional periods of one (1) year upon Licensee's payment of the OL Fee on or before the OL Renewal Date
+Failure to pay the OL Fee on or before the OL Renewal Date shall cause the Open License subscription to terminate and the OL Key to become invalidated
+https://www.bluebeam.com/legal/eula 14/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+b
+Termination by Licensee
+Licensee may terminate the Open License subscription at any time upon providing thirty (30) days prior written notice to Bluebeam
+Bluebeam will not refund any portion of the OL Fee unless notice of termination is received by Bluebeam within thirty (30) days of the OL Start Date
+c
+Termination by Bluebeam
+Bluebeam may terminate the Open License subscription at any time upon providing Licensee with thirty (30) days prior written notice
+Provided Bluebeam terminates Licensee's Open License subscription, Bluebeam will refund Licensee the pro-rata portion (calculated on a per month basis) of the OL Fee applicable to the terminated portion of the subscription period
+4
+Definitions
+All capitalized terms used herein but not defined shall have the meanings set forth in the EULA a
+"Open License" means an optional, annual, add-on subscription service that allows Licensee to use an OL Key to manage Licensee's OL Seat assignments to Licensed Users
+b
+"OL Key." means a unique identifier assigned by Bluebeam to Licensee that allows Licensee to (a) install the Software; and (b) assign, release, reassign and/or revoke OL Seats to and/or from Licensed Users
+c
+"OL Fee" means the annual per Seat fee in effect on the date the OL Key is licensed and/or renewed, as applicable, that Licensee pays to secure or renew its annual Open License subscription
+d
+"OL Key." means the open license key that allows Licensee to access the Gateway and administer the OL Seats
+e
+"OL Renewal Date" means each annual anniversary of the OL Start Date
+f
+"OL Start Date" means the later of (i) the date on Licensee's purchase order or (ii) the Open License subscription activation date
+g
+"OL Seats" means the number of Seats licensed by Licensee according to the terms of this Open License subscription as set forth in one or more license certificates issued by Bluebeam
+h
+"New OL Seats" means any additional OL Seats licensed by Licensee during the Term and added to Licensee's Open License subscription
+i
+"Gateway." means Bluebeam's online portal accessible via the internet that allows Licensee to view and manage Licensee's OL Seat to Device to Licensed User assignments
+j
+"Single User Ratio" means ratio established in Section 1 of the EULA, by which Licensee may install and use one (1) Seat of the Software on one (1) Device for use by one (1) Licensed User
+Revu Revu for iPad Pricing Drawings iOS App Drawings Android App Support https://www.bluebeam.com/legal/eula 15/16 5/16/2020 End-User License Agreement | Bluebeam, Inc
+Work at Bluebeam Contact Us f yin D o Legal | Terms of Use | Privacy Policy | DMCA Policy | Cookie Declaration | Renew or Change Your Cookie Consent Copyright @ 2002 - 2020 Bluebeam, Inc
+All Rights Reserved | Bluebeam is part of the Nemetschek Group https://www.bluebeam.com/legal/eula 16/16 

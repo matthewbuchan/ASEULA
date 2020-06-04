@@ -1,0 +1,1112 @@
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+KEYSIGHT SOFTWARE END-USER LICENSE AGREEMENT ATTENTION: THE SOFTWARE IS SUBJECT TO THE END-USER LICENSE AGREEMENT ("EULA") SET FORTH BELOW
+KEYSIGHT SOFTWARE END-USER LICENSE AGREEMENT ATTENTION
+SUBJECT
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+TO INSTALL OR USE THE SOFTWARE, YOU MUST FIRST AGREE TO THIS EULA
+SOFTWARE
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+IF THIS EULA IS PRESENTED TO YOU ELECTRONICALLY AND IF YOU HAVE READ, UNDERSTAND, AND AGREE TO BE BOUND BY ITS TERMS, CLICK "AGREE"
+EULA
+TERMS
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+IF THIS EULA IS PRESENTED TO YOU IN A HARD COPY FORMAT, BY POWERING ON AND USING THE COMPUTER, INSTRUMENT, OR MACHINE, YOU AGREE THAT YOU HAVE READ, UNDERSTAND, AND AGREE TO BE BOUND BY ITS TERMS
+POWERING
+COMPUTER
+HARD COPY FORMAT
+INSTRUMENT
+MACHINE
+TERMS
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+N 1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Translations
+Translations
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Translations of this EULA are found at: www.keysight.com/find/sweula
+Translations
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Software
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+"Software" means a single copy of one or more computer programs, whether stand-alone or bundled with other products or solutions, and related documentation, including any online or electronic documentation, data, and license files
+electronic documentation
+related documentation
+data
+single copy
+license files
+products
+solutions
+computer programs
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+3
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+License Grant
+License Grant
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight Technologies, Inc
+Keysight Technologies
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+or Keysight Technologies Singapore Sales (collectively, "Keysight") grants you a limited, non-exclusive license to use, in accordance with one of the license types listed below, the Software for the Term (as defined below), subject to the terms and conditions of this EULA and full payment of any applicable fees: 3.1 Node Locked ("fixed") license
+license types
+non-exclusive license
+Keysight Technologies Singapore Sales
+conditions
+EULA
+payment
+accordance
+applicable fees
+Node
+terms
+Software
+subject
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you have obtained a Node Locked license, you may install one copy of the Software on one computer, instrument, or machine and use the Software only on that computer, instrument, or machine for your internal business use
+machine
+computer
+instrument
+Software
+internal business use
+copy
+Node Locked license
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may not display or access the Software on a separate computer
+Software
+separate computer
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+3.2 Transportable license
+Transportable license
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you have obtained a Transportable license, you may use one copy of the Software on any single computer, instrument, or machine at one ime for your internal business use
+internal business use
+instrument
+machine
+ime
+single computer
+Software
+copy
+Transportable license
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may move the right to use the Software to a different computer, instrument, or machine using methods made available by Keysight, for your internal business use, provided only one copy is in use at any one time
+internal business use
+machine
+Keysight
+instrument
+Software
+different computer
+methods
+copy
+right
+time
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+3.3 Floating license
+Floating license
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you have obtained a Floating license, you may install one or more copies of the Software on any computer, instrument, or machine within your internal computer network or on dedicated server resources provided by a third party for your internal business use, provided the total number of users who are accessing or using any of the Software at the same time does not exceed the maximum number of licenses
+Software
+internal computer network
+internal business use
+total number of users
+maximum number of licenses
+dedicated server resources
+party
+machine
+instrument
+time
+copies
+Floating license
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may find the type of license you obtained, the Term of your license, and the number of licenses, if applicable, in documentation associated with the Software
+type of license
+number of licenses
+documentation
+Term
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+"Term" means either a set amount of time (an expiring license) or a Perpetual license
+expiring license
+Perpetual license
+set
+time
+Term
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+For Node Locked licenses, "Perpetual" means the lifetime of the computer, instrument, or machine
+computer
+instrument
+lifetime
+Node Locked licenses
+machine
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+For Transportable and Floating licenses, "Perpetual" means the right to use the license indefinitely
+Floating licenses
+right
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+In the absence of documentation specifying the applicable license, you have a Node Locked license with a Perpetual Term
+applicable license
+Node Locked license
+Perpetual Term
+absence of documentation
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+License Restrictions
+License Restrictions
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+4.1 No Copies
+Copies
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may not make copies or adaptations of the Software except for backup and archival purposes or when copying or adaptation is an essential step in the licensed use of the Software, including correction of errors
+Software
+licensed use
+essential step
+backup
+archival purposes
+adaptations
+correction of errors
+copies
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You must reproduce all copyright and other legal notices in the original Software on all permitted copies or adaptations
+original Software
+legal notices
+permitted copies
+adaptations
+copyright
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+4.2 No Reverse Engineering
+Reverse Engineering
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may not decompile, reverse engineer, disassemble, attempt to derive the source code of, decrypt, modify, create derivative works, or disable security features of the Software, except to the extent any foregoing restriction is prohibited by applicable mandatory law or by licensing terms governing the use of open source components that may be included with the Software
+Software
+source code
+use of open source components
+licensing terms
+applicable mandatory law
+foregoing restriction
+derivative works
+decrypt
+security features
+extent
+reverse engineer
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+4.3 No Circumvention
+Circumvention
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The Software may include technological measures, whether in the Software or in bundled hardware or both, that are designed to prevent or detect unlicensed use of the Software
+Software
+technological measures
+bundled hardware
+unlicensed use
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Circumvention of these technological measures is prohibited, except as expressly permitted by applicable mandatory law
+Circumvention
+technological measures
+applicable mandatory law
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Any attempt to circumvent technological measures may render the Software or certain features unusable or unstable and may prevent you from upgrading or updating the Software
+Software
+certain features unusable
+technological measures
+attempt
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+4.4 Limited Use
+Limited Use
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Notwithstanding anything to the contrary herein, you may not use the Software to develop products or distribute your own or a third-party's application, a principal purpose of which, as reasonably determined by Keysight, is to compete with the Software, perform the same or similar functions as the Software, or which replaces any component of the Software
+Software
+party's application
+principal purpose
+similar functions
+component
+products
+Keysight
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may not disclose the results of any competitive analysis performed on the Software to any third party
+Software
+competitive analysis
+results
+party
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+4.5 Network
+Network
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Unless otherwise authorized by Keysight in writing
+Keysight
+writing
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+you may not use the Software on any network that permits remote access to licensed users located outside a one-mile radius of a single fixed geographic site and you may not permit third parties to use the Software in an on-demand computing environment 4.6 No Public Network/Time Share
+Software
+Public Network
+mile radius
+demand computing environment
+single fixed geographic site
+remote access
+licensed users
+Time Share
+parties
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may not copy the Software onto any public or distributed network, service bureau, or similar service, and you may not provide access (directly or indirectly) to the Software in any other manner via a web or network application
+Software
+service bureau
+distributed network
+similar service
+network application
+manner
+web
+access
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+In addition, you may not sell, license, lease, rent, loan, or time share the Software
+loan
+rent
+time
+license
+lease
+Software
+addition
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You also may not redistribute the Software or any part of the Software, other than as permitted under Section 9 below
+Software
+Section
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+4.7 Licensed Users
+Licensed Users
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Except as expressly provided herein, you may not permit any third party to have access to or otherwise use the Software
+access
+party
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Licensed users are your employees, authorized agents, representatives, subcontractors, and consultants acting on your behalf and for your internal business use
+authorized agents
+representatives
+employees
+behalf
+subcontractors
+Licensed users
+internal business use
+consultants
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You are responsible and Third-Party Software
+Third-Party Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+ully liable for compliance with and breach of this EULA by your licensed users
+breach
+EULA
+compliance
+licensed users
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+5
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+5.1 General
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The Software may contain third-party software subject to third-party notices, additional terms and conditions, or both
+third-party software subject
+third-party notices
+additional terms
+conditions
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Such required third-party software notices and additional terms and conditions can be found in the documentation associated with the Software
+required third-party software notices
+additional terms
+conditions
+documentation
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You have all rights necessary to use the Software as permitted in Sections 3 and 4
+Software
+rights necessary
+Sections
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+To the extent your use exceeds the grants and restrictions in Sections 3 and 4, third-party license terms will apply and take precedence
+grants
+Sections
+third-party license terms
+use
+restrictions
+extent
+precedence
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+5.2 Separation of Components
+Separation of Components
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Except as required by included open source software licenses or expressly licensed by Keysight, the Software is licensed as a single product and its component parts may not be separated for any other use
+open source software licenses
+single product
+component parts
+Keysight
+use
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+6
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Upgrades
+Upgrades
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This EULA does not entitle you to receive upgrades, updates, or technical support
+upgrades
+updates
+technical support
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Such services may be included or purchased separately
+services
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The terms of this EULA govern any upgrades or updates provided by Keysight unless such upgrades or updates are accompanied by a separate license agreement in which case the terms of that license agreement will govern
+updates
+upgrades
+terms
+separate license agreement
+Keysight
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Upgrades and updates may be provided if and when available
+Upgrades
+updates
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+7
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Ownership
+Ownership
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The Software and all copies thereof are licensed and not sold to you
+Software
+copies
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The Software and all copies thereof are owned and copyrighted by Keysight or its third- party suppliers and are protected by copyright laws and other intellectual property laws and treaties
+copyright laws
+intellectual property laws
+party suppliers
+treaties
+Keysight
+Software
+copies
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight and its third-party suppliers retain all right, title, and interest in the Software
+title
+third-party suppliers
+right
+Keysight
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight and its third-party suppliers may protect their respective rights in the Software in the event of any violation of this EULA
+respective rights
+event
+third-party suppliers
+Software
+violation
+EULA
+Keysight
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Any comments, suggestions, improvements, or other communications from you to Keysight regarding the Software ("Feedback") will become the sole property of Keysight
+sole property of Keysight
+suggestions
+improvements
+Feedback
+communications
+comments
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight may use the Feedback and practice the intellectual property relating thereto without compensation or attribution
+intellectual property
+Feedback
+compensation
+attribution
+Keysight
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This information is subject to change without notice
+information
+change
+notice
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight Technologies, 2013 - 2018 M KEYSIGHT Published in USA, November 1, 2018 TECHNOLOGIES 5991-3402 (supersedes 5991-3402 - 01Feb2017) www.keysight.com 8
+Keysight Technologies
+USA
+01Feb2017
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+High Risk Activities
+High Risk Activities
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The Software is not specifically written, designed, manufactured, or intended for use in the planning, construction, maintenance, or direct operation of a nuclear facility, nor for use in online control or fail-safe operation of aircraft navigation, control or communication systems, weapon systems, or direct life support systems
+weapon systems
+communication systems
+direct operation
+use
+direct life support systems
+online control
+fail-safe operation of aircraft navigation
+construction
+nuclear facility
+maintenance
+planning
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Transfer
+Transfer
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may not transfer the Software unless you obtain Keysight's prior written authorization, deliver all copies of the Software to the transferee along with this EULA, and pay any applicable fees
+Software
+copies
+Keysight's prior written authorization
+EULA
+transferee
+applicable fees
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+For all transfers, the transferee must accept this EULA as a condition to any transfer and your license to use the Software will terminate upon transfer
+EULA
+license
+condition
+transferee
+Software
+transfers
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Entitlement to receive technical support services for the Software may be transferred provided you obtain Keysight's prior written authorization and pay any applicable fees
+Keysight's prior written authorization
+technical support services
+applicable fees
+Entitlement
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This section applies only to the extent permissible under applicable mandatory laws
+extent permissible
+applicable mandatory laws
+section
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+10
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Term and Termination
+Termination
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This EULA shall continue for the Term unless terminated by Keysight as provided herein
+Term
+EULA
+Keysight
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight may terminate this license upon notice for breach of this EULA
+notice
+license
+breach
+Keysight
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Upon expiration or termination, you must immediately destroy all copies of the Software
+expiration
+termination
+copies
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+11
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Export Requirements
+Export Requirements
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you export, re-export, or import the Software, technology, or technical data licensed hereunder, you assume responsibility for complying with applicable laws and regulations and for obtaining required export and import authorizations
+required export
+re-export
+Software
+regulations
+applicable laws
+responsibility
+complying
+technical data
+technology
+authorizations
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight may terminate this license immediately if you are in violation of any applicable laws or regulations
+violation
+applicable laws
+regulations
+license
+Keysight
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+12
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Unlicensed Use
+Unlicensed Use
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You agree that Keysight may use security servers, security keys or modules, a hardware lock device, license administration software, a license authorization key to control access to the Software, or other security mechanisms to ensure compliance and you consent to such use
+security keys
+security servers
+security mechanisms
+license administration software
+use
+license authorization key
+hardware lock device
+modules
+control access
+compliance
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You may not take any steps to avoid or defeat the purpose of any such measures
+purpose
+steps
+measures
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If the Software is provided with a lock device or authorization key, use of the Software without the lock device or authorization key is prohibited
+lock device
+authorization key
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight may take all legal steps to eliminate and prevent unlicensed use and piracy of the Software
+unlicensed use
+legal steps
+piracy
+Software
+Keysight
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+In this context, the Software may include a security mechanism to detect installation or use of unlicensed copies of the Software and collect and transmit data about suspected unlicensed copies
+Software
+unlicensed copies
+installation
+security mechanism
+data
+context
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Data collected does not include any customer data created with the Software
+customer data
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+By using the Software, you consent to such detection and collection of data, as well as its transmission and use if suspected unlicensed copies are detected
+transmission
+detection
+suspected unlicensed copies
+collection of data
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+13
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Encryption Notice
+Encryption Notice
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The Software may utilize encryption technology
+Software
+encryption technology
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You agree that encryption is not a guarantee of confidentiality and that Keysight is not liable for any breach of confidentiality that may occur as a result of decryption by a third party
+guarantee of confidentiality
+breach of confidentiality
+Keysight
+result of decryption
+party
+encryption
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+14
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Audit
+Audit
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Upon reasonable notice, Keysight or its agents may, at Keysight's expense, inspect your facilities (including computers, instruments, and machines) and records to verify your proper use and payment for the Software
+agents
+facilities
+instruments
+proper use
+records
+reasonable notice
+computers
+payment
+Software
+machines
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You will keep records regarding your use in sufficient detail to permit this verification
+records
+use
+verification
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If your payment is determined by usage of the Software, you also will provide Keysight with remote and on-site access to your network and on-site access to your records, as is reasonably necessary to conduct a proper audit
+on-site access
+network
+Keysight
+records
+usage
+proper audit
+Software
+payment
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If, after an audit, it is determined that you have underpaid any amounts due, Keysight will invoice you for and you agree to pay the amount of the underpayment, plus interest, from the date payment was due
+amounts
+Keysight
+date payment
+audit
+underpayment
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If the underpayment is more than five percent (5%) of the amount properly due, you also will pay Keysight's audit expenses, and Keysight may, in its discretion, terminate your license
+Keysight's audit expenses
+discretion
+underpayment
+percent
+license
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you are a U.S
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government customer, only Keysight employees authorized to access U.S
+Keysight employees
+government customer
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government facilities and computer systems may conduct such audit and any amount due under this Section 14 is subject to the U.S
+computer systems
+government facilities
+Section
+audit
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Anti-Deficiency Act
+Anti-Deficiency Act
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+15
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+U.S
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Government Rights
+Government Rights
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The Software is "commercial computer software," as defined by Federal Acquisition Regulation ("FAR") 2.101
+commercial computer software
+Federal Acquisition Regulation
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Pursuant to FAR 12.212 and 27.405-3 and Department of Defense FAR Supplement ("DFARS') 227.7202, the U.S
+DFARS
+Supplement
+Department of Defense
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government acquires commercial computer software under the same terms by which the software is customarily provided to the public
+commercial computer software
+terms
+government
+public
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Accordingly
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight provides the Software to U.S
+Software
+Keysight
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government customers under its standard commercial license, which is embodied in this EULA
+government customers
+standard commercial license
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The license set forth in this EULA represents the exclusive authority by which the U.S
+exclusive authority
+EULA
+license
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government may use, modify, distribute, or disclose the Software
+government
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This EULA and the license set forth herein, does not require or permit, among other things, that Keysight: (1) furnish technical information related to commercial computer software or commercial computer software documentation that is not customarily provided to the public; or (2) relinquish to, or otherwise provide, the U.S
+commercial computer software documentation
+technical information
+things
+Keysight
+EULA
+license
+permit
+public
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government rights in excess of these rights customarily provided to the public to use, modify, reproduce, release, perform, display, or disclose commercial computer software or commercial computer software documentation
+commercial computer software documentation
+government rights
+display
+excess
+release
+public
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you are a U.S
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government customer, you acknowledge that you have reviewed the Software and this EULA and agree that the license provided for herein is consistent with federal law and otherwise satisfies U.S
+federal law
+EULA
+license
+government customer
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government needs
+government needs
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you are a U.S
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government customer, you agree that this EULA reflects the entirely of the terms of Keysight's customary commercial license applicable to U.S
+terms of Keysight's customary commercial license applicable
+EULA
+government customer
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government customers
+government customers
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+No additional government requirements beyond those set forth in this EULA shall apply, except to the extent that those terms, rights, or licenses are explicitly required from all providers of commercial computer software pursuant to the FAR and the DFARS and are set forth specifically in writing elsewhere in this EULA
+EULA
+providers of commercial computer software pursuant
+terms
+rights
+licenses
+additional government requirements
+extent
+DFARS
+writing
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight shall be under no obligation to update, revise, or otherwise modify the Software
+obligation
+revise
+Keysight
+Software
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+16
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+WARRANTY
+WARRANTY
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+TO THE EXTENT ALLOWED BY APPLICABLE MANDATORY LAW
+EXTENT
+APPLICABLE MANDATORY LAW
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+AND EXCEPT TO THE EXTENT KEYSIGHT HAS PROVIDED A SPECIFIC WRITTEN WARRANTY APPLICABLE TO THE SOFTWARE, THE SOFTWARE IS PROVIDED TO YOU "AS IS" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, WHETHER ORAL OR WRITTEN, EXPRESS OR IMPLIED
+SOFTWARE
+SPECIFIC WRITTEN WARRANTY APPLICABLE
+EXTENT KEYSIGHT
+CONDITIONS
+KIND
+WARRANTIES
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+KEYSIGHT, ON BEHALF OF ITSELF, ITS SUBSIDIARIES, AFFILIATES, AND SUPPLIERS, SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY, NON-INFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE
+CONDITIONS OF MERCHANTABILITY
+SATISFACTORY QUALITY
+NON-INFRINGEMENT
+FITNESS
+IMPLIED WARRANTIES
+SUPPLIERS
+SUBSIDIARIES
+PARTICULAR PURPOSE
+BEHALF
+AFFILIATES
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE ENTIRE RISK AND COST RESULTING FROM OR RELATING TO THE DEFECT
+ENTIRE RISK
+COST
+SOFTWARE
+DEFECT
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+17
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+LIMITATION OF LIABILITY
+LIMITATION OF LIABILITY
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+TO THE EXTENT ALLOWED BY APPLICABLE MANDATORY LAW, IN NO EVENT WILL KEYSIGHT, ITS SUBSIDIARIES, AFFILIATES, OR SUPPLIERS BE LIABLE FOR ANY SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR OTHER DAMAGES (INCLUDING DOWNTIME COSTS, LOSS OF DATA, RESTORATION COSTS, OR LOST PROFITS) REGARDLESS OF WHETHER SUCH CLAIMS ARE BASED ON CONTRACT, TORT, WARRANTY, OR ANY OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+DAMAGES
+RESTORATION COSTS
+DOWNTIME COSTS
+LOSS OF DATA
+EVENT
+APPLICABLE MANDATORY LAW
+WARRANTY
+SUPPLIERS
+AFFILIATES
+SUBSIDIARIES
+KEYSIGHT
+INCIDENTAL
+LOST PROFITS
+CONTRACT
+TORT
+CLAIMS
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+YOUR USE OF THE SOFTWARE IS ENTIRELY AT YOUR OWN RISK
+SOFTWARE
+USE
+RISK
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+NOTWITHSTANDING THE FOREGOING, IF THE SOFTWARE IS PROVIDED TO YOU AT NO CHARGE, KEYSIGHT, ITS SUBSIDIARIES, AFFILIATES, AND SUPPLIERS WILL NOT BE LIABLE FOR DIRECT DAMAGES
+SUBSIDIARIES
+SUPPLIERS
+KEYSIGHT
+AFFILIATES
+DIRECT DAMAGES
+CHARGE
+FOREGOING
+SOFTWARE
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+18
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Applicable Law; Jurisdiction and Venue
+Applicable Law
+Jurisdiction
+Venue
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Disputes arising in connection with this EULA will be governed by, construed, and interpreted according to the laws of the United States and the State of California, without regard to conflict of laws principles
+conflict of laws principles
+regard
+State of California
+United States
+Disputes
+connection
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+The United Nations Convention for Contracts for the International Sale of Goods will not apply to this EULA
+Contracts
+International Sale of Goods
+United Nations Convention
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You consent to personal jurisdiction and venue for all claims arising out of or related in any way to this EULA in a court of competent jurisdiction in San Francisco county in the Northern District of California, United States
+personal jurisdiction
+court of competent jurisdiction
+San Francisco county
+Northern District of California
+United States
+EULA
+venue
+claims
+way
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+You agree that the state and federal courts located in the Northern District of California have exclusive jurisdiction and venue over all claims arising out of or related in any way to this EULA and your use of the Software
+exclusive jurisdiction
+Northern District of California
+federal courts
+venue
+EULA
+use
+claims
+way
+Software
+state
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you are a U.S
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+government customer, disputes arising in connection with this EULA will be governed by
+disputes
+connection
+government customer
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+construed, and interpreted according to U.S
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+federal common law
+federal common law
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+19
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Data Privacy
+Data Privacy
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Information about Keysight's privacy practices is available in Keysight's Customer Privacy Statement, available at www.keysight.com/go/privacy
+Keysight's privacy practices
+Keysight's Customer Privacy Statement
+Information
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+20
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Unenforceability
+Unenforceability
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+To the extent that any provision of this EULA is determined to be illegal or unenforceable, the remainder of this EULA will remain in full force and effect
+EULA
+remainder
+force
+extent
+provision
+effect
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+21
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Entire Agreement
+Entire Agreement
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Certain program, data, and license files in the Software may be subject to supplemental license terms found in the documentation associated with the Software or directly in the files to which the supplemental terms apply
+license files
+supplemental license terms
+Software
+supplemental terms
+data
+documentation
+Certain program
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This EULA constitutes the entire agreement between you and Keysight with respect to the Software, and supersedes any previous communications, representations, or agreements, whether oral or written, except if you have a separate written, executed agreement with Keysight and the terms of such agreement conflict with the terms contained herein, in which case the terms of such agreement apply and take precedence
+terms
+entire agreement
+agreement conflict
+Keysight
+representations
+agreements
+previous communications
+Software
+respect
+EULA
+precedence
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This EULA may not be changed except by an amendment signed by you and Keysight's authorized representative
+Keysight's authorized representative
+amendment
+EULA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+This information is subject to change without notice
+information
+change
+notice
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - -
+Keysight Technologies, 2013 - 2018 M KEYSIGHT Published in USA, November 1, 2018 TECHNOLOGIES 5991-3402 (supersedes 5991-3402 - 01Feb2017) www.keysight.com 
+Keysight Technologies
+USA
+01Feb2017
