@@ -1,9 +1,11 @@
+# script specific to linux installation
+
 # sudo apt install tesseract-ocr
 # sudo apt install libtesseract-dev
-# pip install spacy
-# python -m spacy download en_core_web_lg
-# pip install docx2txt
-# pip install PyPDF2
+# pip3 install spacy
+# python3 -m spacy download en_core_web_lg
+# pip3 install docx2txt
+# pip3 install PyPDF2
 
 import io
 import os
