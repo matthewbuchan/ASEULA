@@ -3,7 +3,7 @@
 # pip install docx2txt
 # pip install PyPDF2
 
-
+import io
 import spacy
 from spacy.lang.en import English
 import docx2txt
@@ -26,12 +26,24 @@ def remove_duplicate(array):
 
 
 # Function that returns array elements as string.
+# def array_to_string(array):
+#     array_string = ""
+#     for element in array:
+#         array_string += element
+#     return array_string
+
+
+# Function that returns array elements as string.
 def array_to_string(array):
     array_string = ""
-    for element in array:
-        array_string += element
+    i = 0
+    while i <= (len(array)-1):
+        if (i != (len(array)-1)):
+            array_string += array[i] + ", "
+        elif (i == (len(array)-1)):
+            array_string += array[i]
+        i += 1
     return array_string
-
 
 # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 nlp = spacy.load('en_core_web_sm')
@@ -82,12 +94,12 @@ else:
 # Establishes variable to store matching entities.
 organization_entity_array = []
 # Establishes a variable to hold search patterns.
-patterns = ["Inc", "Inc.", "Incorporated", "©", "Copyright"]
+publisher_patterns = ["Inc", "Inc.", "Incorporated", "©", "Copyright"]
 # Iterates through each entity in the input file.
 for entity in document.ents:
     # Checks if entities in input file have the ORG label.
-    if entity.label_ == "ORG" and any(pattern in entity.text for pattern in patterns):
-        # Appends all entities with ORG label that contain any elements from the patterns array to the organization_entiity_array array.
+    if entity.label_ == "ORG" and any(pattern in entity.text for pattern in publisher_patterns):
+        # Appends all entities with ORG label that contain any elements from the publisher_patterns array to the organization_entiity_array array.
         organization_entity_array.append(entity.text)
 # Checks if organization_entity_array is empty. Prints mode of the array if elements exist.
 if organization_entity_array:
@@ -158,10 +170,65 @@ else:
     # Sets information_webpage as "Unknown."
     information_webpage = "Unknown"
 
+
+# Establishes variables to store restriction patterns.
+rxion_instructional_patterns = ["teaching use", "instructional use", "academic instruction", "teaching only"]
+rxion_research_patterns = ["research only", "research use", "research use only"]
+rxion_physical_patterns = []
+rxion_rdp_patterns = ["remote access"]
+rxion_campus_patterns = []
+rxion_radius_patterns = []
+rxion_us_patterns = []
+rxion_vpn_patterns = []
+rxion_embargo_patterns = []
+rxion_poc_patterns = []
+rxion_lab_patterns = []
+rxion_site_patterns = []
+
+# 
+rxion_array = []
+rxion_sentence_array = []
+for sentence in document.sents:
+    sentence_string = str(sentence)
+    if any(pattern in sentence_string for pattern in rxion_instructional_patterns):
+        rxion_array.append("Instructional-use only")
+    if any(pattern in sentence_string for pattern in rxion_research_patterns):
+        rxion_array.append("Research-use only")
+    if any(pattern in sentence_string for pattern in rxion_physical_patterns):
+        rxion_array.append("Requires Physical Device")
+    if any(pattern in sentence_string for pattern in rxion_rdp_patterns):
+        rxion_array.append("No RDP use")
+    if any(pattern in sentence_string for pattern in rxion_campus_patterns):
+        rxion_array.append("Use geographically limited (Campus)")
+    if any(pattern in sentence_string for pattern in rxion_radius_patterns):
+        rxion_array.append("Use geographically limited (radius)")
+    if any(pattern in sentence_string for pattern in rxion_us_patterns):
+        rxion_array.append("US use only")
+    if any(pattern in sentence_string for pattern in rxion_vpn_patterns):
+        rxion_array.append("VPN required off-site")
+    if any(pattern in sentence_string for pattern in rxion_embargo_patterns):
+        rxion_array.append("Block embargoed countries")
+    if any(pattern in sentence_string for pattern in rxion_poc_patterns):
+        rxion_array.append("Block use from Persons of Concern")
+    if any(pattern in sentence_string for pattern in rxion_lab_patterns):
+        rxion_array.append("On-site (lab) use only")
+    if any(pattern in sentence_string for pattern in rxion_site_patterns):
+        rxion_array.append("On-site use for on-site students only")
+if not rxion_array:
+    rxion_array.append("Needs Review")
+
+
+string_rxion_array = array_to_string(remove_duplicate(rxion_array))
+
+
+print("Here's what we found...")
+print("-----------------------")
 # Prints all establishes variables for the input file.
 print("Software: ", software_name)
 print("Publisher: ", publisher_name)
 print("Information Webpage: ", information_webpage)
+print("Licensing Restrictions: ", string_rxion_array)
+
 
 # Version
 # Licensing Restrictions
