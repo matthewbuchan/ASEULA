@@ -82,7 +82,24 @@ elif stripped_filename.endswith('.pdf'):
     os.system("convert -density 300 " + filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")
     os.system("tesseract tempimage.tiff extracted_text")
     f = open("./extracted_text.txt").read()
-    document = nlp(f)
+    document = nlp(f)    
+    os.system("rm ./tempimage.tiff")
+    os.system("rm ./extracted_text.txt")
+
+# PyPDF2 specific
+# elif stripped_filename.endswith('.pdf'):
+#     # Opens the .pdf file.
+#     open_file = open(stripped_filename,"rb")
+#     # Establishes a variable for the .pdf read function.
+#     pdf_parser = PyPDF2.PdfFileReader(open_file)
+#     # Establishes a variable to save text parsed from the .pdf file.
+#     pdf_plain_txt = ""
+#     # Establishes loop to parse each page in the .pdf file.
+#     for i in range(0,pdf_parser.numPages):
+#         # Appends parsed text page by page to the pdf_plain_txt variable.
+#         pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
+#     # Performs NLP on the variable (storing the extracted text from the .pdf file).
+#     document = nlp(pdf_plain_txt)
 
 else:
     # Prints an error message if the input file does not match one of the supported formats.
@@ -94,7 +111,7 @@ organization_entity_array = []
 # Establishes a variable to hold search patterns.
 publisher_patterns = ["Inc", "Inc.", "Incorporated", "©", "Copyright"]
 # Iterates through each entity in the input file.
-for entity in document.ents:
+for entity in document.ents:    
     # Checks if entities in input file have the ORG label.
     if entity.label_ == "ORG" and any(pattern in entity.text for pattern in publisher_patterns):
         # Appends all entities with ORG label that contain any elements from the publisher_patterns array to the organization_entiity_array array.
@@ -186,7 +203,7 @@ rxion_site_patterns = []
 # 
 rxion_array = []
 rxion_sentence_array = []
-for sentence in document.sents:
+for sentence in document.sents:    
     sentence_string = str(sentence)
     if any(pattern in sentence_string for pattern in rxion_instructional_patterns):
         rxion_array.append("Instructional-use only")
