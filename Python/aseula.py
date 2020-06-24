@@ -3,7 +3,9 @@
 # pip install docx2txt
 # pip install PyPDF2
 
+
 import io
+import os
 import spacy
 from spacy.lang.en import English
 import docx2txt
@@ -12,6 +14,10 @@ import re
 from re import search
 import statistics 
 from statistics import mode
+from wand.image import Image as wi
+import pytesseract as tess
+tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+from PIL import Image as im
 
 
 # Function that finds the mode of an array.
@@ -74,18 +80,33 @@ elif stripped_filename.endswith('.docx'):
     document = nlp(open_file)
 # Checks if the input file is .pdf.
 elif stripped_filename.endswith('.pdf'):
-    # Opens the .pdf file.
-    open_file = open(stripped_filename,"rb")
-    # Establishes a variable for the .pdf read function.
-    pdf_parser = PyPDF2.PdfFileReader(open_file)
-    # Establishes a variable to save text parsed from the .pdf file.
-    pdf_plain_txt = ""
-    # Establishes loop to parse each page in the .pdf file.
-    for i in range(0,pdf_parser.numPages):
-        # Appends parsed text page by page to the pdf_plain_txt variable.
-        pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
-    # Performs NLP on the variable (storing the extracted text from the .pdf file).
-    document = nlp(pdf_plain_txt)
+    pdf = wi(filename = stripped_filename, resolution = 300)
+    pdfImg = pdf.convert('jpeg')
+
+    open_file = ""
+    for img in pdfImg.sequence:
+        page = wi(image = img)
+        pic = im.open(io.BytesIO(page.make_blob('jpeg')))
+        text = tess.image_to_string(pic, lang = 'eng')
+        open_file += text
+    document = nlp(open_file)
+
+    f= open("out.txt","w+")
+    f.write(open_file)
+
+    # # Opens the .pdf file.
+    # open_file = open(stripped_filename,"rb")
+    # # Establishes a variable for the .pdf read function.
+    # pdf_parser = PyPDF2.PdfFileReader(open_file)
+    # # Establishes a variable to save text parsed from the .pdf file.
+    # pdf_plain_txt = ""
+    # # Establishes loop to parse each page in the .pdf file.
+    # for i in range(0,pdf_parser.numPages):
+    #     # Appends parsed text page by page to the pdf_plain_txt variable.
+    #     pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
+    # # Performs NLP on the variable (storing the extracted text from the .pdf file).
+    # document = nlp(pdf_plain_txt)
+    
 else:
     # Prints an error message if the input file does not match one of the supported formats.
     print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
