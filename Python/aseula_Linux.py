@@ -7,6 +7,7 @@
 # pip3 install docx2txt
 # pip3 install PyPDF2
 
+import sys
 import io
 import os
 import spacy
@@ -17,11 +18,15 @@ import re
 from re import search
 import statistics 
 from statistics import mode
+from statistics import StatisticsError
 
 
 # Function that finds the mode of an array.
-def array_mode(list): 
-    return(mode(list))
+def array_mode(list):
+    try:
+        return(mode(list))
+    except StatisticsError:
+        print("There is no mode!")
 
 
 # Function that removes duplicate elements in an array.
@@ -60,9 +65,16 @@ sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
 
 
 # Accepts a file path as user input and strips it of quotation marks.
-filename = input("Please enter the absolute path for the file you would like to process. ")
-stripped_filename = filename.strip('"')
+#Argument input for batch processing
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+else:
+    filename = input("Please enter the absolute path for the file you would like to process. ")
 
+stripped_filename = filename.strip('"')
+if stripped_filename.__contains__(" "):
+    stripped_filename = filename
+    print("STRIPPED FILENAME = " + stripped_filename)
 
 # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
 # Checks if the input file is .txt.
@@ -79,7 +91,7 @@ elif stripped_filename.endswith('.docx'):
     document = nlp(open_file)
 # Checks if the input file is .pdf.
 elif stripped_filename.endswith('.pdf'):
-    os.system("convert -density 300 " + filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")
+    os.system("convert -density 300 " + stripped_filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")
     os.system("tesseract tempimage.tiff extracted_text")
     f = open("./extracted_text.txt").read()
     document = nlp(f)    
@@ -235,6 +247,14 @@ if not rxion_array:
 
 string_rxion_array = array_to_string(remove_duplicate(rxion_array))
 
+#Output results to file
+file_out = open(stripped_filename + ".txt","w+")
+file_out.write("Filename: " + stripped_filename)
+file_out.write("\n-----------------------")
+file_out.write("\nSoftware: " + str(software_name)) #Need fix to show Unknown instead of None
+file_out.write("\nPublisher: " + publisher_name)
+file_out.write("\nInformation Webpage: " + information_webpage)
+file_out.write("\nLicensing Restrictions: " + string_rxion_array)
 
 print("Here's what we found...")
 print("-----------------------")
