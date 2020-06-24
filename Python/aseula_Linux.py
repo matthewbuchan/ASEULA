@@ -72,9 +72,7 @@ else:
     filename = input("Please enter the absolute path for the file you would like to process. ")
 
 stripped_filename = filename.strip('"')
-if stripped_filename.__contains__(" "):
-    stripped_filename = filename
-    print("STRIPPED FILENAME = " + stripped_filename)
+
 
 # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
 # Checks if the input file is .txt.
