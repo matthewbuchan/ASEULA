@@ -51,6 +51,21 @@ def array_to_string(array):
         i += 1
     return array_string
 
+def ask_user():
+    yes_or_no = str(input("Is this information correct (y/n)? ")).lower().strip()
+    try:
+        if yes_or_no[0] == 'y':
+            print("Thank you for using ASEULA! Your information will be pushed to SharePoint shortly!")
+        elif yes_or_no[0] == 'n':
+            print("We're sorry. Which field is incorrect?")
+        else:
+            print('Invalid input. Please try again.')
+            return ask_user()
+    except Exception as error:
+        print("Please enter a valid character.")
+        print(error)
+        return ask_user()
+
 # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 nlp = spacy.load('en_core_web_sm')
 
@@ -80,32 +95,39 @@ elif stripped_filename.endswith('.docx'):
     document = nlp(open_file)
 # Checks if the input file is .pdf.
 elif stripped_filename.endswith('.pdf'):
-    pdf = wi(filename = stripped_filename, resolution = 300)
-    pdfImg = pdf.convert('jpeg')
 
-    open_file = ""
-    for img in pdfImg.sequence:
-        page = wi(image = img)
-        pic = im.open(io.BytesIO(page.make_blob('jpeg')))
-        text = tess.image_to_string(pic, lang = 'eng')
-        open_file += text
-    document = nlp(open_file)
+    # # Saves the filename to a variable and establishes image resolution.
+    # pdf = wi(filename = stripped_filename, resolution = 300)
+    # # Converts pdf to jpeg.
+    # pdfImg = pdf.convert('jpeg')
+    # # Establishes a variable to hold JPEG text.
+    # open_file = ""
+    # # Loops through each image (one image per page) for the input PDF document.
+    # for img in pdfImg.sequence:
+    #     # 
+    #     page = wi(image = img)
+    #     # Opens image.
+    #     pic = im.open(io.BytesIO(page.make_blob('jpeg')))
+    #     # Performs text recognition on the open image.
+    #     text = tess.image_to_string(pic, lang = 'eng')
+    #     # Appends text from image to open_file string.
+    #     open_file += text
+    # # Performs NLP on complete open_file string.
+    # document = nlp(open_file)
 
-    f= open("out.txt","w+")
-    f.write(open_file)
 
-    # # Opens the .pdf file.
-    # open_file = open(stripped_filename,"rb")
-    # # Establishes a variable for the .pdf read function.
-    # pdf_parser = PyPDF2.PdfFileReader(open_file)
-    # # Establishes a variable to save text parsed from the .pdf file.
-    # pdf_plain_txt = ""
-    # # Establishes loop to parse each page in the .pdf file.
-    # for i in range(0,pdf_parser.numPages):
-    #     # Appends parsed text page by page to the pdf_plain_txt variable.
-    #     pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
-    # # Performs NLP on the variable (storing the extracted text from the .pdf file).
-    # document = nlp(pdf_plain_txt)
+    # Opens the .pdf file.
+    open_file = open(stripped_filename,"rb")
+    # Establishes a variable for the .pdf read function.
+    pdf_parser = PyPDF2.PdfFileReader(open_file)
+    # Establishes a variable to save text parsed from the .pdf file.
+    pdf_plain_txt = ""
+    # Establishes loop to parse each page in the .pdf file.
+    for i in range(0,pdf_parser.numPages):
+        # Appends parsed text page by page to the pdf_plain_txt variable.
+        pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
+    # Performs NLP on the variable (storing the extracted text from the .pdf file).
+    document = nlp(pdf_plain_txt)
     
 else:
     # Prints an error message if the input file does not match one of the supported formats.
@@ -177,7 +199,7 @@ for item in token_split:
     # Strips parentheses from each array item.
     stripped_item = item.strip('()')
     # Establishes a pattern to verify valid URLs.
-    regex = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+    regex = re.compile('(https?://?\S+)')
 # Checks if any items in the token_split array match the regular expression (regex variable). If so, the list item is appended to the url_array array.
     if re.match(regex, stripped_item):
         url_array.append(stripped_item)
@@ -192,9 +214,11 @@ else:
     information_webpage = "Unknown"
 
 
-# Establishes variables to store restriction patterns.
-rxion_instructional_patterns = ["teaching use", "instructional use", "academic instruction", "teaching only"]
-rxion_research_patterns = ["research only", "research use", "research use only"]
+# Establishes variables to store restriction patterns and trigger words.
+pos_trigger_words = ["only"]
+neg_trigger_words = ["not permitted", "not allowed", "forbidden", "restricted", "prohibited"]
+rxion_instructional_patterns = ["teaching use", "instructional use", "academic instruction", "teaching"]
+rxion_research_patterns = ["research", "research use"]
 rxion_physical_patterns = []
 rxion_rdp_patterns = ["remote access"]
 rxion_campus_patterns = []
@@ -212,9 +236,11 @@ rxion_sentence_array = []
 for sentence in document.sents:
     sentence_string = str(sentence)
     if any(pattern in sentence_string for pattern in rxion_instructional_patterns):
-        rxion_array.append("Instructional-use only")
+        if any(pattern in sentence_string for pattern in pos_trigger_words):
+            rxion_array.append("Instructional-use only")
     if any(pattern in sentence_string for pattern in rxion_research_patterns):
-        rxion_array.append("Research-use only")
+        if any(pattern in sentence_string for pattern in pos_trigger_words):
+            rxion_array.append("Research-use only")
     if any(pattern in sentence_string for pattern in rxion_physical_patterns):
         rxion_array.append("Requires Physical Device")
     if any(pattern in sentence_string for pattern in rxion_rdp_patterns):
@@ -244,11 +270,21 @@ string_rxion_array = array_to_string(remove_duplicate(rxion_array))
 
 print("Here's what we found...")
 print("-----------------------")
-# Prints all establishes variables for the input file.
+# Prints all established variables for the input file.
 print("Software: ", software_name)
 print("Publisher: ", publisher_name)
 print("Information Webpage: ", information_webpage)
 print("Licensing Restrictions: ", string_rxion_array)
+print("-----------------------")
+
+
+ask_user()
+
+# confirmation = input("Is this information correct (y/n)? ")
+# if confirmation = "y":
+#     print("Thank you for using ASEULA. Your data will be pushed to SharePoint shortly!")
+# if confirmation = "n":
+#     print("Which field is incorrect?")
 
 
 # Version
