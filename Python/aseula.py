@@ -96,38 +96,54 @@ elif stripped_filename.endswith('.docx'):
 # Checks if the input file is .pdf.
 elif stripped_filename.endswith('.pdf'):
 
-    # # Saves the filename to a variable and establishes image resolution.
-    # pdf = wi(filename = stripped_filename, resolution = 300)
-    # # Converts pdf to jpeg.
-    # pdfImg = pdf.convert('jpeg')
-    # # Establishes a variable to hold JPEG text.
-    # open_file = ""
-    # # Loops through each image (one image per page) for the input PDF document.
-    # for img in pdfImg.sequence:
-    #     # 
-    #     page = wi(image = img)
-    #     # Opens image.
-    #     pic = im.open(io.BytesIO(page.make_blob('jpeg')))
-    #     # Performs text recognition on the open image.
-    #     text = tess.image_to_string(pic, lang = 'eng')
-    #     # Appends text from image to open_file string.
-    #     open_file += text
-    # # Performs NLP on complete open_file string.
-    # document = nlp(open_file)
+    # Saves the filename to a variable and establishes image resolution.
+    pdf = wi(filename = stripped_filename, resolution = 400)
+    # Converts pdf to jpeg.
+    pdfImg = pdf.convert('jpeg')
+    # Establishes a variable to hold JPEG text.
+    open_file = ""
+    # Loops through each image (one image per page) for the input PDF document.
+    for img in pdfImg.sequence:
+        # 
+        page = wi(image = img)
+        # Opens image.
+        pic = im.open(io.BytesIO(page.make_blob('jpeg')))
+        # Performs text recognition on the open image.
+        text = tess.image_to_string(pic, lang = 'eng')
+        # Appends text from image to open_file string.
+        open_file += text
+    # Removes line breaks from the file to aid sentence recognition.
+    stripped_open_file = open_file.replace('\n', '')
+    f = open("out.txt", "a")
+    f.write(stripped_open_file)
+    f.close()
+    f = open("out2.txt", "a")
+    f.write(open_file)
+    f.close()
+    # Performs NLP on complete open_file string.
+    document = nlp(stripped_open_file)
 
 
-    # Opens the .pdf file.
-    open_file = open(stripped_filename,"rb")
-    # Establishes a variable for the .pdf read function.
-    pdf_parser = PyPDF2.PdfFileReader(open_file)
-    # Establishes a variable to save text parsed from the .pdf file.
-    pdf_plain_txt = ""
-    # Establishes loop to parse each page in the .pdf file.
-    for i in range(0,pdf_parser.numPages):
-        # Appends parsed text page by page to the pdf_plain_txt variable.
-        pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
-    # Performs NLP on the variable (storing the extracted text from the .pdf file).
-    document = nlp(pdf_plain_txt)
+
+    # # Opens the .pdf file.
+    # open_file = open(stripped_filename,"rb")
+    # # Establishes a variable for the .pdf read function.
+    # pdf_parser = PyPDF2.PdfFileReader(open_file)
+    # # Establishes a variable to save text parsed from the .pdf file.
+    # pdf_plain_txt = ""
+    # # Establishes loop to parse each page in the .pdf file.
+    # for i in range(0,pdf_parser.numPages):
+    #     # Appends parsed text page by page to the pdf_plain_txt variable.
+    #     pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
+    # # Performs NLP on the variable (storing the extracted text from the .pdf file).
+    # stripped_pdf_plain_txt = pdf_plain_txt.replace('\n', '')
+    # f = open("out.txt", "a")
+    # f.write(stripped_pdf_plain_txt)
+    # f.close()
+    # f = open("out2.txt", "a")
+    # f.write(pdf_plain_txt)
+    # f.close()
+    # document = nlp(stripped_pdf_plain_txt)
     
 else:
     # Prints an error message if the input file does not match one of the supported formats.
@@ -216,11 +232,12 @@ else:
 
 # Establishes variables to store restriction patterns and trigger words.
 pos_trigger_words = ["only"]
-neg_trigger_words = ["not permitted", "not allowed", "forbidden", "restricted", "prohibited"]
-rxion_instructional_patterns = ["teaching use", "instructional use", "academic instruction", "teaching"]
-rxion_research_patterns = ["research", "research use"]
+neg_trigger_words = ["may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
+rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", \
+"academic use", "academic-use", "academic instruction", "academic institution", "educational instruction", "educational institution"]
+rxion_research_patterns = ["research", "research use", "research-use"]
 rxion_physical_patterns = []
-rxion_rdp_patterns = ["remote access"]
+rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop"]
 rxion_campus_patterns = []
 rxion_radius_patterns = []
 rxion_us_patterns = []
@@ -234,32 +251,34 @@ rxion_site_patterns = []
 rxion_array = []
 rxion_sentence_array = []
 for sentence in document.sents:
-    sentence_string = str(sentence)
-    if any(pattern in sentence_string for pattern in rxion_instructional_patterns):
-        if any(pattern in sentence_string for pattern in pos_trigger_words):
+    sentence_string = str(sentence) 
+    sentence_lower = sentence_string.lower()
+    if any(pattern in sentence_lower for pattern in rxion_instructional_patterns):
+        if any(pattern in sentence_lower for pattern in pos_trigger_words):
             rxion_array.append("Instructional-use only")
-    if any(pattern in sentence_string for pattern in rxion_research_patterns):
-        if any(pattern in sentence_string for pattern in pos_trigger_words):
+    if any(pattern in sentence_lower for pattern in rxion_research_patterns):
+        if any(pattern in sentence_lower for pattern in pos_trigger_words):
             rxion_array.append("Research-use only")
-    if any(pattern in sentence_string for pattern in rxion_physical_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_physical_patterns):
         rxion_array.append("Requires Physical Device")
-    if any(pattern in sentence_string for pattern in rxion_rdp_patterns):
-        rxion_array.append("No RDP use")
-    if any(pattern in sentence_string for pattern in rxion_campus_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_rdp_patterns):
+        if any(pattern in sentence_lower for pattern in neg_trigger_words):
+            rxion_array.append("No RDP use")
+    if any(pattern in sentence_lower for pattern in rxion_campus_patterns):
         rxion_array.append("Use geographically limited (Campus)")
-    if any(pattern in sentence_string for pattern in rxion_radius_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_radius_patterns):
         rxion_array.append("Use geographically limited (radius)")
-    if any(pattern in sentence_string for pattern in rxion_us_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_us_patterns):
         rxion_array.append("US use only")
-    if any(pattern in sentence_string for pattern in rxion_vpn_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_vpn_patterns):
         rxion_array.append("VPN required off-site")
-    if any(pattern in sentence_string for pattern in rxion_embargo_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_embargo_patterns):
         rxion_array.append("Block embargoed countries")
-    if any(pattern in sentence_string for pattern in rxion_poc_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_poc_patterns):
         rxion_array.append("Block use from Persons of Concern")
-    if any(pattern in sentence_string for pattern in rxion_lab_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_lab_patterns):
         rxion_array.append("On-site (lab) use only")
-    if any(pattern in sentence_string for pattern in rxion_site_patterns):
+    if any(pattern in sentence_lower for pattern in rxion_site_patterns):
         rxion_array.append("On-site use for on-site students only")
 if not rxion_array:
     rxion_array.append("Needs Review")
@@ -277,34 +296,7 @@ print("Information Webpage: ", information_webpage)
 print("Licensing Restrictions: ", string_rxion_array)
 print("-----------------------")
 
-
-ask_user()
-
-# confirmation = input("Is this information correct (y/n)? ")
-# if confirmation = "y":
-#     print("Thank you for using ASEULA. Your data will be pushed to SharePoint shortly!")
-# if confirmation = "n":
-#     print("Which field is incorrect?")
-
-
-# Version
-# Licensing Restrictions
-
-
-# Instructional Use Only
-# Research Use Only
-# Requires Physical Device
-# No RDP use
-
-# Use geographically limited (Campus)
-# Use geographically limited (radius) 
-# US use only
-# VPN required off-site
-
-# Block embargoed countries
-# Block use from Persons of Concern
-# On-site (lab) use only
-# On-site use for on-site students only
-
-# None
-# Needs Review
+counter = 0
+for sentence in document.sents:
+    counter+=1
+print("Counter: ", counter)

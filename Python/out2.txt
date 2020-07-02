@@ -1,7 +1,7 @@
 MAPLESOFT SOFTWARE LICENSE AGREEMENT
 
 THE FOLLOWING TERMS AND CONDITIONS APPLY TO ALL SOFTWARE PRODUCTS LICENSED BY MAPLESOFT, A DIVISION OF
-WATERLOO MAPLE INC. (“MAPLESOFT”), TO YOU (“YOU” OR “YOUR”, WHEN USED IN REFERENCE TO YOU) AS SET OUT IN
+WATERLOO MAPLE INC. (“MAPLESOFT’’), TO YOU (“YOU” OR “YOUR”, WHEN USED IN REFERENCE TO YOU) AS SET OUT IN
 THE ORDER CONFIRMATION ISSUED TO YOU BY MAPLESOFT OR BY A MAPLESOFT AUTHORIZED RESELLER, BEING ONE OF THE
 PARTNERS LISTED ON MAPLESOFT’S WEBSITE AT HTTP://WWW.MAPLESOFT.COM/CONTACT.
 
@@ -47,13 +47,14 @@ will use the information received during the activation process from YOUR instal
 authentication of the Software, customer service purposes, or for the purpose of Third Party Licensors, if applicable, unless
 otherwise agreed by YOU in the activation sequence. YOU agree to allow the Software to conduct this authentication
 process. YOU may visit Maplesoft’s website for more information. Maplesoft’s privacy policy can be found at:
+
 http://www.maplesoft.com/privacy.
 
 4. ELITE MAINTENANCE PROGRAM AND UPGRADES.
 
 YOU may acquire from Maplesoft the right to participate in Maplesoft’s Elite Maintenance Program (if applicable to
 YOUR selected License Options and Installation Types) as set out in the Order Confirmation. YOU may be entitled to
-purchase or receive from Maplesoft a license to use upgraded versions of the Software or supplemental Software (each, an“Upgrade”) from time to time. YOU understand and agree that such Upgrades are made available by Maplesoft subject to
+purchase or receive from Maplesoft a license to use upgraded versions of the Software or supplemental Software (each, an“Upgrade’’) from time to time. YOU understand and agree that such Upgrades are made available by Maplesoft subject to
 the terms and conditions of this License Agreement and YOU may be required to provide proof of YOUR Software license
 to which the Upgrade relates including verification of YOUR purchase code issued at the time of granting the applicable
 Software license. YOU shall not be required to return or destroy previous versions of the Software upon receiving the
@@ -65,7 +66,7 @@ Order Confirmation(s).
 
 In consideration of payment of the Fee (in accordance with the applicable License Option and Installation Type) and YOUR
 agreement to abide by the terms and conditions of this Agreement, Maplesoft hereby grants to YOU, a limited, revocable,
-personal, non-transferable, nonexclusive license (the “License”) to install and use the Software solely on computer systems
+personal, non-transferable, nonexclusive license (the “License’”’) to install and use the Software solely on computer systems
 owned or leased by YOU in accordance with the License Option and Installation Type acquired, solely for YOUR Internal
 
 Use or other applicable use as set out in Sections 6 and 7 below.
@@ -82,7 +83,7 @@ programmed to stop operating at the expiration of the licensed term (by a progra
 through external communication or intervention). The Elite Maintenance Program for each Term License, if any,
 will also terminate automatically upon expiration of the License Term.
 
-(b) Perpetual Licenses: YOU may purchase a perpetual license to use the Software (a “Perpetual License’). A
+(b) Perpetual Licenses: YOU may purchase a perpetual license to use the Software (a “Perpetual License”). A
 Perpetual License shall entitle YOU to use the Software indefinitely, unless and until terminated by Maplesoft in
 accordance with this Agreement. YOU understand and agree that the Elite Maintenance Program for each
 Perpetual License, if any, will terminate automatically upon expiration of the initial Elite Maintenance Program
@@ -111,7 +112,7 @@ License Option may include certain rights under the Home Use License Option as s
 Order Confirmation. If YOU are an Entity that purchases this License Option for a commercial user, YOU
 are also responsible for ensuring the commercial user complies with this License Agreement.
 
-(b) Academic License Option. This License Option gives YOU (an academic individual or an Entity(©)
+(b) Academic License Option. This License Option gives YOU (an academic individual or an Entity(c)
 
 (d)
 
@@ -150,7 +151,7 @@ Maplesoft, upon written agreement, a right to place orders for Software for its 
 only for installation and use in accordance with the Student License Option or Home Use License Option,
 upon payment of the applicable fee. In that case, the Academic Institution shall take appropriate action to
 ensure: (i) it only distributes such number of licenses to Students, faculty and/or staff as agreed to in
-writing by Maplesoft in its Order Confirmation; and (41) the Software (including this License Agreement)
+writing by Maplesoft in its Order Confirmation; and (ii) the Software (including this License Agreement)
 is delivered to each user at that Academic Institution intact such that the user of the Software must agree
 to the terms and conditions of this Agreement as part of the installation and activation process. For greater
 certainty, if YOU are an Entity that purchases this License Option for an academic user or institution,
@@ -172,7 +173,9 @@ be rendered inoperable if Student status is not validated prior to the expiratio
 out in YOUR Order Confirmation.
 
 Graduate Student Research License Option. This License Option gives YOU (a Student or an Entity
-purchasing this License Option for a Student) the right to permit the Student to use the Software on the(©)
+purchasing this License Option for a Student) the right to permit the Student to use the Software on the(e)
+
+(f)
 
 (g)
 
@@ -306,22 +309,23 @@ permission of Maplesoft, YOU shall not, and shall not permit any Third Party to:
 
 (b)
 
-(©)
+(c)
 
 (d)
 
 (e)
 
+(f)
+
 (g)
 
 (h)
 
-G@)
-G)
+@)
 
 (k)
 
-(1)
+()
 
 reproduce, transmit, modify, adapt, translate or create any derivative work of, any part of the Software, in
 whole or in part, except for any content developed by users in Maple Worksheets/Documents that are not
@@ -343,7 +347,7 @@ communication distribution methods that facilitate access by an unlicensed Third
 content created using MapleNet and MapleSim Server as expressly set forth in Sections 8(k) and 8(1);
 
 provide access (directly or indirectly) to the Software via the web or internet application, or any file-
-sharing method or system, except as expressly set forth in Sections 8(k) and 8();
+sharing method or system, except as expressly set forth in Sections 8(k) and 8(1);
 
 alter, remove, or obscure any copyright, trade secret, patent, trademark, logo, proprietary and/or other
 legal notices on or in copies of the Software;
@@ -423,7 +427,7 @@ use this information to identify and contact users of illegal copies of the Soft
 compliance. This data collection is not performed on the users of legally licensed software from Maplesoft or its authorized
 distributors.
 
-12. TERMINATION.
+12, TERMINATION.
 
 (a) Termination on Notice. Maplesoft may terminate this Agreement if YOU fail to comply with any
 provision of this Agreement upon written notice to YOU.
@@ -438,7 +442,8 @@ the licenses granted corresponding to such unpaid Fees shall terminate;
 Maplesoft that all copies of the Software, in whole or in part, in any form, have either been
 returned to Maplesoft or destroyed;
 
-(ii1) Maplesoft may elect to continue or terminate YOUR purchase order then pending for which
+(iii) Maplesoft may elect to continue or terminate YOUR purchase order then pending for which
+g
 payment has not yet been received and Software has not been delivered; and
 
 (iv) except as otherwise stated herein, all payments made by YOU to Maplesoft hereunder are non-
@@ -504,10 +509,10 @@ right or other intellectual property right of a third party resident in Canada o
 Rights”). Maplesoft shall hold YOU harmless from costs, losses, damages and liability which may be incurred on account
 of a finding of infringement of IP Rights by the Software by a court of competent jurisdiction, and Maplesoft shall, at its
 own expense, defend all claims, suits or actions alleging such infringement of IP Rights, against YOU, provided that
-Maplesoft (4) is promptly notified of such claims, suits and actions, (ii) given all evidence in YOUR possession, and (iii)
+Maplesoft (i) is promptly notified of such claims, suits and actions, (ii) given all evidence in YOUR possession, and (iii)
 given reasonable assistance by YOU in, and sole control of, the defence thereof and all negotiations for its settlement or
 compromise. In the event of such a claim of infringement of IP Rights, Maplesoft’s obligation under this Agreement shall
-be fulfilled if Maplesoft: () obtains a license for YOU to continue the use the Software, or (ii) replaces or modifies the
+be fulfilled if Maplesoft: (1) obtains a license for YOU to continue the use the Software, or (ii) replaces or modifies the
 Software so as to be commercially substantially equal but non-infringing, provided, however, that if none of these options
 are reasonably available to Maplesoft, then upon written request by Maplesoft, YOU shall return the Software and
 Maplesoft will refund the Fees paid for the Software. The indemnification under this Section shall not apply to any claim of
@@ -562,7 +567,7 @@ with all applicable laws pertaining to the Personal Information in question, and
 all applicable consents to disclose to Maplesoft or, more generally, a service provider to YOU,
 have been obtained from the individual(s) whose Personal Information is provided;
 
-(iil) YOU grant to Maplesoft the right to use the Personal Information for any purpose associated
+(iii) YOU grant to Maplesoft the right to use the Personal Information for any purpose associated
 with the provision of its Elite Maintenance Program (if applicable) to YOU; and
 
 (iv) YOU will identify an individual, employed or otherwise authorized by YOU, to respond to
@@ -570,7 +575,6 @@ enquiries concerning any Personal Information provided to Maplesoft and to promp
 enquiries concerning such information.
 
 (c) Maplesoft’s privacy policy can be found at http://www.maplesoft.com/privacy.
-
 19. INDEMNITY.
 
 YOU agree to indemnify and hold Maplesoft and any Third Party Licensors harmless from and against any loss, liability,
@@ -587,7 +591,7 @@ records of YOUR use of the Software sufficient to show compliance with the terms
 Maplesoft promptly of any failure by YOU to comply with one or more licenses granted under this Agreement, or any
 failure to comply with any other material term of this Agreement. To confirm YOUR compliance with the terms and
 conditions of this Agreement, YOU agree to allow a Third Party auditor appointed by Maplesoft or by a Third Party
-Licensor (if applicable) (the “Auditor’’) to audit YOUR use of the Software, and to provide the Auditor access to YOUR
+Licensor (if applicable) (the “Auditor’”) to audit YOUR use of the Software, and to provide the Auditor access to YOUR
 facilities, Sites, CPUs and computer systems, and cooperation from YOUR employees and consultants, as reasonably
 requested by the Auditor in order to perform such audit, all during normal business hours, and after reasonable prior notice
 from Auditor. If an audit discloses that YOU has failed to comply with one or more licenses, and such failure to comply
@@ -603,9 +607,13 @@ Fees, also reimburse Maplesoft or the Third Party Licensor, as the case may be, 
 of Canada in force from time to time. YOU agree that YOU shall not make any disposition of the
 Software purchased or licensed from Maplesoft that would violate those laws or regulations or would be(b)
 
+(c)
+
 (d)
 
 (e)
+
+(f)
 
 (g)
 
@@ -674,7 +682,7 @@ is controlled by, or is under common control with such party. The term “control”
 power to direct or cause the direction of the management of policies of a person or Entity; whether through ownership or
 equity participation, voting securities, beneficial interest, contract, agreement or otherwise.
 
-“Documentation” means the user guides, study guides and other documentation made available by Maplesofit from time to
+“Documentation” means the user guides, study guides and other documentation made available by Maplesoft from time to
 time, whether or not made available in connection with the delivery of the Software, as may be updated from time to time.
 Documentation may be delivered in printed and/or online forms, and in one or more languages.
 
@@ -688,7 +696,7 @@ www.maplesoft.com/emp.
 identified on the Order Confirmation the Elite Maintenance Program.
 
 “Internal Use” means the use of the Software by YOU, if YOU are an individual and otherwise (as applicable and to the
-extent permitted in this Agreement) by YOUR Affiliate’s employees, teaching assistants, student interns, and contractors
+extent permitted in this Agreement) by YOUR Afffiliate’s employees, teaching assistants, student interns, and contractors
 (provided that in the case of contractors, such contractors are engaged by YOU or YOUR Affiliate to discharge their duties
 only on YOUR premises).
 
@@ -739,7 +747,7 @@ Software and shall be licensed individually hereunder, all as more specifically 
 for use by YOUR users only.
 
 “Student” means: (i) a full-time or part-time undergraduate student who is either working toward a degree or a diploma in
-an Academic Institution and actively enrolled therein at the material time; (ii) a student registered in a continuing or
+an Academic Institution and actively enrolled therein at the material time; (11) a student registered in a continuing or
 professional education program of an accredited institution; (iii) a student enrolled in a high school, vocational institute or
 other accredited institution; or (iv) any person endorsed by an accredited institution as being a student. Students may be
 enrolled on campus or in distance education courses. Maplesoft shall determine whether or not an institution is “accredited”,
