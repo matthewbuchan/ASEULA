@@ -69,17 +69,16 @@ tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 from PIL import Image as im
 
 # Paragraph separation and fix
-def paragraph_parse_lower(ocr_input):
-    # ocr_input = ocr_input.read()
-    all_paragraphs = re.split('\n{2,}', ocr_input)
-    parsed_paragraphs = ""
-    for paragraph in all_paragraphs:
-        paragraph = paragraph.replace("\n", " ")
-        parsed_paragraphs += str(paragraph).lower() + "\n"
-    return parsed_paragraphs
+# def paragraph_parse_lower(ocr_input):
+#     # ocr_input = ocr_input.read()
+#     all_paragraphs = re.split('\n{2,}', ocr_input)
+#     parsed_paragraphs = ""
+#     for paragraph in all_paragraphs:
+#         paragraph = paragraph.replace("\n", " ")
+#         parsed_paragraphs += str(paragraph).lower() + "\n"
+#     return parsed_paragraphs
 
-def paragraph_parse(ocr_input):
-    # ocr_input = ocr_input.read()
+def paragraph_parse(ocr_input):    
     all_paragraphs = re.split('\n{2,}', ocr_input)
     parsed_paragraphs = ""
     for paragraph in all_paragraphs:
@@ -158,6 +157,15 @@ def vector_check(sentence):
             #print(sent_output)
             continue
 
+def remove_stop_words(sentence):
+    filtered_sentence = ""
+    for token in sentence:
+        if token.is_stop == False:
+            filtered_sentence += " " + str(token.text)
+    return filtered_sentence
+
+
+
 # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 nlp = spacy.load('en_core_web_lg')
 
@@ -186,33 +194,26 @@ if stripped_filename.endswith('.txt'):
     # Opens the .txt file.
     open_file = open(stripped_filename).read()
     # Performs NLP on the .txt file.
-    document = nlp(open_file)
+    document = open_file
 # Checks if the input file is .docx.
 elif stripped_filename.endswith('.docx'):
     # Converts the .docx file to plaintext.
     open_file = docx2txt.process(stripped_filename)
     # Performs NLP on the converted plaintext.
-    document = nlp(open_file)
+    document = open_file
 # Checks if the input file is .pdf.
 elif stripped_filename.endswith('.pdf'):
-    
-#     # #INPUT TRY
-#     # #PyPDF2 analysys
-#     # # Opens the .pdf file.
-#     # open_file = open(stripped_filename,"rb")
-#     # # Establishes a variable for the .pdf read function.
-#     # pdf_parser = PyPDF2.PdfFileReader(open_file)
-#     # # Establishes a variable to save text parsed from the .pdf file.
-#     # pdf_plain_txt_PyPDF = ""
-#     # # Establishes loop to parse each page in the .pdf file.
-#     # for i in range(0,pdf_parser.numPages):
-#     #     # Appends parsed text page by page to the pdf_plain_txt variable.
-#     #     pdf_plain_txt_PyPDF += (pdf_parser.getPage(i).extractText().strip("\n"))
-#     #     #pdf_plain_txt += (pdf_parser.getPage(i).extractText().strip("\n"))
-#     # # Performs NLP on the variable (storing the extracted text from the .pdf file).    
-#     # #document = nlp(pdf_plain_txt)
-    
-    #INPUT EXCEPT
+
+
+
+    # #LINUX OS command line conversion
+    # os.system("convert -density 300 " + stripped_filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")
+    # os.system("tesseract tempimage.tiff extracted_text")
+    # f = open("./extracted_text.txt").read()
+    # document = nlp(paragraph_parse(f))
+    # os.system("rm ./tempimage.tiff")
+
+
     # # Saves the filename to a variable and establishes image resolution.
     pdf = wi(filename = stripped_filename, resolution = 300)
     # Converts pdf to jpeg.
@@ -228,119 +229,109 @@ elif stripped_filename.endswith('.pdf'):
         text = tess.image_to_string(pic, lang = 'eng')
         # Appends text from image to open_file string.        
         open_file += text
-    
-    
-#     # f = open(stripped_filename.rstrip(".pdf")  + "-OCR.txt", "w+")
-#     # f.write(open_file)
-#     # f.close()
-    
-#     # #Tesseract OCR new line cleaner Tesseract
+        document = open_file
 
-#     # f = open(stripped_filename.rstrip(".pdf")  + "-OCR.txt", "r")
-#     # fo = open(stripped_filename.rstrip(".pdf")  + "-FIX.txt","w+")
-#     # endingpunct = 0
-#     # for line in f:
-#     #     if len(line) > 1:
-#     #         fo.write(line.replace("\n", " "))            
-#     #         if re.search(r'[;.]\s?$',line):
-#     #             endingpunct = 1
-#     #         else:
-#     #             endingpunct = 0
-#     #     else:
-#     #         if endingpunct == 1:
-#     #             fo.write(line)
-                
-#     #         else:
-#     #             line = line.rstrip()
-#     #             continue
-#     # f.close()
-#     # fo.close()
+#Remove stop words
 
 #     # Performs NLP on complete open_file string.
     #document = nlp(open_file)
-    document = nlp(paragraph_parse(open_file))
+    #document = nlp(paragraph_parse(open_file))
 
 
 
-# else:
-#     # Prints an error message if the input file does not match one of the supported formats.
-#     print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
+else:
+    # Prints an error message if the input file does not match one of the supported formats.
+    print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
 
 
-# #Part of speech tagging
-# purge_stop = ""
-# for token in document:
-#     if token.pos_ == 'PUNCT':
-#         if token.text == '.':
-#             print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.is_stop}')            
-#         else:
-#             continue
-#     else:
-#         print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.is_stop}')
-#         # Lemme string conversion without punctuation
-#         if token.is_stop == False:
-#             purge_stop += str(token.lemma_) + " "
-# #doc = nlp(purge_stop)
 
-# # #Syntactic dependency
-# # for chunk in doc.noun_chunks:
-# #     print(f'{chunk.text:{30}}{chunk.root.text:{15}}{chunk.root.dep_}')
+#Break into sentence array and store for analyzing.
+document = nlp(paragraph_parse(document))
+sentences = []
+for sent in document.sents:
+    sentences.append(sent) # Append sentences in array for future comparison
 
-#Named entity recognition
-ent_cnt = 0
-entities = []
-for ent in document.ents:
-    #FIND Company    
-    if ent.label_.lower() == "org":
-        entities.append(ent.text.title())
-print(entities)
-software_company = ""
-for token in document:
-    if token.text.capitalize() in entities:        
-        if token.pos_ == "PROPN" and token.dep_ == "pobj":
-            print("YOUR COMPANY NAME IS: " + str(token.text.capitalize()))
-    print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
-    
-
-#         print(ent.text,ent.label_)
-#         # if "inc" in ent.text.lower():
-#         #     if ent.text in software_company:
-#         #         continue
-#         #     else:
-#         #         #print(ent.text)
-#         #         software_company = str(ent.text)
-
-#         # #print(ent.text,ent.label_)
-#     ent_cnt += 1
-# print("Company = " + str(software_company))
-# print("Total Entities = " + str(ent_cnt))
+#Sentence Array NLP document creation
+sent_count = 1
+for sentence in sentences:    
+    doc = nlp(str(sentence))
 
 
-# # #Sentence segmentation and output to file
-# # f_sent = open("./sentences.txt","w+")
-# # restrictions = ["academic", "research"]
-# # for sent in doc.sents:
-# #     print(sent)
-# #     f_sent.write(str(sent) + "\n--------------------------\n")
-# #     # Add only sentences with restrictions
-# #     for r in restrictions:
-# #         if str(r) in str(sent):
-# #             #ADD POS RESTRICTION
-# #             f_sent.write(str(sent))
-# #             print(sent)
-# #             print("---")
 
+
+    # #Similarity check and sentence output
+    # rxsion = nlp("teaching research academic instruction remote")
+    # rx_sim = 0
+    # for token in doc:
+    #     for rx in rxsion:
+    #         if rx.similarity(token) > .70:
+    #             rx_sim = 1
+    #             sent_count += 1
+    # if rx_sim == 1:
+    #     print(str(sent_count) + ". " + str(sentence))
+
+    # #Part of Speech Tagging
+    # for token in doc:
+    #     print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+    # sent_count += 1
+
+    # #Purge Stop Words
+    # purge_string = ""
+    # for token in doc:
+    #     if token.is_stop == 'False':
+    #         purge_string += str(token.text) + " "
+    #     else:
+    #         continue
+
+    # #Lemmatization
+    # lemma_string = ""
+    # for token in doc:
+    #     purge_string += str(token.lemma_) + " "
+
+    # #Syntactic dependency
+    # for chunk in doc.noun_chunks:
+    #     print(f'{chunk.text:{30}}{chunk.root.text:{15}}{chunk.root.dep_}')
+
+    # #Output all token info
+    # for token in doc:
+    #     print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{10}} {token.is_stop}')
+
+    #Named entity recognition ORG select
+    ent_cnt = 0
+    entities = {}
+    for ent in doc.ents:
+        #FIND Company    
+        if ent.label_.lower() == "org":
+            entities['ent.text.title()'] += 1
+            print(entities['ent.text.title()'])
+    print(entities)
+    software_company = ""
+    for token in doc:
+        if token.text.capitalize() in entities:        
+            if token.pos_ == "PROPN" and token.dep_ == "pobj":
+                print("YOUR COMPANY NAME IS: " + str(token.text.capitalize()))
+        print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+        ent_cnt += 1
+    print("Company = " + str(software_company))
+    print("Total Entities = " + str(ent_cnt))
+
+
+#Process runtime output
+end = timeit.default_timer()
+runtime = end - start
+if runtime > 59:
+    print("Job runtime: " + str(runtime/60) + " Minutes")
+else:
+    print("Job runtime: " + str(runtime) + " Seconds")
 
 # # # # Displacy output to browser
 # from spacy import displacy
-# # for sent in doc.sents:
-# #     print(sent)    
 # #Obtain IP for browser view
 # import socket
 # host_ip = socket.gethostbyname(socket.gethostname())
-# print("\nYour rendered strings are located at the following address: "+ str(host_ip) + ":5000\n")
-# displacy.serve(document, style='dep')
-
-end = timeit.default_timer()
-runtime = end - start
-print("Job runtime: " + str(runtime))
+# print("\nYour rendered strings will be located at the following address: "+ str(host_ip) + ":5000\n")
+# i = 1
+# for sentence in sentences:
+#     print("Sentence " + str(i) + " of " + str(len(sentences)))
+#     displacy.serve(sentence, style='dep')
+#     input()

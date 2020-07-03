@@ -85,6 +85,8 @@ elif stripped_filename.endswith('.docx'):
     # Performs NLP on the converted plaintext.
     document = nlp(open_file)
 # Checks if the input file is .pdf.
+
+# Command line conversion 13% faster
 # elif stripped_filename.endswith('.pdf'):
 #     os.system("convert -density 300 " + stripped_filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")
 #     os.system("tesseract tempimage.tiff extracted_text")
@@ -108,8 +110,8 @@ elif stripped_filename.endswith('.pdf'):
     open_file = paragraph_parse(open_file)
     document = nlp(open_file)
 
-    f= open("extracted_text.txt","w+")
-    f.write(open_file)
+    # f= open("extracted_text.txt","w+")
+    # f.write(open_file)
     #os.system("rm ./extracted_text.txt")
 
 else:
