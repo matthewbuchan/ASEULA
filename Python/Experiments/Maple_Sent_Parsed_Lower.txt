@@ -1,0 +1,826 @@
+#0 maplesoft software license agreement
+
+--------------------------
+#1 the following terms and conditions apply to all software products licensed by maplesoft, a division of waterloo maple inc.
+--------------------------
+#2 (“maplesoft”),
+--------------------------
+#3 to you (“you” or “your”, when used in reference to you) as set out in the order confirmation issued to you by maplesoft or by a maplesoft authorized reseller, being one of the partners listed on maplesoft’s website at http://www.maplesoft.com/contact.
+
+--------------------------
+#4 notice: this is a contract.
+--------------------------
+#5 before you complete the installation and activation process, carefully read this agreement.
+--------------------------
+#6 by clicking “i agree” and/or clicking the applicable button to complete this process, you (being either an individual or an entity.
+--------------------------
+#7 in the latter case you acknowledge that you are an authorized representative completing this process on behalf of an individual or your institution) consent to the terms and conditions of this agreement and you agree to be bound by this agreement.
+--------------------------
+#8 if you do not wish to become a party to this agreement and be bound by all of its terms and conditions, click the appropriate button to cancel this process, do not install, activate or use the software (including any accompanying written materials).
+--------------------------
+#9 provided the software has not been activated and is returned within 30 days of the original purchase date, you will receive a refund of the purchase price less a processing fee that maplesoft may charge.
+
+--------------------------
+#10 if you require additional information, please contact maplesoft as set out at http://www.maplesoft.com/contact.
+
+--------------------------
+#11 1. definitions.
+--------------------------
+#12 each capitalized term used but not defined herein shall have the meaning ascribed to it in schedule a to this agreement.
+--------------------------
+#13 2.
+--------------------------
+#14 maplesoft’s order confirmation and license to you.
+
+--------------------------
+#15 you acknowledge that maplesoft or a maplesoft authorized reseller has provided to you an order confirmation setting forth, among other things, the software ordered, the license option, the installation type, the licensed number of users entitled to use the software, the term of the license and all contact information for you (including contact name, address, and email address).
+--------------------------
+#16 unless you notify maplesoft or a maplesoft authorized reseller within 30 days of receipt of the order confirmation that it is inaccurate, you shall be deemed to have confirmed the accuracy of the information and to have accepted the terms and conditions set out therein.
+--------------------------
+#17 you acknowledge and agree that the provisions of this agreement shall apply to all software licensed.
+--------------------------
+#18 maplesoft reserves the right to vary the terms of this license from time to time in its sole discretion.
+
+--------------------------
+#19 3.
+--------------------------
+#20 online or offline product activation.
+
+--------------------------
+#21 depending upon the specific software product licensed by you, pursuant to the order confirmation, the license rights granted herein may be conditional upon you supplying correct and accurate information required to activate the software in the manner described during the installation process.
+--------------------------
+#22 if required by maplesoft, you will need to activate the software through the use of the internet or by means other than through the use of the internet, such as by telephone or email; toll charges may apply.
+--------------------------
+#23 product activation may require a one-time exchange of information between your computer or your site, as applicable, and maplesoft to conduct an authentication process and confirm that you have a licensed copy of the software.
+--------------------------
+#24 if third party licensor software is utilized within the software, additional requirements may apply.
+--------------------------
+#25 maplesoft will use the information received during the activation process from your installation or computer only for activation and authentication of the software, customer service purposes, or for the purpose of third party licensors, if applicable, unless otherwise agreed by you in the activation sequence.
+--------------------------
+#26 you agree to allow the software to conduct this authentication process.
+--------------------------
+#27 you may visit maplesoft’s website for more information.
+--------------------------
+#28 maplesoft’s privacy policy can be found at: http://www.maplesoft.com/privacy.
+
+--------------------------
+#29 4.
+--------------------------
+#30 elite maintenance program and upgrades.
+
+--------------------------
+#31 you may acquire from maplesoft the right to participate in maplesoft’s elite maintenance program (if applicable to your selected license options and installation types) as set out in the order confirmation.
+--------------------------
+#32 you may be entitled to purchase or receive from maplesoft a license to use upgraded versions of the software or supplemental software (each, an“upgrade”) from time to time.
+--------------------------
+#33 you understand and agree that such upgrades are made available by maplesoft subject to the terms and conditions of this license agreement and you may be required to provide proof of your software license to which the upgrade relates including verification of your purchase code issued at the time of granting the applicable software license.
+--------------------------
+#34 you shall not be required to return or destroy previous versions of the software upon receiving the upgrade.
+--------------------------
+#35 you may continue to use prior versions of the software in addition to the upgrade, provided that your aggregate use of such products does not exceed the number of permitted and licensed users under the terms of the applicable order confirmation(s).
+
+--------------------------
+#36 5.
+--------------------------
+#37 your license to use the software and license duration.
+
+--------------------------
+#38 in consideration of payment of the fee (in accordance with the applicable license option and installation type) and your agreement to abide by the terms and conditions of this agreement, maplesoft hereby grants to you, a limited, revocable, personal, non-transferable, nonexclusive license (the “license”) to install and use the software solely on computer systems owned or leased by you in accordance with the license option and installation type acquired, solely for your internal
+use or other applicable use as set out in sections 6 and 7 below.
+
+--------------------------
+#39 depending on the specific software you are granted access to, the license option, and installation type selected by you, the license term may be any one of the following as set out in the order confirmation:
+(a) term license: you may purchase a license to use the software for a specific term (a “term license”).
+--------------------------
+#40 each term license will expire automatically, immediately after the corresponding time period or term specified in the order confirmation expires, unless you renew the license by remitting the then-current term-based fee prior to such expiry date.
+--------------------------
+#41 you shall immediately cease all use of the software at the expiry of the term and permanently delete such software from its cpu or server, as applicable.
+--------------------------
+#42 you understand that the software may be programmed to stop operating at the expiration of the licensed term (by a programmed determination and not through external communication or intervention).
+--------------------------
+#43 the elite maintenance program for each term license, if any, will also terminate automatically upon expiration of the license term.
+
+--------------------------
+#44 (b) perpetual licenses: you may purchase a perpetual license to use the software (a “perpetual license’).
+--------------------------
+#45 a perpetual license shall entitle you to use the software indefinitely, unless and until terminated by maplesoft in accordance with this agreement.
+--------------------------
+#46 you understand and agree that the elite maintenance program for each perpetual license, if any, will terminate automatically upon expiration of the initial elite maintenance program term.
+--------------------------
+#47 thereafter, the elite maintenance program term may be renewed for the software upon payment at the then- applicable rates, as long as maplesoft offers such elite maintenance program, generally, for such software.
+--------------------------
+#48 maplesoft acknowledges that perpetual license software does not contain any code or device that will render it inoperable, upon expiration of any time period or upon any event.
+
+--------------------------
+#49 6.
+--------------------------
+#50 software license options.
+
+--------------------------
+#51 at the time of purchase of this license, you must select any applicable license option (which in all cases must include one or more permitted installation types) from those offered by maplesoft which shall be set out in the order confirmation.
+--------------------------
+#52 additional rights, obligations, and restrictions apply to each license option as set forth in this license agreement.
+--------------------------
+#53 by accepting the terms and conditions of this agreement, you also accept the terms and conditions respecting the applicable license option.
+--------------------------
+#54 if the license option is not specified by you at the time of your original order, maplesoft shall determine the license option for you in its sole discretion.
+--------------------------
+#55 maplesoft’s order confirmation for such software shall be determinative.
+--------------------------
+#56 under all license options, you are responsible for your permitted and licensed users use of the software and for ensuring their compliance with this agreement.
+--------------------------
+#57 the following represent permitted license options:
+(a) commercial license option.
+--------------------------
+#58 this license option gives you (a commercial individual or an entity purchasing this license option for a commercial individual or institution) the right to use the software for commercial purposes.
+--------------------------
+#59 this license option may use any of the installation types with no additional use restrictions save and except as set forth in the applicable installation type and as otherwise set forth in this agreement.
+--------------------------
+#60 this license option may be granted as a term license or as a perpetual license.
+--------------------------
+#61 this license option may include certain rights under the home use license option as specified in your order confirmation.
+--------------------------
+#62 if you are an entity that purchases this license option for a commercial user, you are also responsible for ensuring the commercial user complies with this license agreement.
+
+--------------------------
+#63 (b) academic license option.
+--------------------------
+#64 this license option gives you (an academic individual or an entity(©)
+
+--------------------------
+#65 (d)
+purchasing this license option for an academic individual or institution) the right to use the software only at an accredited academic institution or other educational institution.
+--------------------------
+#66 under the academic license option, you may either select a full academic license or a restricted academic license, as follows:
+(i) full academic license.
+--------------------------
+#67 this license option gives you the right to use the software for (and restricts your use to) academic instruction, teaching and research only.
+--------------------------
+#68 this license option permits any one of the installation types.
+--------------------------
+#69 under this license option, commercial use of the software is strictly prohibited.
+--------------------------
+#70 under this license option you are prohibited from granting students remote access to the software or installing the software on a student machine (whether owned by you or the student) unless a separate license has been granted to you by maplesoft in writing.
+--------------------------
+#71 this license option may be granted as a term license or as a perpetual license.
+--------------------------
+#72 this license option may include certain rights under the home use license option as specified in your order confirmation.
+
+--------------------------
+#73 (ii) restricted academic license.
+--------------------------
+#74 this license option gives you the right to use the software for (and restricts your use to) academic instruction and teaching only.
+--------------------------
+#75 under this license option, use of the software for research or commercial use is strictly prohibited.
+--------------------------
+#76 under this license option, you are prohibited from granting students remote access to the software or installing the software on a student machine (whether owned by you or the student) unless a separate license has been granted to you by maplesoft in writing.
+--------------------------
+#77 this license option may be granted as a term license or as a perpetual license.
+--------------------------
+#78 this license option may include certain rights under the home use license option as specified in your order confirmation.
+
+--------------------------
+#79 optional virtualization distribution rights: an academic institution may acquire from maplesoft, upon written agreement, a right to grant students, faculty, and staff remote access to the software upon payment of the applicable fee.
+--------------------------
+#80 in that case, the academic institution shall take appropriate action to ensure that it only distributes such number of licenses to students, faculty and/or staff as agreed to in writing by maplesoft in its order confirmation.
+--------------------------
+#81 you are responsible for ensuring each academic or student user complies with this license agreement.
+
+--------------------------
+#82 optional academic institution distribution rights: an academic institution may acquire from maplesoft, upon written agreement, a right to place orders for software for its students, faculty or staff, only for installation and use in accordance with the student license option or home use license option, upon payment of the applicable fee.
+--------------------------
+#83 in that case, the academic institution shall take appropriate action to ensure: (i)
+--------------------------
+#84 it only distributes such number of licenses to students, faculty and/or staff as agreed to in writing by maplesoft in its order confirmation; and (41) the software (including this license agreement) is delivered to each user at that academic institution
+--------------------------
+#85 intact such that the user of the software must agree to the terms and conditions of this agreement as part of the installation and activation process.
+--------------------------
+#86 for greater certainty, if you are an entity that purchases this license option for an academic user or institution, you are also responsible for ensuring each academic or student user complies with this license agreement.
+
+--------------------------
+#87 student license option.
+--------------------------
+#88 this license option gives you (a student or an entity purchasing this license option for a student) the right to permit the student to use the software on the student’s personal computers only.
+--------------------------
+#89 this license option permits only the single user installation type and restricts use of the software to student use only.
+--------------------------
+#90 commercial, instruction, teaching and research purposes are not permitted.
+--------------------------
+#91 this license option may be granted as a term license or as a perpetual license; provided that, on ceasing to be a student, you may: (i) continue to use the software only for personal and non- commercial use, or (ii) elect to convert the student license into another license option upon payment to maplesoft of the applicable conversion fee, if any.
+--------------------------
+#92 if you are an entity who purchases this license option for a student user, you are also responsible for ensuring the student user complies with this license agreement.
+--------------------------
+#93 proper student identification (as determined by maplesoft, in its sole discretion) for each student is required for this license option.
+--------------------------
+#94 software purchased under a student license option will be rendered inoperable if student status is not validated prior to the expiration of the validation period set out in your order confirmation.
+
+--------------------------
+#95 graduate student research license option.
+--------------------------
+#96 this license option gives you (a student or an entity purchasing this license option for a student) the right to permit the student to use the software on the(©)
+
+--------------------------
+#97 (g)
+student’s personal computers only.
+--------------------------
+#98 this license option permits only the single user installation type and restricts use of the software to student use and academic research by the student only.
+--------------------------
+#99 commercial, instruction, and teaching purposes are not permitted.
+--------------------------
+#100 this license option may be granted as a term license or as a perpetual license; provided that, on ceasing to be a student, you may: (i) continue to use the software only for personal and non-commercial use, or (ii) elect to convert the graduate student research license into another license option upon payment to maplesoft of the applicable conversion fee, if any.
+--------------------------
+#101 if you are an entity who purchases this license option for a student user, you are also responsible for ensuring the student user complies with this license agreement.
+
+--------------------------
+#102 home use license option.
+--------------------------
+#103 this license option gives you (being an individual user or an entity purchasing this license option for an individual user)
+--------------------------
+#104 the right to permit that user to use the software at the user’s personal residence.
+--------------------------
+#105 this license option permits only the single user installation type and restricts use of the software to use only at the user’s personal residence.
+--------------------------
+#106 this license option is only available to you if annotated within your order confirmation.
+--------------------------
+#107 commercial use of the software is permitted only if the user’s employer has a commercial use license.
+--------------------------
+#108 instructional/teaching and/or research use is only permitted if the user’s employer has purchased a full academic license or restricted academic license, as applicable.
+--------------------------
+#109 this license option may be granted as a term license or as a perpetual license.
+--------------------------
+#110 you may elect to convert the home use license option to another license option upon payment to maplesoft of the applicable conversion fee, if any.
+--------------------------
+#111 if you are an entity who purchases this license option for an individual user, you are also responsible for ensuring the individual user complies with this license agreement.
+
+--------------------------
+#112 personal edition license option.
+--------------------------
+#113 this license option gives you (being an individual user or an entity purchasing this license option for an individual user)
+--------------------------
+#114 the right for that individual user to use the software for personal use.
+--------------------------
+#115 this license option permits only the single user installation type and requires that all use of the software be limited to personal use only.
+--------------------------
+#116 use of the software for commercial, instruction, teaching and research purposes are not permitted.
+--------------------------
+#117 this license option may be granted as a term license or as a perpetual license.
+--------------------------
+#118 you may elect to convert the personal edition license option to another license option upon payment to maplesoft of the applicable conversion fee, if any.
+--------------------------
+#119 if you are an entity that purchases this license option for an individual user, you are also responsible for ensuring the individual user complies with this license agreement.
+
+--------------------------
+#120 evaluation license option.
+--------------------------
+#121 maplesoft may designate the software as an “evaluation”, “trial license”, or another similar designation (collectively, “evaluation”).
+--------------------------
+#122 this license option gives you the right to use the software only during the evaluation period and only for purposes of evaluating the capabilities of the software in order to make a purchasing decision.
+--------------------------
+#123 in addition, you are prohibited from using content created using the evaluation license after the end of the evaluation period, including, but not limited to, mathematical solutions, generated code, exported models, and interactive applications that can be used without the software, unless you obtain express written permission from maplesoft.
+
+--------------------------
+#124 installation types.
+
+--------------------------
+#125 (a)
+at the time of purchase of this license, you must select the applicable installation types permitted by maplesoft.
+--------------------------
+#126 rights, obligations, and restrictions apply to each installation type as set forth below.
+--------------------------
+#127 by accepting the terms and conditions of this agreement, you also accept the applicable installation type.
+--------------------------
+#128 if the installation type is not specified by you at the time of your original order, maplesoft shall determine the installation type for you in its sole discretion.
+--------------------------
+#129 maplesoft’s order confirmation for such software shall be determinative.
+--------------------------
+#130 the software may be installed by the following installation types:
+
+--------------------------
+#131 single user installation type: this installation type gives you the right to install and operate the software as follows:
+
+--------------------------
+#132 (i) for installations of software for student use (being the student license option), home use (being the home use license option), or personal use (being the personal edition license option), on one designated stand-alone node-locked personal computer that is owned, leased or controlled by you or the student or individual user, as applicable, and(b)
+
+--------------------------
+#133 (c)
+
+--------------------------
+#134 (d)
+(e)
+(ii)
+--------------------------
+#135 in the case of all other license options, up to two computers that are each owned, leased or controlled by you;
+provided that the software is only accessible to, and operated by you, the student or an individual user, as applicable.
+--------------------------
+#136 the software may be physically transferred from one computer to another owned, leased, or controlled by you or the student or individual user, as applicable, but shall permanently delete the software from the transferor computer such that the software is installed on one computer only in the case of a student, home users (under the home use license option) and personal users (under the personal edition license option) and otherwise on up to a maximum of two computers at any one time.
+
+--------------------------
+#137 multi-user installation type — non-floating: this installation type gives you the right to use the software from multiple, specific (non-floating) computers that you designate during the installation and activation process, that are situated at one physical location.
+--------------------------
+#138 you may only use the software on up to the designated number of computers noted in your order confirmation.
+--------------------------
+#139 you may not transfer the software to a different physical location.
+--------------------------
+#140 you may not provide remote access to the software to users based in a different physical location.
+--------------------------
+#141 use of the software in a concurrent fashion (as set forth in section 7(c) below) is strictly prohibited under this installation type.
+--------------------------
+#142 although you may receive upgrades to future versions of the software (as permitted under maplesoft’s elite maintenance program), the number of computers where the software can be accessed cannot exceed the number of licensed users specified in your order confirmation.
+
+--------------------------
+#143 multi-user installation type - floating: this installation type gives you the right to use the software from multiple, non-specific (floating) computers that you designate during the installation and activation process across one or more locations as set out in your order confirmation that are owned, leased or controlled by you, provided that the total number of concurrent users does not exceed that set out in such order confirmation.
+--------------------------
+#144 you may have only as many users simultaneously operating the software at any given time as permitted by the order confirmation.
+--------------------------
+#145 you are responsible for ensuring that the total number of users of the software at any one time does not exceed the number of users licensed for the software.
+--------------------------
+#146 you shall assign a central administrator the task of accurately counting and controlling the number of users allowed to access, install and administer the software, including upgrades to the software, if applicable.
+--------------------------
+#147 although you may receive upgrades to the software as permitted under maplesoft’s elite maintenance program, the number of users who can concurrently access the software (whether an upgrade or software that has not been upgraded) cannot exceed the number of users specified in your order confirmation.
+--------------------------
+#148 all such users must be within one country.
+
+--------------------------
+#149 international multi-user installation type - floating: this installation type gives you the right to use the software from multiple, non-specific (floating) computers that you designate during the installation and activation process across one or more locations as set out in your order confirmation that are owned, leased or controlled by you, provided that the total number of concurrent users does not exceed that set out in such order confirmation.
+--------------------------
+#150 you may use the software only from computers located in the countries specified in the order confirmation.
+--------------------------
+#151 you may have only as many users simultaneously operating the software at any given time as permitted by the order confirmation.
+--------------------------
+#152 you are responsible for ensuring that the total number of users of the software at any one time does not exceed the number of users licensed for the software.
+--------------------------
+#153 you shall assign a central administrator the task of accurately counting and controlling the number of users allowed to access, install and administer the software, including upgrades to the software, if applicable.
+--------------------------
+#154 although you may receive upgrades to the software as permitted under maplesoft’s elite maintenance program, the number of users who can concurrently access the software (whether an upgrade or software that has not been upgraded) cannot exceed the number of users specified in your order confirmation.
+
+--------------------------
+#155 core installation type: this installation type gives you the right to install, use and operate the software on designated stand-alone node-locked computers (each a “cpu”) owned, leased or controlled by you as set out in the order confirmation, provided that you do not exceed the licensed number of cores as specified in your order confirmation.
+--------------------------
+#156 there is no limitation on the number of users that may access and use the software on cores, however certain technical limitations on use may apply based upon the functionality or technical features of the core.
+--------------------------
+#157 all users must be within one country unless prior written consent for multi-country access is provided by maplesoft.8.
+--------------------------
+#158 general license restrictions.
+
+--------------------------
+#159 the license of all software hereunder is subject to the express restrictions set forth below in addition to the restrictions imposed by the applicable license option, installation type and order confirmation.
+--------------------------
+#160 without the express written permission of maplesoft, you shall not, and shall not permit any third party to:
+(a)
+(b)
+(©)
+
+--------------------------
+#161 (d)
+
+--------------------------
+#162 (e)
+(g)
+(h)
+g@) g)
+
+--------------------------
+#163 (k)
+(1)
+reproduce, transmit, modify, adapt, translate or create any derivative work of, any part of the software, in whole or in part, except for any content developed by users in maple worksheets/documents that are not part of an electronic book software product or as otherwise expressly permitted in this agreement;
+reverse engineer, disassemble, or decompile the software, create derivative works based on the software, or otherwise attempt to gain access to its method of operation or source code;
+sell, license, sublicense, publish, display, distribute, disseminate, assign, or otherwise transfer (whether by sale, exchange, lease, rent, gift, loan, or otherwise) to a third party the software, any copy or portion thereof, in whole or in part, on a temporary or permanent basis;
+use the software for supporting third parties’ use of the software, time share the software to unlicensed third parties, or provide service bureau use, without maplesoft’s prior written consent, except as expressly set forth in sections 8(k) and 8(1));
+use the software in whole or in part, as part of an internet/intranet/extranet website or via other electronic communication distribution methods that facilitate access by an unlicensed third party, except for the content created using maplenet and maplesim server as expressly set forth in sections 8(k) and 8(1);
+provide access (directly or indirectly) to the software via the web or internet application, or any file- sharing method or system, except as expressly set forth in sections 8(k) and 8();
+alter, remove, or obscure any copyright, trade secret, patent, trademark, logo, proprietary and/or other legal notices on or in copies of the software;
+use maplesoft’s name, trade names, logos, or other trademarks of maplesoft, or any of its affiliates or licensors, whether in written, electronic, or other form, without maplesoft’s prior written consent;
+access or use software that you are not currently licensed to access or to use;
+disclose the purchase codes and/or license file, if applicable, to a third party or allow them to be used except for installation and use of the software as provided herein;
+use the maplenet software except as follows: to deploy and deliver maplenet enabled content through a production server owned, leased or controlled by you.
+--------------------------
+#164 such content may be accessed by any entity permitted by the order confirmation, through your site, only in the form of maple worksheets/documents, maplets, html, jsp and other java based applets (the “maplenet content”).
+--------------------------
+#165 you are prohibited from making available on your site any maplenet content and/or maplenet applications which are similar in functionality to, or competitive with, any maplesoft software (as determined by maplesoft in its sole discretion).
+--------------------------
+#166 you are prohibited from using maplenet as a fundamental component of an online assessment or online learning system (as determined by maplesoft at its sole discretion).
+--------------------------
+#167 you are further prohibited from making available maplenet content through any means other than maple worksheets/documents, maplets, html, jsp or, other java based applets.
+--------------------------
+#168 all maplesoft software used to develop or create maplenet content must be validly licensed from maplesoft.
+--------------------------
+#169 you are permitted to provide access to maplenet content, but you may not sell, license or otherwise make available maplenet content for commercial gain, which includes, but is not limited to, generating revenue by providing access to maplenet or maplenet content by charging a subscription fee, service fee, or any other form of transaction fee.
+--------------------------
+#170 maplenet may be installed on the correct number of cpu cores, leased or controlled by you, and as set out in the order confirmation, provided that access to maplenet is provided only through your site;
+use the maplesim server software except as follows: to deploy and deliver maplesim server enabledcontent through a production server owned, leased or controlled by you.
+--------------------------
+#171 such content may be accessed by any entity permitted by the order confirmation, through your site, only in the form of maple worksheets/documents (the “maplesim server content”).
+--------------------------
+#172 you are prohibited from making available on your site any maplesim server content and/or maplesim server applications which are similar in functionality to, or competitive with, any maplesoft software (as determined by maplesoft in its sole discretion).
+--------------------------
+#173 you are further prohibited from making available content through any means other than maple worksheets/documents.
+--------------------------
+#174 all maplesoft software used to develop or create content must be validly licensed from maplesoft.
+--------------------------
+#175 you are permitted to provide access to maplesim server content, but you may not sell, license or otherwise make available maplesim server content for direct commercial gain, which includes, but is not limited to, generating revenue by providing access to maplesim or maplesim content by charging a subscription fee, service fee, or any other form of transaction fee.
+--------------------------
+#176 maplesim server may be installed on the correct number of cpu cores, leased or controlled by you, and as set out in the order confirmation, provided that access to maplesim server is provided only through your site;
+(m) sell, license, or sublicense derivative works based on code generated by the software to a third party for commercial purposes, without maplesoft’s prior written consent.
+
+--------------------------
+#177 9. retention of right, title and interest.
+
+--------------------------
+#178 maplesoft does not sell any rights in and to the software, but rather grants the right to use the software pursuant to the terms of this agreement.
+--------------------------
+#179 if the software is delivered to you on physical media, you shall own only the physical media on which the software is recorded.
+--------------------------
+#180 the software shall at all times remain the property of maplesoft and/or maplesoft’s licensors, as applicable, and you shall have no right, title, or interest therein, except as expressly set forth in this agreement.
+--------------------------
+#181 any and all modifications, enhancements, improvements, changes and derivative works to maplesoft software created by maplesoft
+--------------------------
+#182 or you shall be the sole intellectual property of maplesoft.
+--------------------------
+#183 maplesoft exclusively reserves all rights not explicitly granted herein.
+
+--------------------------
+#184 10.
+--------------------------
+#185 third party intellectual property.
+
+--------------------------
+#186 maplesoft may, from time to time, distribute software or other intellectual property licensed to maplesoft by a third party licensor (the “third party ip”) which may form part of the software.
+--------------------------
+#187 if applicable, such third party ip shall be made available to you pursuant to the terms and conditions of this agreement.
+--------------------------
+#188 in the event any additional terms and conditions are imposed upon the use of such third party ip, the applicable terms and conditions shall be made available to you by maplesoft or such third party licensor in the purchase, activation and/or installation processes of the applicable software and are incorporated into this license by reference.
+--------------------------
+#189 you may be required to provide a third party licensor with information and audit rights in order to authenticate such software use and/or to calculate royalty payments.
+
+--------------------------
+#190 11.
+--------------------------
+#191 anti-piracy
+software piracy is illegal and maplesoft reserves the right to take all legal steps to stop piracy of their products and pursue those who take part in these activities.
+--------------------------
+#192 as part of these anti-piracy efforts, the software may contain security mechanisms intended to detect the installation or use of illegal copies of the software.
+--------------------------
+#193 if an illegal copy is detected, the software may collect and transmit network, device, usage, user, and other data relating to the installation or use of those illegal copies, to maplesoft and/or their agents.
+--------------------------
+#194 such data may include, but is not limited to, host name, username, device
+--------------------------
+#195 id, ip address, wi- fi access point information, email address, and information about usage of the software.
+--------------------------
+#196 maplesoft and/or their agents may use this information to identify and contact users of illegal copies of the software in order to bring them into license compliance.
+--------------------------
+#197 this data collection is not performed on the users of legally licensed software from maplesoft or its authorized distributors.
+
+--------------------------
+#198 12. termination.
+
+--------------------------
+#199 (a) termination on notice.
+--------------------------
+#200 maplesoft may terminate this agreement if you fail to comply with any provision of this agreement upon written notice to you.
+
+--------------------------
+#201 (b) obligations upon termination.
+--------------------------
+#202 upon termination of this agreement:
+(i) all rights and licenses to the software and all obligations of maplesoft hereunder shall terminate.
+--------------------------
+#203 notwithstanding the foregoing, in the event this agreement is terminated by maplesoft due toyour failure to pay when due fees and/or a breach of this agreement by any you, then only the licenses granted corresponding to such unpaid fees shall terminate;
+(ii) you shall immediately discontinue use of the software immediately and certify in writing to maplesoft that all copies of the software, in whole or in part, in any form, have either been returned to maplesoft or destroyed;
+(ii1) maplesoft may elect to continue or terminate your purchase order then pending for which payment has not yet been received and software has not been delivered; and
+
+--------------------------
+#204 (iv) except as otherwise stated herein, all payments made by you to maplesoft hereunder are non- refundable.
+
+--------------------------
+#205 (c)
+--------------------------
+#206 notwithstanding any termination of this agreement, sections 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 20, 20 and 21 shall survive termination of this agreement.
+--------------------------
+#207 all other rights and licenses granted hereunder will cease upon termination.
+
+--------------------------
+#208 13.
+--------------------------
+#209 fees and payment terms.
+
+--------------------------
+#210 the license fee payable by you shall be the amount set forth in the applicable order confirmation, invoice or web purchase confirmation, as the case may be.
+--------------------------
+#211 all payments shall be non-refundable except as otherwise expressly provided in this agreement.
+--------------------------
+#212 all fees payable by you to maplesoft shall be paid in the currency set forth in the accepted order confirmation within 30 days of the date of such document unless otherwise agreed to by maplesoft in writing.
+--------------------------
+#213 any amounts due maplesoft under this agreement not received by maplesoft by the date due shall be subject to a service charge of one and one half percent (1 1/2%) per month, being eighteen percent (18%) per annum, or the maximum charge permitted by law, whichever is less.
+
+--------------------------
+#214 14.
+--------------------------
+#215 taxes, duties, customs.
+
+--------------------------
+#216 absent appropriate exemption certificates or other conclusive proof of tax exempt status
+--------------------------
+#217 , you shall pay all applicable sales, use, excise, value-added, and other taxes, duties, levies, assessments, and governmental charges payable in connection with this agreement or the licenses granted hereunder (excluding taxes based on or measured by maplesoft’s income, for which maplesoft shall be solely responsible).
+--------------------------
+#218 when maplesoft has the legal obligation to collect such taxes, the appropriate amount shall be due upon invoice to you.
+--------------------------
+#219 you shall hold maplesoft harmless from all claims and liability arising from your failure to pay any such taxes, duties or charges.
+
+--------------------------
+#220 15.
+--------------------------
+#221 limited warranty.
+
+--------------------------
+#222 maplesoft warrants that the physical media, if any, on which the software is recorded is free from defects in materials and workmanship under normal use and service for a period of thirty (30) days (the “return period”) from the date of delivery to you.
+--------------------------
+#223 if such a defect exists and you are within the return period, you may return the entire package, including packaging, postage prepaid with a copy of the invoice to maplesoft at the address below (or if the software was downloaded, permanently delete and destroy all copies of the software and certify such deletion and destruction to maplesoft by written or electronic communication), and maplesoft, at its option, shall either (a) return the purchase price or (b) replace the media.
+--------------------------
+#224 if failure of the media has resulted from accident, abuse, or misapplication, maplesoft shall have no responsibility whatsoever to refund the purchase price or replace the media.
+--------------------------
+#225 in the event of replacement of the media, the replacement media will be warranted for the remainder of the original warranty period or thirty (30) days, whichever is the longer.
+--------------------------
+#226 except as set out in this agreement, this remedy is your exclusive remedy for a breach of warranty, and is maplesoft’s (or any of its affiliated corporations and their respective directors, officers, employees or shareholders) entire liability and only warranty made with respect to the software.
+
+--------------------------
+#227 any claims made by you for the breach of a warranty, shall be made in writing and delivered to maplesoft at the address set forth herein, and you shall provide maplesoft a reproducible test case, if applicable, demonstrating the breach of warranty.
+
+--------------------------
+#228 maplesoft does not warrant that the software will meet your requirements, be error free, or operate without interruptions.
+--------------------------
+#229 you acknowledge that the software operates in an environment that includes software and hardware of third party vendors and that maplesoft does not control the products of third party vendors.
+--------------------------
+#230 you further acknowledge that you arepossessed with superior knowledge with respect to your operations and have relied upon your own skill and judgment in selecting and licensing the maplesoft software.
+--------------------------
+#231 you further acknowledges that the software is not fault-tolerant and is not designed, manufactured, or intended for use or resale as on-line control equipment in hazardous environments requiring fail safe performance in which the failure of the software could lead directly to death, personal injury, or severe physical or environmental damage (“high risk activities”).
+--------------------------
+#232 accordingly, maplesoft, third party licensors and its suppliers specifically disclaim any express or implied warranty of fitness for high risk activities.
+--------------------------
+#233 you agree that maplesoft and its suppliers and third party licensors will not be liable for any claims or damages arising from the use of the software in such applications.
+
+--------------------------
+#234 16.
+--------------------------
+#235 intellectual property warranty and indemnity.
+
+--------------------------
+#236 maplesoft warrants to you that the software will not infringe any registered patent, copyright, trademark or trade secret right or other intellectual property right of a third party resident in canada or the united states (collectively, the “ip rights”).
+--------------------------
+#237 maplesoft shall hold you harmless from costs, losses, damages and liability which may be incurred on account of a finding of infringement of ip rights by the software by a court of competent jurisdiction, and maplesoft shall, at its own expense, defend all claims, suits or actions alleging such infringement of ip rights, against you, provided that maplesoft (4) is promptly notified of such claims, suits and actions, (ii) given all evidence in your possession, and (iii) given reasonable assistance by you in, and sole control of, the defence thereof and all negotiations for its settlement or compromise.
+--------------------------
+#238 in the event of such a claim of infringement of ip rights, maplesoft’s obligation under this agreement shall be fulfilled
+--------------------------
+#239 if maplesoft: () obtains a license for you to continue the use the software, or (ii) replaces or modifies the software so as to be commercially substantially equal but non-infringing, provided, however, that if none of these options are reasonably available to maplesoft, then upon written request by maplesoft, you shall return the software and maplesoft will refund the fees paid for the software.
+--------------------------
+#240 the indemnification under this section shall not apply to any claim of infringement of ip rights which may be brought resulting from (1) any unauthorized use of the software; (2) any use of the software in a manner for which the software was not designed or in combination with any other product, which combination is the cause of the ip infringement; (3) any unauthorized modifications to the software made by you; (4) any wilful act by you contrary to the terms of the license; or (5) any settlement or compromise incurred or made by you without maplesoft’s prior written consent.
+--------------------------
+#241 the above states the entire liability of maplesoft with respect to infringement of ip rights by the software and is in lieu of all warranties, express, implied or statutory, in regard thereto.
+
+--------------------------
+#242 17.
+--------------------------
+#243 limited liability.
+
+--------------------------
+#244 other than as expressly set out herein and to the maximum extent permitted by applicable laws, the software is provided “as is” without any warranty or condition of any kind, either express or implied, statutory or otherwise, including but not limited to implied warranties or conditions of merchantability and fitness for a particular purpose.
+--------------------------
+#245 no oral or written information or advice given by maplesoft, its affiliates, dealers, resellers or distributors, shall create a warranty or in any way increase the scope of this warranty.
+--------------------------
+#246 you assume the entire risk as to the use and performance of the software or documentation in terms of correctness, accuracy, reliability, currentness, or otherwise.
+--------------------------
+#247 without limiting the generality of the foregoing, in no event shall maplesoft, its agents or anyone else who has been involved in the creation, production or delivery of the software and/or
+--------------------------
+#248 documentation be liable to you or any other person for any direct, indirect, special, or consequential or incidental damages (including without limitation, damages for loss of revenues or profits, business interruption, testing interruptions, loss of business information, and the like) arising out of the use or inability to use the software, the installation and activation of the software, the termination of this agreement, the failure of equipment related to your computer or damage to your computer, software or other property resulting from your use of the software, even if maplesoft or its agents have been advised of the possibility of such damage or claim, or it is foreseeable.
+--------------------------
+#249 because some jurisdictions do not allow the exclusion or limitation of liability for consequential or incidental damages, the above limitation may not apply to you in such a case.
+--------------------------
+#250 maplesoft’s maximum aggregate liability to you shall not exceed the amount paid by you for the software.
+--------------------------
+#251 the limitations of this section shall apply whether or not the alleged breach or default is a breach of a fundamental condition or term.
+--------------------------
+#252 some jurisdictions do not allow limitations on duration of animplied warranty, so the above limitation may not apply to you.
+--------------------------
+#253 18.
+--------------------------
+#254 secure information and privacy.
+
+--------------------------
+#255 (a) neither maplesoft, nor its suppliers nor partners, warrant or represent that any data stored by the software is held securely against loss or unauthorized access.
+
+--------------------------
+#256 (b) where you disclose personal information to maplesoft, you represent, warrant, and covenant that:
+
+--------------------------
+#257 (i)
+--------------------------
+#258 you are solely and exclusively responsible for the collection, accuracy or completeness of personal information disclosed, or provided, to maplesoft, whether such personal information was generated directly by you or through an agent employed by you;
+(ii)
+--------------------------
+#259 all personal information disclosed to maplesoft has been collected and disclosed in accordance with all applicable laws pertaining to the personal information in question, and where applicable, all applicable consents to disclose to maplesoft or, more generally, a service provider to you, have been obtained from the individual(s) whose personal information is provided;
+(iil) you grant to maplesoft the right to use the personal information for any purpose associated with the provision of its elite maintenance program (if applicable) to you; and
+(iv)
+--------------------------
+#260 you will identify an individual, employed or otherwise authorized by you, to respond to enquiries concerning any personal information provided to maplesoft and to promptly address all enquiries concerning such information.
+
+--------------------------
+#261 (c) maplesoft’s privacy policy can be found at http://www.maplesoft.com/privacy.
+
+--------------------------
+#262 19.
+--------------------------
+#263 indemnity.
+
+--------------------------
+#264 you agree to indemnify and hold maplesoft and any third party licensors harmless from and against any loss, liability, cost, expense or damage (including reasonable legal fees) arising directly or indirectly out of any claim, suit action or judgment brought against maplesoft or its affiliates related to any act or omission by you relating to the software, including but not limited to the provision by you of any products or services, any representations, warranties or covenants made by you, any failure by you to comply with any of the terms of this agreement, or violation by you of any provincial, state, federal, foreign, or other laws or regulations or any third party rights.
+
+--------------------------
+#265 20.
+--------------------------
+#266 compliance and audit rights.
+
+--------------------------
+#267 during the duration of this agreement and for two (2) years after its expiration or termination, you will maintain accurate records of your use of the software sufficient to show compliance with the terms of this agreement.
+--------------------------
+#268 you agree to notify maplesoft promptly of any failure by you to comply with one or more licenses granted under this agreement, or any failure to comply with any other material term of this agreement.
+--------------------------
+#269 to confirm your compliance with the terms and conditions of this agreement, you agree to allow a third party auditor appointed by maplesoft or by a third party licensor (if applicable) (the “auditor’’) to audit your use of the software, and to provide the auditor access to your facilities, sites, cpus and computer systems, and cooperation from your employees and consultants, as reasonably requested by the auditor in order to perform such audit, all during normal business hours, and after reasonable prior notice from auditor.
+--------------------------
+#270 if an audit discloses that you has failed to comply with one or more licenses, and such failure to comply could have in part or in whole been avoided by you having paid additional fees to expand the scope of the license or licenses, then you shall promptly pay maplesoft or the third party licensor, as the case may be, such licensing fees (at payee’s then current rates)
+--------------------------
+#271 and, if such unpaid license fees exceed 5% of the license fees paid for the applicable software during the applicable period during which such underpayment occurred, then you shall, in addition to paying the unpaid fees, also reimburse maplesoft or the third party licensor, as the case may be, the full cost of such audit.
+
+--------------------------
+#272 21.
+--------------------------
+#273 general terms and conditions.
+--------------------------
+#274 (a) export controls.
+--------------------------
+#275 the software is subject at all times to all applicable export control laws and regulations
+of canada in force from time to time.
+--------------------------
+#276 you agree that you shall not make any disposition of the software purchased or licensed from maplesoft that would violate those laws or regulations or would be(b)
+(d)
+
+--------------------------
+#277 (e)
+(g)
+(h)
+contrary to the terms of this agreement.
+
+--------------------------
+#278 federal acquisition.
+--------------------------
+#279 this software is a commercial product that has been developed exclusively at private expense or with public funds from sources other than the united states government.
+--------------------------
+#280 if this software and documentation is acquired directly or indirectly on behalf of a unit or agency of the united states government under the terms of (i) a united states department of defense contract, then pursuant to dod far supplement 227.7202-3(a), the united states government shall only have the rights set forth in this license agreement; or (ii) a civilian agency contract, then use, reproduction, or disclosure is subject to the restrictions set forth in far clause 27.405(b)(2)(i), entitled acquisition of existing computer software, and any restrictions in the agency's far supplement and any successor regulations thereto, and the restrictions set forth in this license agreement.
+--------------------------
+#281 if this agreement and the licenses herein fail to meet the united states government’s needs or are inconsistent in any respect with u.s. federal procurement law, the government agrees to return the software, unused, to maplesoft.
+
+--------------------------
+#282 for european union users only.
+--------------------------
+#283 any contractual provisions of this agreement contrary to laws implemented under article 6 of appendix v of the european union software directive or to the exceptions provided for in article 5(2) and (3) of such appendix, as amended from time to time, shall be null and void solely to the extent decompiling, disassembling, or otherwise reverse-engineering of the software is necessary to enable you to create an independent software that is interoperable with the software or any other permitted objectives specified by such laws implemented under such directive (collectively, the “permitted objectives”),
+--------------------------
+#284 provided that any such information gained is used solely for such permitted objectives.
+
+--------------------------
+#285 governing law.
+--------------------------
+#286 this agreement is governed by the laws of the province of ontario, canada and, if the software was acquired within canada, each of the parties hereto irrevocably attorns to the exclusive jurisdiction of the courts of the province of ontario without regard to conflicts of laws principles.
+--------------------------
+#287 if the software was acquired outside canada, each of the parties hereto irrevocably attorns to the non-exclusive jurisdiction of the courts of the province of ontario;
+--------------------------
+#288 provided that you agree that any claim or action brought by you shall be commenced in the courts of the province of ontario.
+--------------------------
+#289 the parties agree that the united nations convention on contracts for the international sale of goods does not apply to this agreement.
+
+--------------------------
+#290 successors and assigns.
+--------------------------
+#291 these terms and conditions inure to the benefit of and shall be binding upon,
+--------------------------
+#292 our respective heirs, successors or permitted assigns.
+--------------------------
+#293 you shall not assign this agreement.
+
+--------------------------
+#294 invalidity of terms.
+--------------------------
+#295 if any of these terms and conditions are found by a court of competent jurisdiction to be invalid, the parties hereto nevertheless agree that the court should endeavour to give effect to the parties’ intentions as reflected in such term or condition, and the other terms and conditions shall remain in full force and effect.
+
+--------------------------
+#296 acknowledgement.
+--------------------------
+#297 you acknowledge that you have read this agreement, an addendum thereto and limited warranty, understood them, and agrees to be bound by their terms and conditions.
+--------------------------
+#298 you also agree that this agreement and the applicable addenda hereto is the complete and exclusive agreement between you and maplesoft with respect to the software, and supersedes all prior agreements, representations and any other communications, oral or written, between you and maplesoft relating to the subject matter of the agreement including, without limitation, any warranties with respect to the software.
+--------------------------
+#299 this agreement may only be amended by written agreement of both parties.
+
+--------------------------
+#300 entire agreement.
+--------------------------
+#301 unless otherwise agreed to by maplesoft in writing, this agreement (including all terms incorporated herein by reference) constitutes the entire agreement between the parties pertaining to the subject matter hereof and supersedes all agreements, understandings, negotiations and discussions, whether oral or written, of the parties and there are no warranties, representations or other agreements between the parties in connection with the subject matter hereof except as specifically set forth herein.schedule a: definitions the following terms shall have the following meanings.
+
+--------------------------
+#302 “academic institution” means a degree-granting educational institution utilizing the software for academic purposes only, as per the order confirmation.
+
+--------------------------
+#303 “affiliate” means, with respect to a party to this agreement, any individual or entity which, directly or indirectly controls, is controlled by, or is under common control with such party.
+--------------------------
+#304 the term “control” means possession, direct or indirect, of the power to direct or cause the direction of the management of policies of a person or entity; whether through ownership or equity participation, voting securities, beneficial interest, contract, agreement or otherwise.
+
+--------------------------
+#305 “documentation” means the user guides, study guides and other documentation made available by maplesofit from time to time, whether or not made available in connection with the delivery of the software, as may be updated from time to time.
+--------------------------
+#306 documentation may be delivered in printed and/or online forms, and in one or more languages.
+
+--------------------------
+#307 “entity” means a corporation, an association, a joint venture, a partnership, a trust, a business, an individual, an it professional, an academic institution, including an agency, or any organization that can exercise independent legal standing.
+
+--------------------------
+#308 “elite maintenance program” means the services rendered by maplesoft to you as described at www.maplesoft.com/emp.
+
+--------------------------
+#309 “fee” means the fee payable to maplesoft by you as set out in the order confirmation for the software and, if specifically identified on the order confirmation the elite maintenance program.
+
+--------------------------
+#310 “internal use” means the use of the software by you, if you are an individual and otherwise (as applicable and to the extent permitted in this agreement) by your affiliate’s employees, teaching assistants, student interns, and contractors (provided that in the case of contractors, such contractors are engaged by you or your affiliate to discharge their duties only on your premises).
+
+--------------------------
+#311 “license” has the meaning set forth in section 5.
+
+--------------------------
+#312 “license option” means the specific rights, restrictions, and obligations under which you may install and use the software pursuant to this agreement, including those related to the permitted installation type(s) associated with the license option acquired, as selected in the order confirmation.
+
+--------------------------
+#313 “maplenet” means maplenet™ software enabling you (or users accessing maplenet through your site) to deploy and deliver maplenet enabled content through a core or cores (as per the order confirmation) owned, leased or controlled by you.
+
+--------------------------
+#314 “maplesim server” means maplesim server software enabling you (or users accessing maplesim server through your site) to deploy and deliver maplesim server enabled content through a core or cores (as per the order confirmation) owned, leased or controlled by you.
+
+--------------------------
+#315 “maplets” means the applet interface to be used by users of your site to obtain or deliver mathematical calculations from and/or to the maplenet™ software, including, but not limited to web browsers, java programs, or other software, provided that the interface shall not be a graphical user interface product known as the “maple worksheet / document”, as same may be enhanced, modified or improved from time to time.
+
+--------------------------
+#316 “maple worksheets / documents” means an electronic document produced and displayed by maplesoft with all capabilities and attributes imparted to it by the software.
+
+--------------------------
+#317 “other educational institutions” means secondary schools, colleges, vocational institutes and/or other non-commercial educational institutions offering recognised courses of study or leading to an accredited diploma.
+--------------------------
+#318 a commercial user of the software may, at maplesoft’s sole discretion, be deemed to be an “other educational institution” to the extent that the software is used by such commercial user solely for non-commercial internal training and seminars provided to its customers and staff.
+--------------------------
+#319 “order confirmation” means a document issued by maplesoft or a maplesoft authorized reseller to confirm the terms of your purchase configuration including, without limitation, software ordered, license option, installation type, and the number of licensed users (non-floating or floating) entitled to use the software.
+--------------------------
+#320 order
+--------------------------
+#321 confirmation forms may vary depending upon the type of purchase and shall include, without limitation, a maplesoft invoice or web-store confirmation.
+
+--------------------------
+#322 “personal information” means any information, recorded, in any form, about an identified individual, including users at your institution or other individuals, or an individual whose identity may be inferred or determined from the information, but does not include any information about more than one individual where the identity of the individuals is not known and cannot be inferred from the information.
+
+--------------------------
+#323 “remote access” means application virtualization or the ability to log into the software or access the software or any part thereof via the internet through services such as citrix license key sharing or similar services.
+
+--------------------------
+#324 “software” means the computer software, toolboxes, electronic books or other products and documentation delivered and licensed hereunder, including enhancements and error corrections.
+--------------------------
+#325 each product from maplesoft is a separate item of software and shall be licensed individually hereunder, all as more specifically set out in the applicable order confirmation.
+
+--------------------------
+#326 “site” means a privately or publicly accessible intranet, extranet or internet website owned or exclusively licensed to you for use by your users only.
+
+--------------------------
+#327 “student” means: (i) a full-time or part-time undergraduate student who is either working toward a degree or a diploma in an academic institution and actively enrolled therein at the material time;
+--------------------------
+#328 (ii) a student registered in a continuing or professional education program of an accredited institution; (iii) a student enrolled in a high school, vocational institute or other accredited institution; or (iv) any person endorsed by an accredited institution as being a student.
+--------------------------
+#329 students may be enrolled on campus or in distance education courses.
+--------------------------
+#330 maplesoft shall determine whether or not an institution is “accredited”, in its sole discretion.
+--------------------------
+#331 students are required to provide applicable proof of their student designation, either at time of purchase or afterward as directed by maplesoft in its sole discretion.
+
+--------------------------
+#332 “student prices” means the discounted prices at which maplesoft offers the software licenses herein to students for student use.
+
+--------------------------
+#333 “student use” means the installation and use of the software by a student in accordance with the student license option and applicable installation type acquired, only for the purpose of meeting classroom requirements of courses, self-study and personal research.
+--------------------------
+#334 for greater certainty, student use shall exclude use as an employee or otherwise for commercial gain, instruction, teaching, and commercial or academic research.
+
+--------------------------
+#335 “third party” means any person or legal entity that is not maplesoft, you, or an affiliate.
+
+--------------------------
+#336 “third party licensor” means the person who, or entity which, grants a license to maplesoft to redistribute that person’s or entity’s intellectual property, as the case may be, as set out on maplesoft’s website.
+
+--------------------------
+#337 “you or your” means the entity or entities to whom maplesoft grants the license herein and who is responsible for
+complying with the contractual obligations of the license and ensuring that anyone permitted access to the software through you, also complies with such obligations.
+
+--------------------------
+#338 20200210
+
+--------------------------
