@@ -82,6 +82,93 @@ from PIL import Image as im
 #         parsed_paragraphs += str(paragraph).lower() + "\n"
 #     return parsed_paragraphs
 
+#Similarity check and sentence output
+#Searches through all tokens to check similarity with restriction items.
+def SimilarityList(sentences):
+    sent_count = 1
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        rxsion = nlp("teaching research academic instruction remote")
+        rx_sim = 0
+        for token in doc:
+            for rx in rxsion:
+                if rx.similarity(token) > .70:
+                    rx_sim = 1
+                    sent_count += 1
+        if rx_sim == 1:
+            print(str(sent_count) + ". " + str(sentence))
+
+#Part of Speech Tagging
+def PartofSpeechList(sentences):
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+    
+
+#Purge Stop Words
+def PurgeStopList(sentences):
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        purge_string = ""
+        for token in doc:
+            if token.is_stop == 'False':
+                purge_string += str(token.text) + " "
+            else:
+                continue
+
+#Lemmatization
+def LemmaList(sentences):
+    lemma_string = ""
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            lemma_string += str(token.lemma_) + " "
+    return lemma_string
+
+#Syntactic dependency
+def SyntacticList(sentences):    
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for chunk in doc.noun_chunks:
+            print(f'{chunk.text:{30}}{chunk.root.text:{15}}{chunk.root.dep_}')
+
+#Output all token info
+def TokenList(sentences):    
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{10}} {token.is_stop}')
+
+#Find URLs
+def URLList(sentences):
+    from spacy import attrs
+    URLList = []    
+    for sentence in sentences:
+        doc = nlp(str(sentence))        
+        for token in doc:
+            if token.like_url == True:
+                URLList.append(token.text)
+    print(URLList)
+
+#Named entity recognition ORG select
+def NER_function(sentences):
+    entities = []
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for ent in doc.ents:
+            #FIND Company
+            if ent.label_.lower() == "org":
+                entities.append(ent.text.title())
+        software_company = ""
+        for token in doc:
+            if token.text.title() in entities:
+                if token.pos_ == "PROPN" and token.dep_ == "pobj":
+                    print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+            
+        print("Company = " + str(software_company))
+
+#Parse paragraphs from recognized text
 def paragraph_parse(ocr_input):    
     all_paragraphs = re.split('\n{2,}', ocr_input)
     parsed_paragraphs = ""
@@ -161,15 +248,6 @@ def vector_check(sentence):
             #print(sent_output)
             continue
 
-def remove_stop_words(sentence):
-    filtered_sentence = ""
-    for token in sentence:
-        if token.is_stop == False:
-            filtered_sentence += " " + str(token.text)
-    return filtered_sentence
-
-
-
 # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 nlp = spacy.load('en_core_web_lg')
 
@@ -177,8 +255,6 @@ nlp = spacy.load('en_core_web_lg')
 # Establishes variable for English sentence parsing method.
 sentence_parser = English()
 sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
-
-# ******************* TEST CODE *********************************
 
 # Accepts a file path as user input and strips it of quotation marks.
 #Argument input for batch processing
@@ -189,7 +265,7 @@ else:
 
 import timeit
 start = timeit.default_timer()
-#stripped_filename = '\\\\192.168.100.60\\ASEULA_Share\\ASEULA\\Python\\SynopsysBetter.pdf'
+
 stripped_filename = filename.strip('"')
 
 # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
@@ -208,14 +284,13 @@ elif stripped_filename.endswith('.docx'):
 # Checks if the input file is .pdf.
 elif stripped_filename.endswith('.pdf'):
 
-
-
-    # #LINUX OS command line conversion
-    # os.system("convert -density 300 " + stripped_filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")
+    # #LINUX OS command line conversion for tiff output
+    # os.system("convert -density 300 " + stripped_filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")    
     # os.system("tesseract tempimage.tiff extracted_text")
     # f = open("./extracted_text.txt").read()
-    # document = nlp(paragraph_parse(f))
+    # document = nlp(paragraph_parse(str(f)))    
     # os.system("rm ./tempimage.tiff")
+    # os.system("rm ./extracted_text.txt")
 
 
     # # Saves the filename to a variable and establishes image resolution.
@@ -260,95 +335,6 @@ for sent in document.sents:
 # sent_count = 1
 # for sentence in sentences:
 #     doc = nlp(str(sentence))
-
-
-
-
-    #Similarity check and sentence output
-    #Searches through all tokens to check similarity with restriction items.
-def SimilarityList(sentences):
-    sent_count = 1
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        rxsion = nlp("teaching research academic instruction remote")
-        rx_sim = 0
-        for token in doc:
-            for rx in rxsion:
-                if rx.similarity(token) > .70:
-                    rx_sim = 1
-                    sent_count += 1
-        if rx_sim == 1:
-            print(str(sent_count) + ". " + str(sentence))
-
-    #Part of Speech Tagging
-def PartofSpeechList(sentences):
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        for token in doc:
-            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
-    
-
-    #Purge Stop Words
-def PurgeStopList(sentences):
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        purge_string = ""
-        for token in doc:
-            if token.is_stop == 'False':
-                purge_string += str(token.text) + " "
-            else:
-                continue
-
-    #Lemmatization
-def LemmaList(sentences):
-    lemma_string = ""
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        for token in doc:
-            lemma_string += str(token.lemma_) + " "
-    return lemma_string
-
-    #Syntactic dependency
-def SyntacticList(sentences):    
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        for chunk in doc.noun_chunks:
-            print(f'{chunk.text:{30}}{chunk.root.text:{15}}{chunk.root.dep_}')
-
-    #Output all token info
-def TokenList(sentences):    
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        for token in doc:
-            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{10}} {token.is_stop}')
-
-    #Find URLs
-def URLList(sentences):
-    from spacy import attrs
-    URLList = []    
-    for sentence in sentences:
-        doc = nlp(str(sentence))        
-        for token in doc:
-            if token.like_url == True:
-                URLList.append(token.text)
-    print(URLList)
-
-    #Named entity recognition ORG select
-def NER_function(sentences):
-    entities = []
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        for ent in doc.ents:
-            #FIND Company
-            if ent.label_.lower() == "org":
-                entities.append(ent.text.title())
-        software_company = ""
-        for token in doc:
-            if token.text.title() in entities:
-                if token.pos_ == "PROPN" and token.dep_ == "pobj":
-                    print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
-            
-        print("Company = " + str(software_company))        
 
 print(LemmaList(sentences))
 URLList(sentences)
