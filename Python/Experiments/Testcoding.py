@@ -68,6 +68,10 @@ import pytesseract as tess
 tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 from PIL import Image as im
 
+# Match function
+
+# PraseMatch Function
+
 # Paragraph separation and fix
 # def paragraph_parse_lower(ocr_input):
 #     # ocr_input = ocr_input.read()
@@ -251,70 +255,103 @@ sentences = []
 for sent in document.sents:
     sentences.append(sent) # Append sentences in array for future comparison
 
-#Sentence Array NLP document creation
-sent_count = 1
-for sentence in sentences:    
-    doc = nlp(str(sentence))
+
+# #Sentence Array NLP document creation
+# sent_count = 1
+# for sentence in sentences:
+#     doc = nlp(str(sentence))
 
 
 
 
-    # #Similarity check and sentence output
-    # rxsion = nlp("teaching research academic instruction remote")
-    # rx_sim = 0
-    # for token in doc:
-    #     for rx in rxsion:
-    #         if rx.similarity(token) > .70:
-    #             rx_sim = 1
-    #             sent_count += 1
-    # if rx_sim == 1:
-    #     print(str(sent_count) + ". " + str(sentence))
+    #Similarity check and sentence output
+    #Searches through all tokens to check similarity with restriction items.
+def SimilarityList(sentences):
+    sent_count = 1
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        rxsion = nlp("teaching research academic instruction remote")
+        rx_sim = 0
+        for token in doc:
+            for rx in rxsion:
+                if rx.similarity(token) > .70:
+                    rx_sim = 1
+                    sent_count += 1
+        if rx_sim == 1:
+            print(str(sent_count) + ". " + str(sentence))
 
-    # #Part of Speech Tagging
-    # for token in doc:
-    #     print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
-    # sent_count += 1
+    #Part of Speech Tagging
+def PartofSpeechList(sentences):
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+    
 
-    # #Purge Stop Words
-    # purge_string = ""
-    # for token in doc:
-    #     if token.is_stop == 'False':
-    #         purge_string += str(token.text) + " "
-    #     else:
-    #         continue
+    #Purge Stop Words
+def PurgeStopList(sentences):
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        purge_string = ""
+        for token in doc:
+            if token.is_stop == 'False':
+                purge_string += str(token.text) + " "
+            else:
+                continue
 
-    # #Lemmatization
-    # lemma_string = ""
-    # for token in doc:
-    #     purge_string += str(token.lemma_) + " "
+    #Lemmatization
+def LemmaList(sentences):
+    lemma_string = ""
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            lemma_string += str(token.lemma_) + " "
+    return lemma_string
 
-    # #Syntactic dependency
-    # for chunk in doc.noun_chunks:
-    #     print(f'{chunk.text:{30}}{chunk.root.text:{15}}{chunk.root.dep_}')
+    #Syntactic dependency
+def SyntacticList(sentences):    
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for chunk in doc.noun_chunks:
+            print(f'{chunk.text:{30}}{chunk.root.text:{15}}{chunk.root.dep_}')
 
-    # #Output all token info
-    # for token in doc:
-    #     print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{10}} {token.is_stop}')
+    #Output all token info
+def TokenList(sentences):    
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{10}} {token.is_stop}')
+
+    #Find URLs
+def URLList(sentences):
+    from spacy import attrs
+    URLList = []    
+    for sentence in sentences:
+        doc = nlp(str(sentence))        
+        for token in doc:
+            if token.like_url == True:
+                URLList.append(token.text)
+    print(URLList)
 
     #Named entity recognition ORG select
-    ent_cnt = 0
-    entities = {}
-    for ent in doc.ents:
-        #FIND Company    
-        if ent.label_.lower() == "org":
-            entities['ent.text.title()'] += 1
-            print(entities['ent.text.title()'])
-    print(entities)
-    software_company = ""
-    for token in doc:
-        if token.text.capitalize() in entities:        
-            if token.pos_ == "PROPN" and token.dep_ == "pobj":
-                print("YOUR COMPANY NAME IS: " + str(token.text.capitalize()))
-        print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
-        ent_cnt += 1
-    print("Company = " + str(software_company))
-    print("Total Entities = " + str(ent_cnt))
+def NER_function(sentences):
+    entities = []
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for ent in doc.ents:
+            #FIND Company
+            if ent.label_.lower() == "org":
+                entities.append(ent.text.title())
+        software_company = ""
+        for token in doc:
+            if token.text.title() in entities:
+                if token.pos_ == "PROPN" and token.dep_ == "pobj":
+                    print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+            
+        print("Company = " + str(software_company))        
 
+print(LemmaList(sentences))
+URLList(sentences)
 
 #Process runtime output
 end = timeit.default_timer()
