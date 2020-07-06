@@ -1,28 +1,3 @@
-# #Vector Check Function
-# def vector_check(sentence):
-#     patterns = ["teaching", "only" , "instructional", "academic","research", "remote access"]
-
-#     restriction_token = ""
-#     for element in patterns:    
-#         restriction_token = nlp(element)
-    
-#         doc_token = nlp(sentence)
-#         for token in restriction_token:
-#             sent_output = ""
-#             sent_inc = 0
-#             #print(token.text, token.has_vector, token.vector_norm, token.is_oov)
-#             for token1 in doc_token:
-#                 token_sim = token.similarity(token1)
-#                 if token_sim > .60:
-#                     sent_output += " **" + str(token1) + "**"
-#                     #print(token.text, token1.text, str(token.similarity(token1) * 100) + "% Similar")
-#                     sent_inc += 1
-#                 else:
-#                     sent_output += " " + str(token1)
-#         if sent_inc > 0:
-#             #print(sent_output)
-#             continue
-
 # #Tesseract output defaults to unicode that causes errors when executed by Windows
 # #Convert_ansi detects if windows is being utilized and converts to an acceptable format
 # # def convert_ansi(file_input):
@@ -68,42 +43,105 @@ import pytesseract as tess
 tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 from PIL import Image as im
 
+# Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
+nlp = spacy.load('en_core_web_lg')
+
+# Establishes variable for English sentence parsing method.
+sentence_parser = English()
+sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
+
+# ASEULA FUNCTIONS
+
 # Match function
 
 # PraseMatch Function
 
-# Paragraph separation and fix
-# def paragraph_parse_lower(ocr_input):
-#     # ocr_input = ocr_input.read()
-#     all_paragraphs = re.split('\n{2,}', ocr_input)
-#     parsed_paragraphs = ""
-#     for paragraph in all_paragraphs:
-#         paragraph = paragraph.replace("\n", " ")
-#         parsed_paragraphs += str(paragraph).lower() + "\n"
-#     return parsed_paragraphs
-
 #Similarity check and sentence output
 #Searches through all tokens to check similarity with restriction items.
+
+def ProcessInputFile(inputfilename):
+    # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
+    # Checks if the input file is .txt.
+    if stripped_filename.endswith('.txt'):
+        # Opens the .txt file.
+        open_file = open(stripped_filename).read()
+        # Performs NLP on the .txt file.
+        return open_file
+    # Checks if the input file is .docx.
+    elif stripped_filename.endswith('.docx'):
+        # Converts the .docx file to plaintext.
+        open_file = docx2txt.process(stripped_filename)
+        # Performs NLP on the converted plaintext.
+        return open_file
+    # Checks if the input file is .pdf.
+    elif stripped_filename.endswith('.pdf'):
+
+        # #LINUX OS command line conversion for tiff output
+        # os.system("convert -density 300 " + stripped_filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")    
+        # os.system("tesseract tempimage.tiff extracted_text")
+        # f = open("./extracted_text.txt").read()
+        # document = nlp(paragraph_parse(str(f)))    
+        # os.system("rm ./tempimage.tiff")
+        # os.system("rm ./extracted_text.txt")
+
+
+        # # Saves the filename to a variable and establishes image resolution.
+        pdf = wi(filename = stripped_filename, resolution = 300)
+        # Converts pdf to jpeg.
+        pdfImg = pdf.convert('jpeg')
+        # Establishes a variable to hold JPEG text.    
+        open_file = ""
+        # Loops through each image (one image per page) for the input PDF document.
+        for img in pdfImg.sequence:
+            page = wi(image = img)
+            # Opens image.
+            pic = im.open(io.BytesIO(page.make_blob('jpeg')))
+            # Performs text recognition on the open image.
+            text = tess.image_to_string(pic, lang = 'eng')
+            # Appends text from image to open_file string.        
+            open_file += text
+        return open_file
+
+    else:
+        # Prints an error message if the input file does not match one of the supported formats.
+        print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
+
+def SimilarityValueList(sentences):
+    sent_count = 1
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        rxsion = nlp("teaching research academic instruction remote distant instruct teach")
+        rx_sim = 0
+        for token in doc:
+            for rx in rxsion:
+                if rx.similarity(token) > .80:
+                    print(f'{token.text:{15}}{rx.text:{15}}{rx.similarity(token) * 100}')
+                    rx_sim = 1                    
+        if rx_sim == 1:            
+            #print(str(sent_count) + ". " + str(sentence))
+            sent_count += 1
+
 def SimilarityList(sentences):
     sent_count = 1
     for sentence in sentences:
         doc = nlp(str(sentence))
-        rxsion = nlp("teaching research academic instruction remote")
+        rxsion = nlp("teaching research academic instruction remote distant instruct teach")
         rx_sim = 0
         for token in doc:
             for rx in rxsion:
-                if rx.similarity(token) > .70:
-                    rx_sim = 1
-                    sent_count += 1
-        if rx_sim == 1:
+                if rx.similarity(token) > .80:
+                    #print(f'{token.text:{15}}{rx.text:{15}}{rx.similarity(token) * 100}')
+                    rx_sim = 1                    
+        if rx_sim == 1:            
             print(str(sent_count) + ". " + str(sentence))
+            sent_count += 1
 
 #Part of Speech Tagging
 def PartofSpeechList(sentences):
     for sentence in sentences:
         doc = nlp(str(sentence))
         for token in doc:
-            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}} {token.has_vector:{15}} ')
     
 
 #Purge Stop Words
@@ -123,6 +161,7 @@ def LemmaList(sentences):
     for sentence in sentences:
         doc = nlp(str(sentence))
         for token in doc:
+            print(f'{token.text:{15}} {token.lemma_:{15}} ')
             lemma_string += str(token.lemma_) + " "
     return lemma_string
 
@@ -149,7 +188,9 @@ def URLList(sentences):
         for token in doc:
             if token.like_url == True:
                 URLList.append(token.text)
-    print(URLList)
+    print("\nURL Strings identified in the document: \n")
+    for url in URLList:
+        print(str(url))
 
 #Named entity recognition ORG select
 def NER_function(sentences):
@@ -157,6 +198,7 @@ def NER_function(sentences):
     for sentence in sentences:
         doc = nlp(str(sentence))
         for ent in doc.ents:
+            print(f'{ent.text:{30}} {ent.label_:{15}}')
             #FIND Company
             if ent.label_.lower() == "org":
                 entities.append(ent.text.title())
@@ -164,11 +206,9 @@ def NER_function(sentences):
         for token in doc:
             if token.text.title() in entities:
                 if token.pos_ == "PROPN" and token.dep_ == "pobj":
-                    print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
-            
-        print("Company = " + str(software_company))
+                    #print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+                    continue
 
-#Parse paragraphs from recognized text
 def paragraph_parse(ocr_input):    
     all_paragraphs = re.split('\n{2,}', ocr_input)
     parsed_paragraphs = ""
@@ -186,15 +226,6 @@ def array_mode(list):
 def remove_duplicate(array):
     array = list(dict.fromkeys(array))
     return array
-
-
-# Function that returns array elements as string.
-# def array_to_string(array):
-#     array_string = ""
-#     for element in array:
-#         array_string += element
-#     return array_string
-
 
 # Function that returns array elements as string.
 def array_to_string(array):
@@ -223,38 +254,35 @@ def ask_user():
         print(error)
         return ask_user()
 
-#Vector Check Function
-def vector_check(sentence):
-    patterns = ["teaching", "only" , "instructional", "academic","research", "remote access"]
+# #Vector Check Function
+# def vector_check(sentence):
+#     patterns = ["teaching", "only" , "instructional", "academic","research", "remote access"]
 
-    restriction_token = ""
-    for element in patterns:    
-        restriction_token = nlp(element)
+#     restriction_token = ""
+#     for element in patterns:    
+#         restriction_token = nlp(element)
     
-        doc_token = nlp(sentence)
-        for token in restriction_token:
-            sent_output = ""
-            sent_inc = 0
-            #print(token.text, token.has_vector, token.vector_norm, token.is_oov)
-            for token1 in doc_token:
-                token_sim = token.similarity(token1)
-                if token_sim > .60:
-                    sent_output += " **" + str(token1) + "**"
-                    #print(token.text, token1.text, str(token.similarity(token1) * 100) + "% Similar")
-                    sent_inc += 1
-                else:
-                    sent_output += " " + str(token1)
-        if sent_inc > 0:
-            #print(sent_output)
-            continue
-
-# Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
-nlp = spacy.load('en_core_web_lg')
+#         doc_token = nlp(sentence)
+#         for token in restriction_token:
+#             sent_output = ""
+#             sent_inc = 0
+#             #print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+#             for token1 in doc_token:
+#                 token_sim = token.similarity(token1)
+#                 if token_sim > .60:
+#                     sent_output += " **" + str(token1) + "**"
+#                     #print(token.text, token1.text, str(token.similarity(token1) * 100) + "% Similar")
+#                     sent_inc += 1
+#                 else:
+#                     sent_output += " " + str(token1)
+#         if sent_inc > 0:
+#             #print(sent_output)
+#             continue
 
 
-# Establishes variable for English sentence parsing method.
-sentence_parser = English()
-sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
+
+
+# ################  SCRIPT RUN START ########################
 
 # Accepts a file path as user input and strips it of quotation marks.
 #Argument input for batch processing
@@ -262,92 +290,43 @@ if len(sys.argv) > 1:
     filename = sys.argv[1]
 else:    
     filename = input("Please enter the absolute path for the file you would like to process. ")
+stripped_filename = filename.strip('"')
 
 import timeit
 start = timeit.default_timer()
 
-stripped_filename = filename.strip('"')
-
-# Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
-# Checks if the input file is .txt.
-if stripped_filename.endswith('.txt'):
-    # Opens the .txt file.
-    open_file = open(stripped_filename).read()
-    # Performs NLP on the .txt file.
-    document = open_file
-# Checks if the input file is .docx.
-elif stripped_filename.endswith('.docx'):
-    # Converts the .docx file to plaintext.
-    open_file = docx2txt.process(stripped_filename)
-    # Performs NLP on the converted plaintext.
-    document = open_file
-# Checks if the input file is .pdf.
-elif stripped_filename.endswith('.pdf'):
-
-    # #LINUX OS command line conversion for tiff output
-    # os.system("convert -density 300 " + stripped_filename + " -depth 8 -strip -background white -alpha off tempimage.tiff")    
-    # os.system("tesseract tempimage.tiff extracted_text")
-    # f = open("./extracted_text.txt").read()
-    # document = nlp(paragraph_parse(str(f)))    
-    # os.system("rm ./tempimage.tiff")
-    # os.system("rm ./extracted_text.txt")
-
-
-    # # Saves the filename to a variable and establishes image resolution.
-    pdf = wi(filename = stripped_filename, resolution = 300)
-    # Converts pdf to jpeg.
-    pdfImg = pdf.convert('jpeg')
-    # Establishes a variable to hold JPEG text.    
-    open_file = ""
-    # Loops through each image (one image per page) for the input PDF document.
-    for img in pdfImg.sequence:
-        page = wi(image = img)
-        # Opens image.
-        pic = im.open(io.BytesIO(page.make_blob('jpeg')))
-        # Performs text recognition on the open image.
-        text = tess.image_to_string(pic, lang = 'eng')
-        # Appends text from image to open_file string.        
-        open_file += text
-        document = open_file
-
-#Remove stop words
-
-#     # Performs NLP on complete open_file string.
-    #document = nlp(open_file)
-    #document = nlp(paragraph_parse(open_file))
-
-
-
-else:
-    # Prints an error message if the input file does not match one of the supported formats.
-    print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
-
-
-
-#Break into sentence array and store for analyzing.
-document = nlp(paragraph_parse(document))
+#Transfer document text into sentence array and store for analyzing.
+document = nlp(ProcessInputFile(stripped_filename))
 sentences = []
 for sent in document.sents:
     sentences.append(sent) # Append sentences in array for future comparison
 
+#*********************** RUN COMMANDS HERE **************************
 
-# #Sentence Array NLP document creation
-# sent_count = 1
-# for sentence in sentences:
-#     doc = nlp(str(sentence))
 
-print(LemmaList(sentences))
-URLList(sentences)
 
+
+#print(LemmaList(sentences))
+#NER_function(sentences)
+SimilarityList(sentences)
+#SimilarityValueList(sentences)
+#PartofSpeechList(sentences)
+#URLList(sentences)
+
+
+
+
+#VectorSimilarityList(sentences)
+#************************* END RUN AREA ****************************
 #Process runtime output
 end = timeit.default_timer()
 runtime = end - start
 if runtime > 59:
-    print("Job runtime: " + str(runtime/60) + " Minutes")
+    print("\nJob runtime: " + str(runtime/60) + " Minutes\n")
 else:
-    print("Job runtime: " + str(runtime) + " Seconds")
+    print("\nJob runtime: " + str(runtime) + " Seconds\n")
 
-# # # # Displacy output to browser
+# # Displacy output to browser
 # from spacy import displacy
 # #Obtain IP for browser view
 # import socket
