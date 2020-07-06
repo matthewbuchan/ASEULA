@@ -38,9 +38,9 @@ from statistics import mode
 from wand.image import Image as wi
 import pytesseract as tess
 # #Windows
-# tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 #Linux
-tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+#tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 from PIL import Image as im
 
 # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
@@ -198,10 +198,11 @@ def NER_function(sentences):
     for sentence in sentences:
         doc = nlp(str(sentence))
         for ent in doc.ents:
-            print(f'{ent.text:{30}} {ent.label_:{15}}')
+            #print(f'{ent.text:{30}} {ent.label_:{15}}')
             #FIND Company
             if ent.label_.lower() == "org":
                 entities.append(ent.text.title())
+                print(f'{ent.text:{30}} {ent.label_:{15}}')
         software_company = ""
         for token in doc:
             if token.text.title() in entities:
@@ -308,10 +309,10 @@ for sent in document.sents:
 
 #print(LemmaList(sentences))
 #NER_function(sentences)
-SimilarityList(sentences)
+#SimilarityList(sentences)
 #SimilarityValueList(sentences)
 #PartofSpeechList(sentences)
-#URLList(sentences)
+URLList(sentences)
 
 
 
@@ -335,5 +336,5 @@ else:
 # i = 1
 # for sentence in sentences:
 #     print("Sentence " + str(i) + " of " + str(len(sentences)))
-#     displacy.serve(sentence, style='dep')
+#     displacy.serve(sentence, style='dep') # OR ent
 #     input()
