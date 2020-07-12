@@ -20,32 +20,24 @@ import statistics
 from statistics import mode
 from wand.image import Image as wi
 import pytesseract as tess
+from tqdm import tqdm # Progress Bar (pip install tqdm)
+from colored import fg, bg, attr # Text color change (pip install colored)
 # #Windows
-tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 #Linux
-# tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 from PIL import Image as im
 
 # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
-nlp = spacy.load('en_core_web_lg')
+nlp = spacy.load('en_core_web_sm')
 
 # Establishes variable for English sentence parsing method.
 sentence_parser = English()
 sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
 
-# ASEULA FUNCTIONS
-
-def ProgressBar(currentItem, totalItems):
-    from tqdm import tqdm
-    pNum = (currentItem/totalItems) * 100
-    sys.stdout.write('\r')
-    sys.stdout.write("[%-100s] %d%%" % ('='*int(pNum), pNum))
-    sys.stdout.flush()
-    
-    
+###############################################    FUNCTIONS    ###############################################
     
 def ProcessInputFile(inputfilename):
-    from tqdm import tqdm
     # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
     # Checks if the input file is .txt.
     if inputfilename.endswith('.txt'):
@@ -70,7 +62,7 @@ def ProcessInputFile(inputfilename):
         # Loops through each image (one image per page) for the input PDF document.
         #for img in pdfImg.sequence: #2.305 MINUTES
         #for img in tqdm(pdfImg.sequence, ascii=True, desc=inputfilename): #2.28 MINUTES
-        for img in tqdm(pdfImg.sequence, desc=inputfilename): #2.274 MINUTES
+        for img in tqdm(pdfImg.sequence, desc=os.path.basename(inputfilename)): #2.274 MINUTES
             # ProgressBar(pdfImg.sequence.index(img),len(pdfImg.sequence))
             page = wi(image = img)
             # Opens image.
@@ -84,6 +76,207 @@ def ProcessInputFile(inputfilename):
     else:
         # Prints an error message if the input file does not match one of the supported formats.
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
+
+def paragraph_parse(ocr_input):    
+    all_paragraphs = re.split('\n{2,}', ocr_input)
+    parsed_paragraphs = ""
+    for paragraph in all_paragraphs:
+        paragraph = paragraph.replace("\n", " ")
+        parsed_paragraphs += str(paragraph) + "\n"    
+    return parsed_paragraphs
+
+def URLList(sentences):
+    from spacy import attrs
+    URLList = []    
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            if token.like_url == True:
+                URLList.append(token.text)
+    return URLList
+
+def ASEULA_Function(document):    
+    # Establishes variable to store matching entities.
+    organization_entity_array = []
+    # Establishes a variable to hold search patterns.
+    publisher_patterns = ["inc", "inc.","llc","incorporated", "©", "copyright"]
+    # Iterates through each entity in the input file.
+    for entity in document.ents:
+        # Checks if entities in input file have the ORG label.
+        if entity.label_ == "ORG":
+            if any(pattern in entity.text.lower() for pattern in publisher_patterns):
+                for element in publisher_patterns:
+                    if entity.text != element:
+                        organization_entity_array.append(entity.text)
+                        organization_entity_array.append(entity.text)
+                        # print(f'{entity.text:{30}} {entity.label_:{30}} ')
+                    # print(f'{entity.text:{30}} {entity.label_:{30}} ')
+            organization_entity_array.append(entity.text)
+        
+
+            # Appends all entities with ORG label that contain any elements from the publisher_patterns array to the organization_entiity_array array.
+        
+        # #SEARCH STRING FOR ENTITIES
+        # if "org" in entity.label_.lower():
+        # if "autodesk" in entity.text.lower():
+        #     print(f'{entity.text:{30}} {entity.label_:{30}} ')
+        # print(f'{entity.text.title():{30}} {entity.label_:{30}} ')
+                    
+    # Checks if organization_entity_array is empty. Prints mode of the array if elements exist.
+    if organization_entity_array:
+        # Sets publisher_name as the mode of organization_entity_array.
+        publisher_name = array_mode(organization_entity_array)
+        publisher_name = publisher_name.replace('\n', ' ')
+    else:
+        # Sets publisher_name as "Unknown."
+        publisher_name = "Unknown"
+
+    # Establishes variable to store matching entities.
+    person_entity_string = ""
+    # Iterates through each entity in the input file.
+    for entity in document.ents:
+        # Checks if entities in input file have the PERSON label.
+        if entity.label_ == "PERSON":
+            # Appends entities to the person_entity_string variable.
+            person_entity_string += entity.text + "\n"
+    # Must perform NLP on string again because it does not carry over from original input file.
+    propn_check = nlp(person_entity_string)
+
+    # Establishes variable to store matching entities.
+    propn_token_array = []
+    # Iterates through each token in the input file.
+    for token in propn_check:
+        # Checks if entities with the PERSON label have PROPN part of speech.
+        if token.pos_ == "PROPN":
+            # Appends all entities with PERSON label and PROPN part of speech to an array.
+            propn_token_array.append(token.text)
+    # Checks if the propn_token_array is empty. Prints mode of the array if elements exist.
+    clean_propn_token_array = remove_duplicate(propn_token_array)
+    matching = [item for item in clean_propn_token_array if item in publisher_name]
+    # Removes any duplicate array elements from matching.
+    stripped_matching = remove_duplicate(matching)
+    if matching:
+        # Sets software_name as the string for the stripped_matching array.
+        software_name = array_to_string(stripped_matching)
+    elif not matching:
+        # Sets software_name as the mode of propn_token_array.
+        software_name = array_mode(propn_token_array)
+    else:
+        # Sets software_name as "Unknown."
+        software_name = "Unknown"
+
+    # Extracts each word within the input file as an array. Space characters used as a delimiter.
+    token_split = document.text.split(" ")
+    # Establiishes an empty array to hold all possible URL matches.
+    url_array = []
+    # Iterates through each item in the token_split array.
+    for item in token_split:
+        # Strips parentheses from each array item.
+        stripped_item = item.strip('()')
+        # Establishes a pattern to verify valid URLs.
+        regex = re.compile(r'(https?://?\S+)')
+    # Checks if any items in the token_split array match the regular expression (regex variable). If so, the list item is appended to the url_array array.
+        if re.match(regex, stripped_item):
+            url_array.append(stripped_item)
+    
+    url_array = URLList(sentences) # FORCE URL FUNCTION FILL instead of regex
+
+    # Checks if url_array is empty. Prints mode of the array if elements exist.
+    if url_array:
+        # Sets information_webpage as the mode of url_array.
+        information_webpage = array_mode(url_array)
+        # Removes any line breaks in the extracted URL.
+        information_webpage = information_webpage.replace('\n', '')
+    else:
+        # Sets information_webpage as "Unknown."
+        information_webpage = "Unknown"
+
+    # Establishes variables to store restriction patterns and trigger words.
+    # rxions = ["rxion_instructional_patterns","rxion_research_patterns","rxion_physical_patterns","rxion_rdp_patterns","rxion_campus_patterns","rxion_radius_patterns","rxion_us_patterns","rxion_vpn_patterns","rxion_embargo_patterns","rxion_poc_patterns","rxion_lab_patterns","rxion_site_patterns"]
+    # rxions_output = ["Instructional-use only","Research-use only","Requires Physical Device","No RDP use","Use geographically limited (Campus)","Use geographically limited (radius)","US use only","VPN required off-site","Block embargoed countries","Block use from Persons of Concern","On-site (lab) use only","On-site use for on-site students only"]
+    
+    pos_trigger_words = ["only"]
+    neg_trigger_words = ["may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
+    rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", \
+    "academic use", "academic-use", "academic instruction", "academic institution", "educational instruction", "educational institution"]
+    rxion_research_patterns = ["research", "research use", "research-use"]
+    rxion_physical_patterns = ["activation key"]
+    rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop"]
+    rxion_campus_patterns = ["designated site"]
+    rxion_radius_patterns = ["radius"]
+    rxion_us_patterns = []
+    rxion_vpn_patterns = ["vpn"]
+    rxion_embargo_patterns = []
+    rxion_poc_patterns = []
+    rxion_lab_patterns = []
+    rxion_site_patterns = []
+    
+    rxion_array = []
+    rxion_sentence_array = []
+    for sentence in document.sents:
+        sentence_string = str(sentence) 
+        sentence_lower = sentence_string.lower()
+        if any(pattern in sentence_lower for pattern in rxion_instructional_patterns):
+            if any(pattern in sentence_lower for pattern in pos_trigger_words):
+                rxion_array.append("Instructional-use only")
+                print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_research_patterns):
+            if any(pattern in sentence_lower for pattern in pos_trigger_words):
+                rxion_array.append("Research-use only")
+                print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_physical_patterns):
+            rxion_array.append("Requires Physical Device")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_rdp_patterns):
+            if any(pattern in sentence_lower for pattern in neg_trigger_words):
+                rxion_array.append("No RDP use")
+                print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_campus_patterns):
+            rxion_array.append("Use geographically limited (Campus)")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_radius_patterns):
+            rxion_array.append("Use geographically limited (radius)")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_us_patterns):
+            rxion_array.append("US use only")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_vpn_patterns):
+            rxion_array.append("VPN required off-site")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_embargo_patterns):
+            rxion_array.append("Block embargoed countries")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_poc_patterns):
+            rxion_array.append("Block use from Persons of Concern")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_lab_patterns):
+            rxion_array.append("On-site (lab) use only")
+            print(HighlightText(sentence_string))
+        elif any(pattern in sentence_lower for pattern in rxion_site_patterns):
+            rxion_array.append("On-site use for on-site students only")
+            print(HighlightText(sentence_string))
+        else:
+            print(sentence_string)
+    if not rxion_array:        
+        rxion_array.append("Needs Review")
+    string_rxion_array = array_to_string(remove_duplicate(rxion_array))
+
+    return [os.path.basename(job),software_name,publisher_name,information_webpage,string_rxion_array]
+
+def OutputResults(job):
+    print("\nHere's what we found for", job[0])
+    print("-----------------------")
+    # Prints all established variables for the input file.
+    print("Software: ", job[1])
+    print("Publisher: ", job[2])
+    print("Information Webpage: ", job[3])
+    print("Licensing Restrictions: ", job[4])
+    print("-----------------------")
+
+def HighlightText(sentence):
+    highlight = fg('yellow')
+    reset = attr('reset')
+    return highlight + sentence + reset
 
 #Similarity check and sentence output
 #Searches through all tokens to check similarity with restriction items.
@@ -101,29 +294,6 @@ def SimilarityValueList(sentences, restrictions):
         if rx_sim == 1:            
             #print(str(sent_count) + ". " + str(sentence))
             sent_count += 1
-
-
-def paragraph_parse(ocr_input):    
-    all_paragraphs = re.split('\n{2,}', ocr_input)
-    parsed_paragraphs = ""
-    for paragraph in all_paragraphs:
-        paragraph = paragraph.replace("\n", " ")
-        parsed_paragraphs += str(paragraph) + "\n"    
-    return parsed_paragraphs
-
-#Find URLs
-def URLList(sentences):
-    from spacy import attrs
-    URLList = []    
-    for sentence in sentences:
-        doc = nlp(str(sentence))        
-        for token in doc:
-            if token.like_url == True:
-                URLList.append(token.text)
-    return URLList
-    # print("\nURL Strings identified in the document: \n")
-    # for url in URLList:
-    #     print(str(url))
 
 def SimilarityList(sentences, restrictions):
     sent_count = 1
@@ -183,24 +353,47 @@ def TokenList(sentences):
         for token in doc:
             print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{10}} {token.is_stop}')
 
+def RemovePunct(sentstring):
+    import string
+    nopunct = ""
+    sentstring = str(sentstring)
+    for char in sentstring:
+        if char not in string.punctuation:
+            nopunct += char    
+    return nopunct
+
 #Named entity recognition ORG select
 def NER_function(sentences):
     entities = []
     for sentence in sentences:
+        sentence = RemovePunct(sentence)
         doc = nlp(str(sentence))
         for ent in doc.ents:
-            #print(f'{ent.text:{30}} {ent.label_:{15}}')
-            #FIND Company
-            if ent.label_.lower() == "org":
-                entities.append(ent.text.title())
-                print(f'{ent.text:{30}} {ent.label_:{15}}')
-        software_company = ""
+            publisher_patterns = ["Inc", "LLC","Inc.", "Incorporated", "©", "Copyright"]
+            #FIND Orgs
+            if ent.label_.lower() == "org" and any(pattern in ent.text for pattern in publisher_patterns):                
+                for token in ent:
+                    if token.pos_ == "PROPN" and token.dep_ == "compound" or token.dep_ == "ROOT":
+                        entities.append(ent.text)
+                        print(ent.text)
+                    elif token.pos_ == "PUNCT":
+                        entities.append(ent.text)
+                        print(ent.text)
+
+            elif ent.label_.lower() == "org":
+                entities.append(ent.text)
+                print(ent.text)
+                #print(f'{ent.text:{30}} {ent.label_:{15}}')
+
         for token in doc:
             if token.text.title() in entities:
-                if token.pos_ == "PROPN" and token.dep_ == "pobj":
+                if token.pos_ == "PROPN":
                     #print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
                     continue
+    print(array_mode(entities))
+    
 
+    
 # Function that finds the mode of an array.
 def array_mode(list): 
     return(mode(list))
@@ -242,24 +435,15 @@ def ask_user():
 # Accepts a file path as user input and strips it of quotation marks.
 #Argument input for batch processing
 
+filename_array = []
 jobDataArray = []
 jobSentenceArray = []
+sentences = []
 i = 0
-if len(sys.argv) >= 2:
-    start = timeit.default_timer()
-    print("Please wait while we process your file(s)... \n")    
+if len(sys.argv) >= 2:    
     for filename in sys.argv[1:]:
         fileArray = []
-        job = filename.strip('"')
-        fileArray.append(os.path.basename(job))
-        print("\n")
-        text = ProcessInputFile(job)
-        sentences = paragraph_parse(text)
-        print(sentences)
-        #document = nlp(text)
-        #sentences = []
-        #for sent in document.sents:
-        #    sentences.append(sent) # Append sentences in array for future comparison        
+        filename_array.append(filename.strip('"'))
         i += 1
 
 else:    
@@ -269,197 +453,51 @@ else:
         inputFile = input("\n\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + "(or press enter to continue): ")        
         if inputFile != "":
             filename_array.append(inputFile.strip('"'))
-        else:
-            start = timeit.default_timer()
-            print("Please wait while we process your file(s)... ")
-            print('\n')
+        else:            
             fileInput = False
     
-    if len(filename_array) > 0:
-        for job in filename_array:
-            text = ProcessInputFile(job)
-            sentences = paragraph_parse(text)
-            document = nlp(sentences)
-            # sentences = []
-            # for sent in document.sents:
-            #     sentences.append(sent) # Append sentences in array for future comparison
-            # pubvar = GetPublisher(document)
-            # fileArray = [os.path.basename(job),GetSoftwarename(document,pubvar),pubvar,GetInfoPage(document),GetRestrictions(document)]
-            # jobDataArray.append(fileArray)
-            #jobSentenceArray.append(sentences)
-            
-            # Establishes variable to store matching entities.
-            organization_entity_array = []
-            # Establishes a variable to hold search patterns.
-            publisher_patterns = ["Inc", "Inc.", "Incorporated", "©", "Copyright"]
-            # Iterates through each entity in the input file.
-            for entity in document.ents:
-                # Checks if entities in input file have the ORG label.
-                if entity.label_ == "ORG" and any(pattern in entity.text for pattern in publisher_patterns):
-                    # Appends all entities with ORG label that contain any elements from the publisher_patterns array to the organization_entiity_array array.
-                    organization_entity_array.append(entity.text)
-            # Checks if organization_entity_array is empty. Prints mode of the array if elements exist.
-            if organization_entity_array:
-                # Sets publisher_name as the mode of organization_entity_array.
-                publisher_name = array_mode(organization_entity_array)
-                publisher_name = publisher_name.replace('\n', ' ')
-            else:
-                # Sets publisher_name as "Unknown."
-                publisher_name = "Unknown"
-
-            # Establishes variable to store matching entities.
-            person_entity_string = ""
-            # Iterates through each entity in the input file.
-            for entity in document.ents:
-                # Checks if entities in input file have the PERSON label.
-                if entity.label_ == "PERSON":
-                    # Appends entities to the person_entity_string variable.
-                    person_entity_string += entity.text + "\n"
-            # Must perform NLP on string again because it does not carry over from original input file.
-            propn_check = nlp(person_entity_string)
-
-            # Establishes variable to store matching entities.
-            propn_token_array = []
-            # Iterates through each token in the input file.
-            for token in propn_check:
-                # Checks if entities with the PERSON label have PROPN part of speech.
-                if token.pos_ == "PROPN":
-                    # Appends all entities with PERSON label and PROPN part of speech to an array.
-                    propn_token_array.append(token.text)
-            # Checks if the propn_token_array is empty. Prints mode of the array if elements exist.
-            clean_propn_token_array = remove_duplicate(propn_token_array)
-            matching = [item for item in clean_propn_token_array if item in publisher_name]
-            # Removes any duplicate array elements from matching.
-            stripped_matching = remove_duplicate(matching)
-            if matching:
-                # Sets software_name as the string for the stripped_matching array.
-                software_name = array_to_string(stripped_matching)
-            elif not matching:
-                # Sets software_name as the mode of propn_token_array.
-                software_name = array_mode(propn_token_array)
-            else:
-                # Sets software_name as "Unknown."
-                software_name = "Unknown"
-
-            # Extracts each word within the input file as an array. Space characters used as a delimiter.
-            token_split = document.text.split(" ")
-            # Establiishes an empty array to hold all possible URL matches.
-            url_array = []
-            # Iterates through each item in the token_split array.
-            for item in token_split:
-                # Strips parentheses from each array intem.
-                stripped_item = item.strip('()')
-                # Establishes a pattern to verify valid URLs.
-                regex = re.compile(r'(https?://?\S+)')
-            # Checks if any items in the token_split array match the regular expression (regex variable). If so, the list item is appended to the url_array array.
-                if re.match(regex, stripped_item):
-                    url_array.append(stripped_item)
-            print(url_array)
-            # Checks if url_array is empty. Prints mode of the array if elements exist.
-            if url_array:
-                # Sets information_webpage as the mode of url_array.
-                information_webpage = array_mode(url_array)
-                # Removes any line breaks in the extracted URL.
-                information_webpage = information_webpage.replace('\n', '')
-            else:
-                # Sets information_webpage as "Unknown."
-                information_webpage = "Unknown"
-
-            # Establishes variables to store restriction patterns and trigger words.
-            pos_trigger_words = ["only"]
-            neg_trigger_words = ["may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
-            rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", \
-            "academic use", "academic-use", "academic instruction", "academic institution", "educational instruction", "educational institution"]
-            rxion_research_patterns = ["research", "research use", "research-use"]
-            rxion_physical_patterns = ["activation key"]
-            rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop"]
-            rxion_campus_patterns = ["designated site"]
-            rxion_radius_patterns = ["radius"]
-            rxion_us_patterns = []
-            rxion_vpn_patterns = []
-            rxion_embargo_patterns = []
-            rxion_poc_patterns = []
-            rxion_lab_patterns = []
-            rxion_site_patterns = []
-
-            # 
-            rxion_array = []
-            rxion_sentence_array = []
-            for sentence in document.sents:
-                sentence_string = str(sentence) 
-                sentence_lower = sentence_string.lower()
-                if any(pattern in sentence_lower for pattern in rxion_instructional_patterns):
-                    if any(pattern in sentence_lower for pattern in pos_trigger_words):
-                        rxion_array.append("Instructional-use only")
-                if any(pattern in sentence_lower for pattern in rxion_research_patterns):
-                    if any(pattern in sentence_lower for pattern in pos_trigger_words):
-                        rxion_array.append("Research-use only")
-                if any(pattern in sentence_lower for pattern in rxion_physical_patterns):
-                    rxion_array.append("Requires Physical Device")
-                if any(pattern in sentence_lower for pattern in rxion_rdp_patterns):
-                    if any(pattern in sentence_lower for pattern in neg_trigger_words):
-                        rxion_array.append("No RDP use")
-                if any(pattern in sentence_lower for pattern in rxion_campus_patterns):
-                    rxion_array.append("Use geographically limited (Campus)")
-                if any(pattern in sentence_lower for pattern in rxion_radius_patterns):
-                    rxion_array.append("Use geographically limited (radius)")
-                if any(pattern in sentence_lower for pattern in rxion_us_patterns):
-                    rxion_array.append("US use only")
-                if any(pattern in sentence_lower for pattern in rxion_vpn_patterns):
-                    rxion_array.append("VPN required off-site")
-                if any(pattern in sentence_lower for pattern in rxion_embargo_patterns):
-                    rxion_array.append("Block embargoed countries")
-                if any(pattern in sentence_lower for pattern in rxion_poc_patterns):
-                    rxion_array.append("Block use from Persons of Concern")
-                if any(pattern in sentence_lower for pattern in rxion_lab_patterns):
-                    rxion_array.append("On-site (lab) use only")
-                if any(pattern in sentence_lower for pattern in rxion_site_patterns):
-                    rxion_array.append("On-site use for on-site students only")
-            if not rxion_array:
-                rxion_array.append("Needs Review")
-
-            string_rxion_array = array_to_string(remove_duplicate(rxion_array))
+if len(filename_array) > 0:
+    start = timeit.default_timer()
+    print("Please wait while we process",len(filename_array),"file(s)... \n")
+    for job in filename_array:
+        text = ProcessInputFile(job)
+        text = paragraph_parse(text)
+        document = nlp(text)
+        sentences = []
+        for sent in document.sents:
+            sentences.append(sent) # Append sentences in array for future comparison
+        jobDataArray.append(ASEULA_Function(document))
+        jobSentenceArray.append(sentences)
+        #jobSentenceArray.append(sentences)
+        i += 1
+        
+        # print(LemmaList(sentences))
+        # NER_function(sentences)
+        # SimilarityValueList(sentences)
+        # PartofSpeechList(sentences)
+        # Semantic()
+        # rxsion = ("remote prohibit forbid")
+        # SimilarityList(sentences, rxsion)
+        # URLList(sentences)
+        # #VectorSimilarityList(sentences)
 
 
-            print("Here's what we found for", os.path.basename(job))
-            print("-----------------------")
-            # Prints all established variables for the input file.
-            print("Software: ", software_name)
-            print("Publisher: ", publisher_name)
-            print("Information Webpage: ", information_webpage)
-            print("Licensing Restrictions: ", string_rxion_array)
-            print("-----------------------")            
-            i += 1
-#*********************** TEST FUNCTIONS HERE **************************
-
-            # print(LemmaList(sentences))
-            # NER_function(sentences)
-            # SimilarityValueList(sentences)
-            # PartofSpeechList(sentences)
-            # Semantic()
-            # rxsion = ("remote prohibit forbid")
-            # SimilarityList(sentences, rxsion)
-            URLList(sentences)
-
-
-            # #VectorSimilarityList(sentences)
-#************************* END RUN AREA ****************************        
-
-
-
-    else:        
-        print("\nNo input was provided. Thank you for using ASEULA!\n")
-
-
-
-#Process runtime output
-# start = timeit.default_timer()
-end = timeit.default_timer()
-runtime = end - start
-if runtime > 59:
-    print("Job runtime: " + str(runtime/60) + " Minutes\n")
 else:
-    print("Job runtime: " + str(runtime) + " Seconds\n")
+    print("\nNo input was provided. Thank you for using ASEULA!\n")
+
+for job in jobDataArray:
+    OutputResults(job)
+
+# #Process runtime output
+# # start = timeit.default_timer()
+# end = timeit.default_timer()
+# runtime = end - start
+# if runtime > 59:
+#     print("Job runtime: " + str(runtime/60) + " Minutes\n")
+# else:
+#     print("Job runtime: " + str(runtime) + " Seconds\n")
+
+#################################  SANDBOX AREA #################################################
 
 # # # Displacy output to browser
 # # from spacy import displacy
@@ -472,10 +510,6 @@ else:
 # #     print("Sentence " + str(i) + " of " + str(len(sentences)))
 # #     displacy.serve(sentence, style='dep') # OR ent
 # #     input()
-
-
-
-#################################  SANDBOX AREA #################################################
 
 # #Tesseract output defaults to unicode that causes errors when executed by Windows
 # #Convert_ansi detects if windows is being utilized and converts to an acceptable format
