@@ -291,10 +291,10 @@ if len(sys.argv) >= 2:
         i += 1
 
 else:    
+    print("\nASEULA alpha v.1 for",current_sys)
     filename_array = []
-    fileInput = True
-    while fileInput == True:
-        print("\nASEULA alpha v.1 for",current_sys)
+    fileInput = True    
+    while fileInput == True:        
         inputFile = input("\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + "(or press enter to continue): ")        
         if inputFile != "":
             filename_array.append(inputFile.strip('"'))
