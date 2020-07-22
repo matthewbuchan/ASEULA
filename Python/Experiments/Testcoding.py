@@ -40,7 +40,7 @@ def ConvertAnsi(file_input):
     inputfile = file_input    
     if current_sys.lower() == "windows":
         with io.open( inputfile , mode='r', encoding='utf8') as fc:
-            content = fc.read()            
+            content = fc.read()
         return content
     else:
         return inputfile
@@ -67,7 +67,7 @@ def ProcessInputFile(inputfilename):
         pdf = wi(filename = inputfilename, resolution = 300)
         # Converts pdf to jpeg.
         pdfImg = pdf.convert('jpeg')
-        # Establishes a variable to hold JPEG text.    
+        # Establishes a variable to hold JPEG text.
         open_file = ""
         # Loops through each image (one image per page) for the input PDF document.
         #for img in pdfImg.sequence: #2.305 MINUTES
@@ -105,7 +105,7 @@ def URLList(sentences):
                 URLList.append(token.text)
     return URLList
 
-def ASEULA_Function(document,full_job_text):    
+def ASEULA_Function(document,full_job_text):
     #**********************************************    Organization     ***************************************************#
     # Establishes variable to store matching entities.
     organization_entity_array = []
@@ -323,7 +323,7 @@ def UserValidation():
             break
         elif info_check == "n":            
             for selection in job[6]:
-                print(job[6].index(selection) + 1,". ",selection)
+                print(str(job[6].index(selection) + 1) + ".",selection)
                 #print (*job[6], sep= ", ")
             while True:
                 field_correction = int(input("\nWhich of the fields information needs to be corrected?  "))
@@ -338,23 +338,23 @@ def UserValidation():
                     print ('-' * 10)
                     incorrect_data = job[8][job[6][field_correction - 1].lower()]
                     for item in incorrect_data:
-                        print(incorrect_data.index(item) + 1,". ",item)
+                        print(str(incorrect_data.index(item) + 1) + ".",item)
                     while True:
                         user_selection = input("\nwhich value is correct?  ")
                         try:
-                            if int(user_selection) <= len(incorrect_data) + 1:
+                            user_selection = int(user_selection)
+                            if user_selection <= len(incorrect_data) + 1:
                                 job[7][job[6][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
-                                OutputResults(job)
                                 break
                             else:
-                                print("Error! Invalid input. Please enter a valid field option.")
+                                print("Error! Invalid input. Please enter a valid number or string.")
                         except:
                             if type(user_selection) == str:
                                 job[8][job[6][field_correction - 1].lower()].append(user_selection)
-                                print("are you sure you want to use",user_selection,"?")
-                                OutputResults(job)
+                                job[7][job[6][field_correction - 1].lower()] = user_selection
+                                print("are you sure you want to use",user_selection,"?")                                
                                 break
-                                
+                    OutputResults(job)
                 else: 
                     print("Error! Invalid input. Please enter a valid field option.")
             break
@@ -426,7 +426,7 @@ else:
     print("\nASEULA alpha v.1 for",current_sys)
     filename_array = []
     fileInput = True
-    while fileInput == True:        
+    while fileInput == True:
         inputFile = input("\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + "(or press enter to continue): ")        
         if inputFile != "":
             filename_array.append(inputFile.strip('"'))
