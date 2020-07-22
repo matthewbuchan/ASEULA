@@ -282,7 +282,7 @@ def UserVerification():
         if info_check == "y":
             print ("Information will shortly pushed to SharePoint. Thank you for using ASEULA!")
             break
-        elif info_check == "n":            
+        elif info_check == "n":
             for selection in job[2]:
                 print(job[2].index(selection) + 1,". ",selection)
                 #print (*job[6], sep= ", ")
@@ -299,9 +299,21 @@ def UserVerification():
                     print ('-' * 10)
                     incorrect_data = job[4][job[2][field_correction - 1].lower()]
                     for item in incorrect_data:
-                        print(incorrect_data.index(item) + 1,". ",item)                        
-                    user_selection = int(input("\nwhich value is correct?  "))                    
-                    job[1][job[2][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
+                        print(incorrect_data.index(item) + 1,". ",item)
+                    while True:
+                        user_selection = input("\nwhich value is correct?  ")
+                        try:
+                            user_selection = int(user_selection)
+                            if user_selection <= len(incorrect_data) + 1:
+                                job[1][job[2][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
+                                break
+                            else:
+                                print("Error! Invalid input. Please enter a valid number or string.")
+                        except:
+                            if type(user_selection) == str:
+                                job[4][job[2][field_correction - 1].lower()].append(user_selection)
+                                job[1][job[2][field_correction - 1].lower()] = user_selection                                
+                                break                    
                     OutputResults(job)
                     break
                 else: 
@@ -310,7 +322,7 @@ def UserVerification():
         else:
             print('Invalid input. Please try again.')
 
-def RxionFormatting(dictionary):    
+def RxionFormatting(dictionary):
     new_rxion_array = []
     for key in dictionary:
         if key in job[3]:
@@ -336,10 +348,10 @@ def ArrayFormatting(array):
         i+=1
     print ("\n")
 
-def HighlightText(usertext):    
+def HighlightText(usertext):
     return Fore.YELLOW + str(usertext).upper() + Fore.RESET
 
-def ArrayMode(list): # Function that finds the mode of an array. 
+def ArrayMode(list): # Function that finds the mode of an array.
     return(mode(list))
 
 def RemoveDuplicate(array): # Function that removes duplicate elements in an array.
@@ -387,17 +399,14 @@ if len(filename_array) > 0:
         inputfile = ProcessInputFile(job)
         text = paragraph_parse(inputfile)
         text = re.sub(r'\([A-z0-9]{1,3}?\)',"",text) # Remove (a), (b), (iii) bulleting
-        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) #Change full uppercase paragraphs to lower
-        #print(text)
+        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) #Change full uppercase paragraphs to lower        
         document = nlp(text)
         sentences = []
         for sent in document.sents:
-            sentences.append(re.sub(r'\n{1,}'," ",str(sent))) # Remove new line characters from each sentence
-            #print(re.sub(r'\n{1,}'," ",str(sent)))
+            sentences.append(re.sub(r'\n{1,}'," ",str(sent))) # Remove new line characters from each sentence            
         full_job_text = ""
         for sentence in sentences:
-            full_job_text = full_job_text + str(sentence) + "\n"
-        #print(full_job_text)
+            full_job_text = full_job_text + str(sentence) + "\n"        
         jobDataArray.append(ASEULAFunction(document, full_job_text))
         i += 1
 else:
@@ -417,7 +426,6 @@ if len(filename_array) > 0:
             print("Job runtime: " + str(runtime) + " Seconds\n")
 
 ############################################    INACTIVE FUNCTIONS    ############################################
-
 # Similarity check and sentence output
 #Searches through all tokens to check similarity with restriction items.
 def SimilarityList(sentences, restrictions):
