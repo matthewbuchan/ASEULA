@@ -323,7 +323,7 @@ def UserValidation():
             break
         elif info_check == "n":            
             for selection in job[6]:
-                print(str(job[6].index(selection) + 1) + ".",selection)
+                print(job[6].index(selection) + 1,". ",selection)
                 #print (*job[6], sep= ", ")
             while True:
                 field_correction = int(input("\nWhich of the fields information needs to be corrected?  "))
@@ -338,7 +338,7 @@ def UserValidation():
                     print ('-' * 10)
                     incorrect_data = job[8][job[6][field_correction - 1].lower()]
                     for item in incorrect_data:
-                        print(str(incorrect_data.index(item) + 1) + ".",item)
+                        print(incorrect_data.index(item) + 1,". ",item)
                     while True:
                         user_selection = input("\nwhich value is correct?  ")
                         try:
@@ -355,7 +355,6 @@ def UserValidation():
                                 print("are you sure you want to use",user_selection,"?")                                
                                 break
                     OutputResults(job)
-                    break
                 else: 
                     print("Error! Invalid input. Please enter a valid field option.")
             break
