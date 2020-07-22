@@ -355,6 +355,7 @@ def UserValidation():
                                 print("are you sure you want to use",user_selection,"?")                                
                                 break
                     OutputResults(job)
+                    break
                 else: 
                     print("Error! Invalid input. Please enter a valid field option.")
             break
