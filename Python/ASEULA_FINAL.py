@@ -7,8 +7,8 @@
 # pip install wand
 # pip install tqdm
 # pip install colored
+# pip install colorama
 
-from colorama import Fore, Back, Style
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, pytesseract as tess, platform
 from spacy.lang.en import English
 from re import search
@@ -16,6 +16,7 @@ from statistics import mode
 from wand.image import Image as wi
 from tqdm import tqdm # Progress Bar
 from colored import fg, bg, attr # Highlighted Text
+from colorama import Fore, Back, Style # Highlighted Text
 from PIL import Image as im
 
 ########################################################  SCRIPT CONFIG  ########################################################
