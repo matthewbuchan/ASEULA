@@ -436,13 +436,46 @@ else:
     print("\nASEULA Alpha V.1 for",current_sys)
     filename_array = []
     fileInput = True
+    current_sys = platform.system()
+
     while fileInput == True:
-        inputFile = input("\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + " (or press enter to continue): ")        
+        # inputFile = input("\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + " (or press enter to continue): ").strip('"')
+        inputFile = input("\nPlease enter the absolute path for file or directory you would like to process (or press enter to continue): ").strip('"')
         if inputFile != "":
-            filename_array.append(inputFile.strip('"'))
+            if current_sys.lower() == "windows":
+                while True:
+                    if os.path.isdir(inputFile) == True:
+                        filelist = os.listdir(inputFile)        
+                        for f in filelist:
+                            if ".pdf" in str(f) or ".docx" in str(f) or ".txt" in str(f):
+                                filename_array.append(str(inputFile) + "\\" + str(f))
+                        break
+                    elif os.path.isfile(inputFile) == True:
+                        filename_array.append(inputFile)
+                        break
+                    else:
+                        print("You did not enter a valid file or directory. Read the directions. ")
+            elif current_sys.lower() == "linux":
+                while True:
+                    if os.path.isdir(inputFile) == True:
+                        filelist = os.system("ls -la *.pdf *.txt *.docx | awk '{print \"\\\"\"$9" "$10\"\\\"\"}' > newfile.txt")
+                        f_list = ""
+                        listfile = open("newfile.txt")
+                        for line in listfile:    
+                            f_list = f_list +"./"+ line.strip('\"\n') + " "
+                        os.system("python3 ../Python/Experiments/Testcoding-regex.py " + f_list)
+                        break
+                    elif os.path.isfile(inputFile) == True:
+                        filename_array.append(inputFile)
+                        break
+                    else:
+                        print("You did not enter a valid file or directory. Read the directions. ")
+            else:
+                print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
         else:            
             fileInput = False
-            
+
+
 if len(filename_array) > 0:
     start = timeit.default_timer()
     print("\nPlease wait while we process",len(filename_array),"file(s)... \n")
