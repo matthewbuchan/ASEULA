@@ -204,21 +204,24 @@ def ASEULA_Function(document,full_job_text):
     #------------------------------------------------  RESTRICTIONS  ------------------------------------------------#
 
     # Establishes variables to store restriction patterns and trigger words.    
-    pos_trigger_words = ["only","grant","allow","permit","granting"]
-    neg_trigger_words = ["may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
-    rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", \
-    "academic use", "academic-use", "academic instruction", "academic institution", "educational instruction", "educational institution"]
+    pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", "permits", "permitting", "permitted", "require", \
+    "requires", "requiring", "required", "authorize", "authorizes", "authorizing", "authorized"]
+    neg_trigger_words = ["may not", "not granted", "not allowed", "not permitted", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
+    rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", "instructional purposes", "academic use", "academic-use", \
+    "academic instruction", "academic institution", "academic purposes", "educational use", "educational-use", "educational instruction", "educational institution", \
+    "educational purposes"]
     rxion_research_patterns = ["research", "research use", "research-use"]
     rxion_physical_patterns = ["activation key"]
-    rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop"]
-    rxion_campus_patterns = ["designated site"]
-    rxion_radius_patterns = ["radius"]
-    rxion_us_patterns = []
-    rxion_vpn_patterns = ["vpn","networked","remote access"]
-    rxion_embargo_patterns = []
-    rxion_poc_patterns = []
-    rxion_lab_patterns = []
-    rxion_site_patterns = []
+    rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop", "remote interface"]
+    rxion_campus_patterns = ["designated site", "customer's campus"]
+    rxion_radius_patterns = ["radius", "limited radius", "geographically limited radius", "geographically-limited radius", "particular geography", "site license", "site licenses"]
+    rxion_us_patterns = ["united states","united states use", "u.s.", "u.s. use"]
+    rxion_vpn_patterns = ["vpn", "virtual private network"]
+    rxion_embargo_patterns = ["embargo", "embargoed", "embargoed country"]
+    rxion_poc_patterns = ["person of concern", "persons of concern", "people of concern"]
+    rxion_lab_patterns = ["lab-use"]
+    rxion_site_patterns = ["single fixed geographic site", "fixed geographic site", "geographic site", "on-site", "on-site use"]
+    rxion_virt_patterns = ["virtualization", "virtualizing", "multiplexing", "pooling"]
 
     rxion_instructional_sentences = []
     rxion_research_sentences = []
@@ -248,9 +251,10 @@ def ASEULA_Function(document,full_job_text):
                 rxion_research_sentences.append(sentence)
                 # print(HighlightText(sentence_string))
         if any(pattern in sentence_lower for pattern in rxion_physical_patterns):
-            rxion_array.append("Requires Physical Device")
-            rxion_physical_sentences.append(sentence)
-            # print(HighlightText(sentence_string))       
+            if any(pattern in sentence_lower for pattern in pos_trigger_words):
+                rxion_array.append("Requires Physical Device")
+                rxion_physical_sentences.append(sentence)
+                # print(HighlightText(sentence_string))       
         if any(pattern in sentence_lower for pattern in rxion_rdp_patterns):
             if any(pattern in sentence_lower for pattern in neg_trigger_words):
                 rxion_array.append("No RDP use")
@@ -265,13 +269,15 @@ def ASEULA_Function(document,full_job_text):
             rxion_radius_sentences.append(sentence)
             # print(HighlightText(sentence_string))
         if any(pattern in sentence_lower for pattern in rxion_us_patterns):
-            rxion_array.append("US use only")
-            rxion_us_sentences.append(sentence)
-            # print(HighlightText(sentence_string))
+            if any(pattern in sentence_lower for pattern in pos_trigger_words):
+                rxion_array.append("US use only")
+                rxion_us_sentences.append(sentence)
+                # print(HighlightText(sentence_string))
         if any(pattern in sentence_lower for pattern in rxion_vpn_patterns):
-            rxion_array.append("VPN required off-site")
-            rxion_vpn_sentences.append(sentence)
-            # print(HighlightText(sentence_string))
+            if any(pattern in sentence_lower for pattern in pos_trigger_words):
+                rxion_array.append("VPN required off-site")
+                rxion_vpn_sentences.append(sentence)
+                # print(HighlightText(sentence_string))
         if any(pattern in sentence_lower for pattern in rxion_embargo_patterns):
             rxion_array.append("Block embargoed countries")
             rxion_embargo_sentences.append(sentence)
