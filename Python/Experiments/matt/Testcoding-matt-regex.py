@@ -52,8 +52,11 @@ def ConvertAnsi(file_input):
 
 def ProcessInputFile(inputfilename):
     if inputfilename.endswith('.txt'):
-        open_file = ConvertAnsi(inputfilename)
-        # open_file = open(inputfilename).read()
+        # Opens the .txt file.
+        try:
+            open_file = open(inputfilename).read()
+        except:
+            open_file = ConvertAnsi(inputfilename)
         return open_file
     elif inputfilename.endswith('.docx'):
         open_file = docx2txt.process(inputfilename)
@@ -90,6 +93,7 @@ def URLList(sentences):
     return URLList
 
 def ASEULAFunction(document,full_job_text):
+    #**********************************************    Organization     ***************************************************#
     # Establish variables to store publisher
     organization_entity_array = []
     publisher_patterns = ["inc", "inc.","llc","incorporated", "©", "copyright"]
@@ -106,7 +110,7 @@ def ASEULAFunction(document,full_job_text):
         publisher_name = publisher_name.replace('\n', ' ')
     else:        
         publisher_name = "Unknown"
-
+    #**********************************************  Software Name   ***************************************************#
     # Establishes variable to store matching entities.
     person_entity_string = ""    
     for entity in document.ents:        
@@ -122,9 +126,10 @@ def ASEULAFunction(document,full_job_text):
     clean_propn_token_array = RemoveDuplicate(propn_token_array)
     matching = [item for item in clean_propn_token_array if item in publisher_name]
     stripped_matching = RemoveDuplicate(matching)
-    if matching:        
+
+    if matching:
         software_name = ArrayToString(stripped_matching)
-    elif not matching:        
+    elif not matching:
         software_name = ArrayMode(propn_token_array)
     else:        
         software_name = "Unknown"
@@ -138,132 +143,122 @@ def ASEULAFunction(document,full_job_text):
         information_webpage = information_webpage.replace('\n', '')
     else:        
         information_webpage = "Unknown"
-
+        
     # Establishes variables to store restriction patterns and trigger words.
+    rxion_array = []
+    rxion_patterns = {}
     pos_trigger_words = ["only","grant","allow","permit","granting"]
-    neg_trigger_words = ["may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
-    rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", \
-    "academic use", "academic-use", "academic instruction", "academic institution", "educational instruction", "educational institution"]
-    rxion_research_patterns = ["research", "research use", "research-use"]
-    rxion_physical_patterns = ["activation key"]
-    rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop"]
-    rxion_campus_patterns = ["designated site"]
-    rxion_radius_patterns = ["radius"]
-    rxion_us_patterns = []
-    rxion_vpn_patterns = ["vpn","networked","remote access"]
-    rxion_embargo_patterns = []
-    rxion_poc_patterns = []
-    rxion_lab_patterns = []
-    rxion_site_patterns = []
-    sentence_dict = dict()
+    neg_trigger_words = ["no","may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
+    rxion_patterns["Instructional-use only"] = ["teaching", "instruction","academic","purposes", "educational","institution"]
+    rxion_patterns["Research-use only"] = ["research"]
+    rxion_patterns["Requires Physical Device"] = ["activation key"]
+    rxion_patterns["No RDP use"] = ["remote access", "remote", "rdp", "remote interface"]
+    rxion_patterns["Use geographically limited (Campus)"] = ["internally","designated site", "customer's campus"]
+    rxion_patterns["Use geographically limited (radius)"] = ["radius", "geographically-limited radius", "particular geography", "site license"]
+    rxion_patterns["US use only"] = ["united states use", "u.s.", "u.s. use","export"]
+    rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network"]
+    rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export"]
+    rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern","denied persons"]
+    rxion_patterns["On-site (lab) use only"] = ["lab-use"]
+    rxion_patterns["On-site use for on-site students only"] = ["fixed geographic site", "geographic site", "on-site", "on-site use"]
+    rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
+    restriction_sentence_dict = dict()
+
+    # rxion_array = []
+    # rxion_patterns = {}
+    # pos_trigger_words = ["only","grant","allow","permit","granting"]
+    # neg_trigger_words = ["no","may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
+    # rxion_patterns["Instructional-use only"] = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", "instructional purposes", "academic use", "academic-use", \
+    # "academic instruction", "academic institution", "academic purposes", "educational use", "educational-use", "educational instruction", "educational institution", \
+    # "educational purposes"]
+    # rxion_patterns["Research-use only"] = ["research", "research use", "research-use"]
+    # rxion_patterns["Requires Physical Device"] = ["activation key"]
+    # rxion_patterns["No RDP use"] = ["remote access", "remote-access", "remote desktop", "remote interface"]
+    # rxion_patterns["Use geographically limited (Campus)"] = ["internally","designated site", "customer's campus"]
+    # rxion_patterns["Use geographically limited (radius)"] = ["radius", "limited radius", "geographically limited radius", "geographically-limited radius", "particular geography", "site license", "site licenses"]
+    # rxion_patterns["US use only"] = ["united states","united states use", "u.s.", "u.s. use","export"]
+    # rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network"]
+    # rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export"]
+    # rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern","denied persons"]
+    # rxion_patterns["On-site (lab) use only"] = ["lab-use"]
+    # rxion_patterns["On-site use for on-site students only"] = ["single fixed geographic site", "fixed geographic site", "geographic site", "on-site", "on-site use"]
+    # rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
+    # restriction_sentence_dict = dict()
     
     # Restriction runs
-    rxiontmp = ProcessRestrictionType(document, rxion_instructional_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("Instructional-use only")
-        sentence_dict['Instructional-use only'] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_research_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("Research-use only")
-        sentence_dict['Research-use only'] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_physical_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("Requires Physical Device")
-        sentence_dict['Requires Physical Device'] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_rdp_patterns,neg_trigger_words)
-    if rxiontmp:
-        rxion_array.append("No RDP use")
-        sentence_dict['No RDP use'] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_campus_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("Use geographically limited (Campus)")
-        sentence_dict["Use geographically limited (Campus)"] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_radius_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("Use geographically limited (radius)")
-        sentence_dict["Use geographically limited (radius)"] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_us_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("US use only")
-        sentence_dict["US use only"] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_vpn_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("VPN required off-site")
-        sentence_dict["VPN required off-site"] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_embargo_patterns,neg_trigger_words)
-    if rxiontmp:
-        rxion_array.append("Block embargoed countries")
-        sentence_dict["Block embargoed countries"] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_poc_patterns,neg_trigger_words)
-    if rxiontmp:
-        rxion_array.append("Block use from Persons of Concern")
-        sentence_dict["Block use from Persons of Concern"] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_lab_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("On-site (lab) use only")
-        sentence_dict["On-site (lab) use only"] = rxiontmp
-    rxiontmp = ProcessRestrictionType(document, rxion_site_patterns,pos_trigger_words)
-    if rxiontmp:
-        rxion_array.append("On-site use for on-site students only")
-        sentence_dict["On-site use for on-site students only"] = rxiontmp
+    for rxion in rxion_patterns:
+        rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion))
+        if rxiontmp:
+            rxion_array.append(str(rxion))
+            restriction_sentence_dict[str(rxion)] = rxiontmp
 
-    if not rxion_array:        
+    if not rxion_array:
         rxion_array.append("Needs Review")
 
-    string_rxion_array = ArrayToString(RemoveDuplicate(rxion_array))
+    rxion_array_string = ArrayToString(RemoveDuplicate(rxion_array))
 
     fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"]
-    selected_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": string_rxion_array}
-    field_array_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
+    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string}
+    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
 
-    return [os.path.basename(job),selected_dict,fields,rxion_array,field_array_dict,sentence_dict,full_job_text]
-
-def ProcessRestrictionType(document,restrictions,posneg):
-    patterns_array = []
+    return [os.path.basename(job),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
+def ProcessRestrictionType(document,restrictions,pos,neg,rxion_pattern_string):    
     rxion_sentences_array = []
+    i = 1
     for sentence in document.sents:
         sentence = str(sentence).lower()
         element_sentence = ""
-        element_pattern = ""
         pattern_len = 0
         pattern_found = False
         #rxion_pattern = FindSimilarTerms(restrictions)
-        if any(pattern.lower() in sentence for pattern in posneg) and any(pattern.lower() in sentence for pattern in restrictions):
-            element_sentence = sentence
-            pattern_found = True
-            # for element in posneg:
-            #     for pattern in restrictions:
-            #         reg_pattern = re.compile(element +r"\b(\W*\w*\W*?){1,7}\b"+ pattern)
-            #         reg_pattern_rev = re.compile(pattern +r"\b(\W*\w*\W*?){1,7}\b"+ element)
-            #         if re.search(reg_pattern,sentence.lower()): #  and pattern_found == False
-            #             pattern_string = str(re.search(reg_pattern,sentence).group())
-            #             if len(pattern_string) > pattern_len:
-            #                 element_sentence = sentence.replace(pattern_string,HighlightText(pattern_string))
-            #                 #print(element_sentence)
-            #             pattern_found = True
-
-            #         if re.search(reg_pattern_rev,sentence.lower()):
-            #             pattern_string = str(re.search(reg_pattern_rev,sentence).group())
-            #             if len(pattern_string) > pattern_len:
-            #                 element_sentence = sentence.replace(pattern_string,HighlightText(pattern_string))
-            #                 #print(element_sentence)
-            #             pattern_found = True
-        else:
-            if any(pattern.lower() in sentence for pattern in restrictions):
-                element_sentence = sentence
-                pattern_found = True
-            # for pattern in restrictions:
-            #     if pattern.lower() in sentence:
-                    
-            #         element_sentence = sentence.replace(pattern, HighlightText(pattern))
-            #         pattern_found = True
-
-        if pattern_found == True:            
+        if any(pattern in rxion_pattern_string.lower() for pattern in neg):
+            #if any(pattern in sentence.lower() for pattern in pos) and any(pattern in sentence.lower() for pattern in neg) and any(pattern in sentence.lower() for pattern in restrictions):            
+            for p in pos:
+                for n in neg:
+                    for r in restrictions:                        
+                        reg_pattern = re.compile(n + r"(.*" + p + r")?.*" + r)
+                        reg_pattern_rev = re.compile(r + r".*" + n + r"(.*" + p + r")?")
+                        if re.search(reg_pattern,sentence.lower()): #  and pattern_found == False
+                            pattern_string = str(re.search(reg_pattern,sentence).group())
+                            if len(pattern_string) > pattern_len and pattern_found == False:
+                                element_sentence = sentence.replace(pattern_string,HighlightText(pattern_string))
+                                pattern_len = len(pattern_string)
+                                #print(element_sentence)
+                            pattern_found = True
+                        if re.search(reg_pattern_rev,sentence.lower()):
+                            pattern_string = str(re.search(reg_pattern_rev,sentence).group())
+                            if len(pattern_string) > pattern_len and pattern_found == False:
+                                element_sentence = sentence.replace(pattern_string,HighlightText(pattern_string))
+                                pattern_len = len(pattern_string)
+                                #print(element_sentence)
+                            pattern_found = True
+                        
+        elif any(pattern not in rxion_pattern_string for pattern in neg):
+            #if any(pattern in sentence.lower() for pattern in neg) and any(pattern in sentence.lower() for pattern in restrictions):            
+            for p in pos:
+                for n in neg:
+                    for r in restrictions:                        
+                        reg_pattern = re.compile(n + r"(.*" + p + r")?.*" + r)
+                        reg_pattern_rev = re.compile(r + r".*" + n + r"(.*" + p + r")?")
+                        if re.search(reg_pattern,sentence.lower()): #  and pattern_found == False
+                            pattern_string = str(re.search(reg_pattern,sentence).group())
+                            if len(pattern_string) > pattern_len and pattern_found == False:
+                                element_sentence = sentence.replace(pattern_string,HighlightText(pattern_string))
+                                pattern_len = len(pattern_string)
+                                #print(element_sentence)
+                            pattern_found = True                            
+                        if re.search(reg_pattern_rev,sentence.lower()):
+                            pattern_string = str(re.search(reg_pattern_rev,sentence).group())
+                            if len(pattern_string) > pattern_len and pattern_found == False:
+                                element_sentence = sentence.replace(pattern_string,HighlightText(pattern_string))
+                                pattern_len = len(pattern_string)
+                                #print(element_sentence)
+                            pattern_found = True                            
+                        
+        if pattern_found == True:
             rxion_sentences_array.append(element_sentence)
-            patterns_array.append(element_pattern)
 
-    if len(rxion_sentences_array) > 0:        
-        rxionjob_sentence_array.append(rxion_sentences_array)
+    if len(rxion_sentences_array) > 0:
         return rxion_sentences_array
 
 def OutputResults(job):
@@ -399,7 +394,7 @@ if len(filename_array) > 0:
         inputfile = ProcessInputFile(job)
         text = paragraph_parse(inputfile)
         text = re.sub(r'\([A-z0-9]{1,3}?\)',"",text) # Remove (a), (b), (iii) bulleting
-        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) #Change full uppercase paragraphs to lower        
+        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) #Change full uppercase paragraphs to lower
         document = nlp(text)
         sentences = []
         for sent in document.sents:
@@ -412,19 +407,15 @@ if len(filename_array) > 0:
 else:
     print("\nNo input was provided. Thank you for using ASEULA!\n")
 
-for job in jobDataArray:
-    OutputResults(job)
-
 if len(filename_array) > 0:
-        # Print runtime output
-        # start = timeit.default_timer()
-        end = timeit.default_timer()
-        runtime = end - start
-        if runtime > 59:
-            print("Job runtime: " + str(runtime/60) + " Minutes\n")
-        else:
-            print("Job runtime: " + str(runtime) + " Seconds\n")
-
+    end = timeit.default_timer()
+    runtime = end - start
+    if runtime > 59:
+        print("Execution time: " + str(runtime/60) + " Minutes\n")
+    else:
+        print("Execution time: " + str(runtime) + " Seconds\n")
+    for job in jobDataArray:
+        OutputResults(job)
 ############################################    INACTIVE FUNCTIONS    ############################################
 # Similarity check and sentence output
 #Searches through all tokens to check similarity with restriction items.
