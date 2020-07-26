@@ -1,5 +1,4 @@
 ########################################################  IMPORT/INSTALL  ########################################################
-
 # pip install spacy
 # python -m spacy download en_core_web_sm
 # pip install docx2txt
@@ -9,7 +8,6 @@
 # pip install tqdm
 # pip install colored
 # pip install colorama
-
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, pytesseract as tess, platform
 from spacy.lang.en import English
 from re import search
@@ -19,9 +17,7 @@ from tqdm import tqdm # Progress Bar
 from colored import fg, bg, attr # Highlighted Text
 from colorama import Fore, Back, Style # Highlighted Text
 from PIL import Image as im
-
 ########################################################  SCRIPT CONFIG  ########################################################
-
 current_sys = platform.system()
 if current_sys.lower() == "windows":
     if os.path.isfile(r'C:\Program Files\Tesseract-OCR\tesseract.exe'):
@@ -39,20 +35,8 @@ nlp = spacy.load('en_core_web_sm')
 # Establishes variable for English sentence parsing method.
 sentence_parser = English()
 sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
-
 ########################################################    FUNCTIONS    ########################################################
-
-def ConvertAnsi(file_input):
-    import codecs    
-    inputfile = file_input    
-    if current_sys.lower() == "windows":
-        with io.open( inputfile , mode='r', encoding='utf8') as fc:
-            content = fc.read()
-        return content
-    else:
-        return inputfile
-
-def ProcessInputFile(inputfilename):
+def ProcessInputFile(inputfilename): # Determines file type and conversion steps
     # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
     # Checks if the input file is .txt.
     if inputfilename.endswith('.txt'):
@@ -92,26 +76,32 @@ def ProcessInputFile(inputfilename):
     else:
         # Prints an error message if the input file does not match one of the supported formats.
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
-
-def ParagraphParse(ocr_input):    
+def ConvertAnsi(file_input): # Converts .txt files if not formatted properly
+    import codecs    
+    inputfile = file_input    
+    if current_sys.lower() == "windows":
+        with io.open( inputfile , mode='r', encoding='utf8') as fc:
+            content = fc.read()
+        return content
+    else:
+        return inputfile
+def ParagraphParse(ocr_input): # Splits paragraphs before processing occurs
     all_paragraphs = re.split('\n{2,}', ocr_input)
     parsed_paragraphs = ""
     for paragraph in all_paragraphs:
         paragraph = paragraph.replace("\n", " ")
         parsed_paragraphs += str(paragraph) + "\n"    
     return parsed_paragraphs
-
-def URLList(sentences):
+def UrlList(sentences): # Generates listing of websites identified in the document
     from spacy import attrs
-    URLList = []    
+    UrlList = []    
     for sentence in sentences:
         doc = nlp(str(sentence))
         for token in doc:
             if token.like_url == True:
-                URLList.append(token.text)
-    return URLList
-
-def ASEULA_Function(document,full_job_text):
+                UrlList.append(token.text)
+    return UrlList
+def AseulaFunction(document,full_job_text): # Performs data extraction from the converted documents
 
     #------------------------------------------------  PUBLISHER NAME  ------------------------------------------------#
 
@@ -188,7 +178,7 @@ def ASEULA_Function(document,full_job_text):
     #------------------------------------------------  INFORMATION WEBPAGE  ------------------------------------------------#
    
     # Extracts each word within the input file as an array. Space characters used as a delimiter.
-    url_array = URLList(sentences) # FORCE URL FUNCTION FILL instead of regex
+    url_array = UrlList(sentences) # FORCE URL FUNCTION FILL instead of regex
 
     # Checks if url_array is empty. Prints mode of the array if elements exist.
     if url_array:
@@ -316,7 +306,6 @@ def ASEULA_Function(document,full_job_text):
         "Block use from Persons of Concern": rxion_poc_sentences,"On-site (lab) use only": rxion_lab_sentences,"On-site use for on-site students only": rxion_site_sentences}
 
     return [os.path.basename(job),software_name,publisher_name,information_webpage, rxion_array, string_rxion_array, fields, selected_dict, field_dict, sentence_dict, full_job_text]
-
 def OutputResults(job): # Summarized output
     print("\nHere's what we found for", job[0])
     print("-----------------------")
@@ -327,8 +316,7 @@ def OutputResults(job): # Summarized output
     print("Licensing Restrictions: ", job[7]["licensing restrictions"])
     print("-----------------------")
     UserValidation()
-
-def UserValidation():
+def UserValidation(): # Provides interface for users to validate findings
     while True:
         info_check = str(input("Is the information above correct? (y/n)  ")).lower().strip()
         if info_check == "y":
@@ -374,8 +362,7 @@ def UserValidation():
             break
         else:
             print('Invalid input. Please try again.')
-
-def RxionSentenceOutput(dictionary):
+def RxionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
     new_rxion_array = []
     for key in dictionary:
         if key in job[4]:
@@ -393,25 +380,20 @@ def RxionSentenceOutput(dictionary):
             elif user_selection == "n":
                 print ("This restriction will be unflagged.\n")    
     return new_rxion_array
-
-def ArrayFormatting(array):
+def ArrayFormatting(array): # Returns dictionary items requested by the RxionSentenceOutput
     i=1
     for element in array:
         print (str(i) + ".", element)
         i+=1
     print ("\n")
-
-def HighlightText(usertext):
+def HighlightText(usertext): # Returns inputted text as yellow for easy identification
     from colorama import Fore, Back, Style
     return Fore.YELLOW + str(usertext) + Fore.RESET
-
-def ArrayMode(list): # Function that finds the mode of an array.
+def ArrayMode(list): # Assists in determining entities from the ASEULAFunction
     return(mode(list))
-
 def RemoveDuplicate(array): # Function that removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
     return array
-
 def ArrayToString(array): # Function that returns array elements as string.
     array_string = ""
     i = 0
@@ -422,28 +404,23 @@ def ArrayToString(array): # Function that returns array elements as string.
             array_string += array[i]
         i += 1
     return array_string
-
-def ParagraphToLower(inputtext):
+def ParagraphToLower(inputtext): # Changes full uppercase paragraphs to lower.
     return inputtext.group(0).lower()
-
 ###############################################    EXECUTION    ###############################################
-
 filename_array = []
 jobDataArray = []
 jobSentenceArray = []
 sentences = []
 i = 0
-if len(sys.argv) >= 2:    
+if len(sys.argv) >= 2:
     for filename in sys.argv[1:]:
         fileArray = []
         filename_array.append(filename.strip('"'))
         i += 1
 else:
-    print("\nASEULA Alpha V.1 for",current_sys)
-    filename_array = []
+    print("\nASEULA Alpha V.1 for",current_sys)    
     fileInput = True
     current_sys = platform.system()
-
     while fileInput == True:
         # inputFile = input("\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + " (or press enter to continue): ").strip('"')
         inputFile = input("\nPlease enter the absolute path for file or directory you would like to process (or press enter to continue): ").strip('"')
@@ -451,7 +428,7 @@ else:
             if current_sys.lower() == "windows":
                 while True:
                     if os.path.isdir(inputFile) == True:
-                        filelist = os.listdir(inputFile)        
+                        filelist = os.listdir(inputFile)
                         for f in filelist:
                             if ".pdf" in str(f) or ".docx" in str(f) or ".txt" in str(f):
                                 filename_array.append(str(inputFile) + "\\" + str(f))
@@ -467,7 +444,7 @@ else:
                         filelist = os.system("ls -la *.pdf *.txt *.docx | awk '{print \"\\\"\"$9" "$10\"\\\"\"}' > newfile.txt")
                         f_list = ""
                         listfile = open("newfile.txt")
-                        for line in listfile:    
+                        for line in listfile:
                             f_list = f_list +"./"+ line.strip('\"\n') + " "
                         os.system("python3 ../Python/Experiments/Testcoding-regex.py " + f_list)
                         break
@@ -478,10 +455,9 @@ else:
                         print("You did not enter a valid file or directory. Read the directions. ")
             else:
                 print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
-        else:            
+        else:
             fileInput = False
-
-
+# Evaluates for inputted files and processes the files
 if len(filename_array) > 0:
     start = timeit.default_timer()
     print("\nPlease wait while we process",len(filename_array),"file(s)... \n")
@@ -489,26 +465,23 @@ if len(filename_array) > 0:
         text = ProcessInputFile(job)
         text = ParagraphParse(text)
         text = re.sub(r'\([A-z0-9]{1,3}?\)',"",text) # Remove (a), (b), (iii) bulleting.
-        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) # Change full uppercase paragraphs to lower.
+        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) 
         document = nlp(text)
         sentences = []
         for sent in document.sents:
-            sentences.append(re.sub(r'\n{1,}'," ",str(sent))) # Remove new line characters from each sentence.
-            #sentences.append(sent) # Append sentences in array for future comparison.
+            sentences.append(re.sub(r'\n{1,}'," ",str(sent))) # Remove new line characters from each sentence.            
         full_job_text = ""
         for sentence in sentences:
-            full_job_text = full_job_text + str(sentence) + "\n"        
-        jobDataArray.append(ASEULA_Function(document,full_job_text))
+            full_job_text = full_job_text + str(sentence) + "\n"
+        jobDataArray.append(AseulaFunction(document,full_job_text))
         i += 1
+    end = timeit.default_timer()
+    runtime = end - start
+    if runtime > 59:
+        print("\nJob Runtime: " + str(runtime/60) + " Minutes\n")
+    else:
+        print("\nJob Runtime: " + str(runtime) + " Seconds\n")
+    for job in jobDataArray:
+            OutputResults(job)
 else:
     print("\nNo input was provided. Thank you for using ASEULA!\n")
-
-for job in jobDataArray:
-    OutputResults(job)
-
-end = timeit.default_timer()
-runtime = end - start
-if runtime > 59:
-    print("\nJob Runtime: " + str(runtime/60) + " Minutes\n")
-else:
-    print("\nJob Runtime: " + str(runtime) + " Seconds\n")

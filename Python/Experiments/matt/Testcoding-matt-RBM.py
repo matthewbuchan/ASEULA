@@ -41,17 +41,6 @@ matcher = Matcher(nlp.vocab)
 # sentence_parser = English()
 # sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
 ###############################################    FUNCTIONS    ###############################################
-
-def ConvertAnsi(file_input):
-    import codecs    
-    inputfile = file_input    
-    if current_sys.lower() == "windows":
-        with io.open( inputfile , mode='r', encoding='utf8') as fc:
-            content = fc.read()            
-        return content
-    else:
-        return inputfile
-
 def ProcessInputFile(inputfilename):
     if inputfilename.endswith('.txt'):
         # Opens the .txt file.
@@ -75,7 +64,15 @@ def ProcessInputFile(inputfilename):
         return open_file
     else:
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
-
+def ConvertAnsi(file_input):
+    import codecs    
+    inputfile = file_input    
+    if current_sys.lower() == "windows":
+        with io.open( inputfile , mode='r', encoding='utf8') as fc:
+            content = fc.read()            
+        return content
+    else:
+        return inputfile
 def paragraph_parse(ocr_input):
     all_paragraphs = re.split('\n{2,}', ocr_input)
     parsed_paragraphs = ""
@@ -83,20 +80,19 @@ def paragraph_parse(ocr_input):
         paragraph = paragraph.replace("\n", " ")
         parsed_paragraphs += str(paragraph) + "\n"
     return parsed_paragraphs
-
-def URLList(sentences):
+def UrlList(sentences):
     from spacy import attrs
-    URLList = []    
+    UrlList = []    
     for sentence in sentences:
         doc = nlp(str(sentence))
         for token in doc:
             if token.like_url == True:
-                URLList.append(token.text)
-    return URLList
-
-def ASEULAFunction(document,full_job_text):
+                UrlList.append(token.text)
+    return UrlList
+def AseulaFunction(document,full_job_text):
     #**********************************************    Organization     ***************************************************#
     # Establish variables to store publisher
+    nlp = spacy.load('en_core_web_sm')
     organization_entity_array = []
     publisher_patterns = ["inc", "inc.","llc","incorporated", "©", "copyright"]
     for entity in document.ents:        
@@ -139,7 +135,7 @@ def ASEULAFunction(document,full_job_text):
     software_findings = RemoveDuplicate(software_findings)
 
     # Extracts each word within the input file as an array. Space characters used as a delimiter.
-    url_array = URLList(sentences) # FORCE URL FUNCTION FILL instead of regex    
+    url_array = UrlList(sentences) # FORCE URL FUNCTION FILL instead of regex    
     if url_array:        
         information_webpage = ArrayMode(url_array)        
         information_webpage = information_webpage.replace('\n', '')
@@ -149,25 +145,28 @@ def ASEULAFunction(document,full_job_text):
     # Establishes variables to store restriction patterns and trigger words.
     rxion_array = []
     rxion_patterns = {}
-    pos_trigger_words = ["only","grant","allow","permit","grant"]
-    neg_trigger_words = ["not", "no", "forbid", "restrict","prohibit"]
-    rxion_patterns["Instructional-use only"] = ["teaching", "academic", "instruction", "institution", "educational"]
-    rxion_patterns["Research-use only"] = ["research", "research-use"]
+    pos_trigger_words = ["only","grant","allow","permit","require","authorize"]
+    neg_trigger_words = ["not","no","forbid", "restrict", "prohibit"]
+    rxion_patterns["Instructional-use only"] = ["teaching", "teach","use", "instructional","academic","institution", "educational"]
+    rxion_patterns["Research-use only"] = ["research", "research use", "research-use"]
     rxion_patterns["Requires Physical Device"] = ["activation key"]
-    rxion_patterns["No RDP use"] = ["remote access", "remote-access", "networked"]
-    rxion_patterns["Use geographically limited (Campus)"] = ["designated","site"]
-    rxion_patterns["Use geographically limited (radius)"] = ["radius"]
-    rxion_patterns["US use only"] = []
-    rxion_patterns["VPN required off-site"] = ["vpn","networked","remote access"]
-    rxion_patterns["Block embargoed countries"] = []
-    rxion_patterns["Block use from Persons of Concern"] = []
-    rxion_patterns["On-site (lab) use only"] = []
-    rxion_patterns["On-site use for on-site students only"] = []
+    rxion_patterns["No RDP use"] = ["remote access", "remote-access", "remote desktop", "remote interface"]
+    rxion_patterns["Use geographically limited (Campus)"] = ["internally","designated site", "customer's campus"]
+    rxion_patterns["Use geographically limited (radius)"] = ["radius", "limited radius", "geographically limited radius", "geographically-limited radius", "particular geography", "site license", "site licenses"]
+    rxion_patterns["US use only"] = ["united states","united states use", "u.s.", "u.s. use"]
+    rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network"]
+    rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export"]
+    rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern","denied persons"]
+    rxion_patterns["On-site (lab) use only"] = ["lab-use"]
+    rxion_patterns["On-site use for on-site students only"] = ["single fixed geographic site", "fixed geographic site", "geographic site", "on-site", "on-site use"]
+    rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
     restriction_sentence_dict = dict()
     
     # Restriction runs
+    nlp = spacy.load('en_core_web_sm', disable=["ner"])
     for rxion in rxion_patterns:
-        rxiontmp = ProcessRestrictionTypeAuto(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion))
+        print(str(rxion))
+        rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion))
         if rxiontmp:
             rxion_array.append(str(rxion))
             restriction_sentence_dict[str(rxion)] = rxiontmp
@@ -182,59 +181,42 @@ def ASEULAFunction(document,full_job_text):
     field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
 
     return [os.path.basename(job),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
-
-def RestrictionMatcherAuto(document,pattern_a,pattern_b):
+def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString):
+    rxion_sentences_array = []
+    rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
+    for rx in rx_array:
+        # Process negative and positive
+        pattern_a = [{'LEMMA': str(rx[1])},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(rx[0])},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LOWER': str(rx[2]).lower()}]
+        pattern_b = [{'LOWER': str(rx[2]).lower()},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(rx[1])},{'LEMMA': str(rx[0])}]
+        match = RestrictionMatcher(document,pattern_a,pattern_b)
+        if match != None and match not in rxion_sentences_array:
+            #print(HighlightText(match))
+            #rxion_sentences_array.append(match)
+            pass
+        # Process negative
+        pattern_a = [{'LEMMA': str(rx[1])},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(rx[0]), 'OP': '?'},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LOWER': str(rx[2]).lower()}]
+        pattern_b = [{'LOWER': str(rx[2]).lower()},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(rx[1])},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(rx[0]), 'OP': '?'}] 
+        match = RestrictionMatcher(document,pattern_a,pattern_b)
+        if match != None and match not in rxion_sentences_array:
+            #print(HighlightText(match))
+            #rxion_sentences_array.append(match)
+            pass
+        # Process positive/negative and positive
+        pattern_a = [{'LEMMA': str(rx[0])},{'TEXT': {'REGEX': r'(\w+\W+)+?'},'OP':'?'},{'LOWER': str(rx[2]).lower()}] 
+        pattern_b = [{'LOWER': str(rx[2]).lower()},{'TEXT': {'REGEX': r'(\w+\W+)+?'},'OP':'?'},{'LEMMA': str(rx[0])}] 
+        match = RestrictionMatcher(document,pattern_a,pattern_b)
+        if match != None and match not in rxion_sentences_array:
+            #print(HighlightText(match))
+            #rxion_sentences_array.append(match)
+            pass
+    if len(rxion_sentences_array) > 0:
+        return rxion_sentences_array
+def RestrictionMatcher(document,pattern_a,pattern_b):
     matcher.add('PATTERN_A',None,pattern_a)
     matcher.add('PATTERN_B',None,pattern_b)
     for sentence in document.sents:
         if matcher(sentence):
             return str(sentence)
-
-def ProcessRestrictionTypeAuto(document,restrictions,pos,neg,restrictionString):
-    rxion_sentences_array = []
-    for sent in document.sents:
-        if any(pattern in str(sent).lower() for pattern in pos) and any(pattern in str(sent).lower() for pattern in neg) and any(pattern in str(sent).lower() for pattern in restrictions) and any(pattern not in restrictionString for pattern in neg):
-            for restriction in restrictions:
-                for p in pos:
-                    for n in neg:
-                        if p in str(sent).lower() and n in str(sent).lower() and restriction in str(sent).lower():
-                            #print(p,",",n,",",",",restriction,",",restrictionString)
-                            pattern_a = [{'LEMMA': str(n)},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(p)},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LOWER': str(restriction).lower()}]
-                            pattern_b = [{'LOWER': str(restriction).lower()},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(n)},{'LEMMA': str(p)}]
-                            match = RestrictionMatcherAuto(document,pattern_a,pattern_b)                        
-                            if match != None and str(sent) not in rxion_sentences_array:
-                                print(str(sent).replace(match,HighlightText(match)))
-                                rxion_sentences_array.append(str(sent))
-        
-        elif any(pattern in str(sent).lower() for pattern in neg) and any(pattern in str(sent).lower() for pattern in restrictions):
-            for restriction in restrictions:
-                for p in pos:
-                    for n in neg:
-                        if n in str(sent).lower() and restriction in str(sent).lower():
-                            #print(p,",",n,",",",",restriction,",",restrictionString)
-                            pattern_a = [{'LEMMA': str(n)},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(p), 'OP': '?'},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LOWER': str(restriction).lower()}]
-                            pattern_b = [{'LOWER': str(restriction).lower()},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(n)},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(p), 'OP': '?'}] 
-                            match = RestrictionMatcherAuto(document,pattern_a,pattern_b)
-                            if match != None and str(sent) not in rxion_sentences_array:
-                                print(str(sent).replace(match,HighlightText(match)))
-                                rxion_sentences_array.append(str(sent))
-        
-        elif any(pattern in str(sent).lower() for pattern in pos) and any(pattern in str(sent).lower() for pattern in restrictions):
-            for restriction in restrictions:
-                for p in pos:
-                    for n in neg:
-                        if p in str(sent).lower() and restriction in str(sent).lower():
-                            #print(p,",",n,",",",",restriction,",",restrictionString)
-                            pattern_a = [{'LEMMA': str(n), 'OP': '!'},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(p)},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LOWER': str(restriction).lower()}] 
-                            pattern_b = [{'LOWER': str(restriction).lower()},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(n), 'OP': '!'},{'TEXT': {'REGEX': r'\w+'},'OP':'?'},{'LEMMA': str(p)}] 
-                            match = RestrictionMatcherAuto(document,pattern_a,pattern_b)
-                            if match != None and str(sent) not in rxion_sentences_array:                                
-                                rxion_sentences_array.append(str(sent))
-                    
-
-    if len(rxion_sentences_array) > 0:        
-        return rxion_sentences_array
-
 def OutputResults(job):
     print("\nHere's what we found for", job[0])
     print("-----------------------")    
@@ -244,7 +226,6 @@ def OutputResults(job):
     print("Licensing Restrictions: ", job[1]['licensing restrictions'])
     print("-----------------------")    
     UserVerification()
-
 def UserVerification():
     while True:
         info_check = str(input("Is the information above correct? (y/n)  ")).lower().strip()
@@ -290,7 +271,6 @@ def UserVerification():
             break
         else:
             print('Invalid input. Please try again.')
-
 def RxionFormatting(dictionary):
     new_rxion_array = []
     for key in dictionary:
@@ -309,24 +289,19 @@ def RxionFormatting(dictionary):
             elif user_selection == "n":
                 print ("This restriction will be unflagged\n")
     return new_rxion_array
-
 def ArrayFormatting(array):
     i=1
     for element in array:
         print (str(i) + ".", element)
         i+=1
     print ("\n")
-
 def HighlightText(usertext):
-    return Fore.YELLOW + str(usertext).upper() + Fore.RESET
-
+    return Fore.YELLOW + str(usertext) + Fore.RESET
 def ArrayMode(list): # Function that finds the mode of an array.
     return(mode(list))
-
 def RemoveDuplicate(array): # Function that removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
     return array
-
 def ArrayToString(array): # Function that returns array elements as string.
     array_string = ""
     i = 0
@@ -337,7 +312,6 @@ def ArrayToString(array): # Function that returns array elements as string.
             array_string += array[i]
         i += 1
     return array_string
-
 def ParagraphToLower(m):
     return m.group(0).lower()
 ###############################################    EXECUTION    ###############################################
@@ -351,16 +325,47 @@ if len(sys.argv) >= 2:
         fileArray = []
         filename_array.append(filename.strip('"'))
         i += 1
-else:    
-    print("\nASEULA alpha v.1 for",current_sys)
-    filename_array = []
+else:
+    print("\nASEULA Alpha V.1 for",current_sys)    
     fileInput = True
+    current_sys = platform.system()
     while fileInput == True:
-        inputFile = input("\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + "(or press enter to continue): ")        
+        # inputFile = input("\nPlease enter the absolute path for file #" + str(len(filename_array) + 1) + " (or press enter to continue): ").strip('"')
+        inputFile = input("\nPlease enter the absolute path for file or directory you would like to process (or press enter to continue): ").strip('"')
         if inputFile != "":
-            filename_array.append(inputFile.strip('"'))
+            if current_sys.lower() == "windows":
+                while True:
+                    if os.path.isdir(inputFile) == True:
+                        filelist = os.listdir(inputFile)        
+                        for f in filelist:
+                            if ".pdf" in str(f) or ".docx" in str(f) or ".txt" in str(f):
+                                filename_array.append(str(inputFile) + "\\" + str(f))
+                        break
+                    elif os.path.isfile(inputFile) == True:
+                        filename_array.append(inputFile)
+                        break
+                    else:
+                        print("You did not enter a valid file or directory. Read the directions. ")
+            elif current_sys.lower() == "linux":
+                while True:
+                    if os.path.isdir(inputFile) == True:
+                        filelist = os.system("ls -la *.pdf *.txt *.docx | awk '{print \"\\\"\"$9" "$10\"\\\"\"}' > newfile.txt")
+                        f_list = ""
+                        listfile = open("newfile.txt")
+                        for line in listfile:    
+                            f_list = f_list +"./"+ line.strip('\"\n') + " "
+                        os.system("python3 ../Python/Experiments/Testcoding-regex.py " + f_list)
+                        break
+                    elif os.path.isfile(inputFile) == True:
+                        filename_array.append(inputFile)
+                        break
+                    else:
+                        print("You did not enter a valid file or directory. Read the directions. ")
+            else:
+                print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
         else:            
-            fileInput = False    
+            fileInput = False
+
 if len(filename_array) > 0:
     start = timeit.default_timer()
     print("Please wait while we process",len(filename_array),"file(s)... \n")
@@ -376,20 +381,15 @@ if len(filename_array) > 0:
         full_job_text = ""
         for sentence in sentences:
             full_job_text = full_job_text + str(sentence) + "\n"        
-        jobDataArray.append(ASEULAFunction(document, full_job_text))
+        jobDataArray.append(AseulaFunction(document, full_job_text))
         i += 1
+    end = timeit.default_timer()
+    runtime = end - start
+    if runtime > 59:
+        print("Job runtime: " + str(runtime/60) + " Minutes\n")
+    else:
+        print("Job runtime: " + str(runtime) + " Seconds\n")
+    for job in jobDataArray:
+        OutputResults(job)
 else:
     print("\nNo input was provided. Thank you for using ASEULA!\n")
-
-for job in jobDataArray:
-    OutputResults(job)
-
-if len(filename_array) > 0:
-        # Print runtime output
-        # start = timeit.default_timer()
-        end = timeit.default_timer()
-        runtime = end - start
-        if runtime > 59:
-            print("Job runtime: " + str(runtime/60) + " Minutes\n")
-        else:
-            print("Job runtime: " + str(runtime) + " Seconds\n")

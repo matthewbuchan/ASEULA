@@ -209,170 +209,109 @@ def ASEULA_Function(document,full_job_text):
 
     #------------------------------------------------  RESTRICTIONS  ------------------------------------------------#
 
-    # Establishes variables to store restriction patterns and trigger words.    
-    pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", "permits", "permitting", "permitted", "require", \
-    "requires", "requiring", "required", "authorize", "authorizes", "authorizing", "authorized"]
-    neg_trigger_words = ["may not", "not granted", "not allowed", "not permitted", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
-    rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", "instructional purposes", "academic use", "academic-use", \
-    "academic instruction", "academic institution", "academic purposes", "educational use", "educational-use", "educational instruction", "educational institution", \
-    "educational purposes"]
-    rxion_research_patterns = ["research", "research use", "research-use"]
-    rxion_physical_patterns = ["activation key"]
-    rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop", "remote interface"]
-    rxion_campus_patterns = ["internally","designated site", "customer's campus"]
-    rxion_radius_patterns = ["radius", "limited radius", "geographically limited radius", "geographically-limited radius", "particular geography", "site license", "site licenses"]
-    rxion_us_patterns = ["united states","united states use", "u.s.", "u.s. use"]
-    rxion_vpn_patterns = ["vpn", "virtual private network"]
-    rxion_embargo_patterns = ["embargo", "embargoed", "embargoed country","export"]
-    rxion_poc_patterns = ["person of concern", "persons of concern", "people of concern","denied persons"]
-    rxion_lab_patterns = ["lab-use"]
-    rxion_site_patterns = ["single fixed geographic site", "fixed geographic site", "geographic site", "on-site", "on-site use"]
-    rxion_virt_patterns = ["virtualization", "virtualizing", "multiplexing", "pooling"]
-
-    rxion_instructional_sentences = []
-    rxion_research_sentences = []
-    rxion_physical_sentences = []
-    rxion_rdp_sentences = []
-    rxion_campus_sentences = []
-    rxion_radius_sentences = []
-    rxion_us_sentences = []
-    rxion_vpn_sentences = []
-    rxion_embargo_sentences = []
-    rxion_poc_sentences = []
-    rxion_lab_sentences = []
-    rxion_site_sentences = []
-    
+    # Establishes variables to store restriction patterns and trigger words.
     rxion_array = []
-    for sentence in document.sents:
-        sentence_string = str(sentence) 
-        sentence_lower = sentence_string.lower()
-        if any(pattern in sentence_lower for pattern in rxion_instructional_patterns):
-            if any(pattern in sentence_lower for pattern in pos_trigger_words):
-                rxion_array.append("Instructional-use only")
-                rxion_instructional_sentences.append(sentence)
-                # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_research_patterns):
-            if any(pattern in sentence_lower for pattern in pos_trigger_words):
-                rxion_array.append("Research-use only")
-                rxion_research_sentences.append(sentence)
-                # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_physical_patterns):
-            if any(pattern in sentence_lower for pattern in pos_trigger_words):
-                rxion_array.append("Requires Physical Device")
-                rxion_physical_sentences.append(sentence)
-                # print(HighlightText(sentence_string))       
-        if any(pattern in sentence_lower for pattern in rxion_rdp_patterns):
-            if any(pattern in sentence_lower for pattern in neg_trigger_words):
-                rxion_array.append("No RDP use")
-                rxion_rdp_sentences.append(sentence)
-                # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_campus_patterns):
-            rxion_array.append("Use geographically limited (Campus)")
-            rxion_campus_sentences.append(sentence)  
-            # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_radius_patterns):
-            rxion_array.append("Use geographically limited (radius)")
-            rxion_radius_sentences.append(sentence)
-            # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_us_patterns):
-            if any(pattern in sentence_lower for pattern in pos_trigger_words):
-                rxion_array.append("US use only")
-                rxion_us_sentences.append(sentence)
-                # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_vpn_patterns):
-            if any(pattern in sentence_lower for pattern in pos_trigger_words):
-                rxion_array.append("VPN required off-site")
-                rxion_vpn_sentences.append(sentence)
-                # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_embargo_patterns):
-            rxion_array.append("Block embargoed countries")
-            rxion_embargo_sentences.append(sentence)
-            # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_poc_patterns):
-            rxion_array.append("Block use from Persons of Concern")
-            rxion_poc_sentences.append(sentence)
-            # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_lab_patterns):
-            rxion_array.append("On-site (lab) use only")
-            rxion_lab_sentences.append(sentence)
-            # print(HighlightText(sentence_string))
-        if any(pattern in sentence_lower for pattern in rxion_site_patterns):
-            rxion_array.append("On-site use for on-site students only")
-            rxion_site_sentences.append(sentence)
-            # print(HighlightText(sentence_string))
-        # else:
-        #     print(sentence_string)
-    # i = 1
-    # for element in rxion_sentence_array:
-    #     print(rxion_array)
-    #     print(i, " --- " ,element)
-    #     i += 1
+    rxion_patterns = {}
+    pos_trigger_words = ["only","grant","allow","permit","granting"]
+    neg_trigger_words = ["no","not","may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
+    rxion_patterns["Instructional-use only"] = ["teaching", "instruction","academic","purposes", "educational","institution"]
+    rxion_patterns["Research-use only"] = ["research"]
+    rxion_patterns["Requires Physical Device"] = ["activation key"]
+    rxion_patterns["No RDP use"] = ["remote access", "remote", "rdp", "remote interface"]
+    rxion_patterns["Use geographically limited (Campus)"] = ["internally","designated site", "customer's campus"]
+    rxion_patterns["Use geographically limited (radius)"] = ["radius", "geographically-limited radius", "particular geography", "site license"]
+    rxion_patterns["US use only"] = ["united states use", "u.s.", "u.s. use","export"]
+    rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network"]
+    rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export"]
+    rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern","denied persons"]
+    rxion_patterns["On-site (lab) use only"] = ["lab-use"]
+    rxion_patterns["On-site use for on-site students only"] = ["fixed geographic site", "geographic site", "on-site", "on-site use"]
+    rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
+    restriction_sentence_dict = dict()
+        
+    # Restriction runs
+    for rxion in rxion_patterns:
+        rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion))
+        if rxiontmp:
+            rxion_array.append(str(rxion))
+            restriction_sentence_dict[str(rxion)] = rxiontmp
 
-    if not rxion_array:        
+    if not rxion_array:
         rxion_array.append("Needs Review")
 
-    string_rxion_array = ArrayToString(RemoveDuplicate(rxion_array))
+    rxion_array_string = ArrayToString(RemoveDuplicate(rxion_array))
 
-    fields = ["Software Name", "Publisher", "Information Webpage", "Licensing Restrictions"]
-    selected_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": string_rxion_array}
-    field_dict = {"software name": software_findings, "publisher": org_findings, "information webpage": url_findings}
-    sentence_dict = {"Instructional-use only": rxion_instructional_sentences,"Research-use only": rxion_research_sentences,"Requires Physical Device": rxion_physical_sentences, \
-        "No RDP use": rxion_rdp_sentences,"Use geographically limited (Campus)": rxion_campus_sentences,"Use geographically limited (radius)": rxion_radius_sentences, \
-        "US use only": rxion_us_sentences,"VPN required off-site": rxion_vpn_sentences,"Block embargoed countries": rxion_embargo_sentences, \
-        "Block use from Persons of Concern": rxion_poc_sentences,"On-site (lab) use only": rxion_lab_sentences,"On-site use for on-site students only": rxion_site_sentences}
+    fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"]
+    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string}
+    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
 
-    return [os.path.basename(job),software_name,publisher_name,information_webpage, rxion_array, string_rxion_array, fields, selected_dict, field_dict, sentence_dict, full_job_text]
+    return [os.path.basename(job),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
+
+def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString):
+    rxion_sentences_array = []
+    rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
+    for sent in document.sents:
+        sentence = str(sent).lower()
+        for rx in rx_array:
+            if rx[2] in sentence:
+                if any(pattern in restrictionString.lower() for pattern in neg):
+                    if rx[0] in sentence and str(sent) not in rxion_sentences_array:
+                        rxion_sentences_array.append(str(sent))
+                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array:
+                        rxion_sentences_array.append(str(sent))
+                elif rx[0] in sentence and str(sent) not in rxion_sentences_array:                    
+                        rxion_sentences_array.append(str(sent))                        
+    if len(rxion_sentences_array) > 0:
+        return rxion_sentences_array
 
 def OutputResults(job): # Summarized output
     print("\nHere's what we found for", job[0])
+    print("-----------------------")    
+    print("Software: ", job[1]['software name'])
+    print("Publisher: ", job[1]['publisher'])
+    print("Information Webpage: ", job[1]['information webpage'])
+    print("Licensing Restrictions: ", job[1]['licensing restrictions'])
     print("-----------------------")
-    # Prints all established variables for the input file.
-    print("Software: ", job[7]["software name"])
-    print("Publisher: ", job[7]["publisher"])
-    print("Information Webpage: ", job[7]["information webpage"])
-    print("Licensing Restrictions: ", job[7]["licensing restrictions"])
-    print("-----------------------")
-    UserValidation()
+    UserVerification()
 
-def UserValidation():
+def UserVerification():
     while True:
         info_check = str(input("Is the information above correct? (y/n)  ")).lower().strip()
         if info_check == "y":
-            print ("\nInformation will be pushed to SharePoint shortly. Thank you for using ASEULA!")
+            print ("Information will shortly pushed to SharePoint. Thank you for using ASEULA!")
             break
         elif info_check == "n":
-            print("-----------------------")
-            for selection in job[6]:
-                print(str(job[6].index(selection) + 1) + ".",selection)
+            for selection in job[2]:
+                print(job[2].index(selection) + 1,". ",selection)
                 #print (*job[6], sep= ", ")
             while True:
-                field_correction = int(input("\nWe're sorry. Which of the following fields is incorrect? Please enter the corresponding number. "))
+                field_correction = int(input("\nWhich of the fields information needs to be corrected?  "))
                 if field_correction == 4:
                     print ('\n')
-                    new_rxion_array = RxionSentenceOutput(job[9])
-                    job[7][job[6][field_correction - 1].lower()] = ArrayToString(RemoveDuplicate(new_rxion_array)) #selected_dict[field_correction] = new_string_rxion_array
+                    print ('-' * 10)
+                    new_rxion_array = RxionFormatting(job[5])
+                    job[1][job[2][field_correction - 1].lower()] = ArrayToString(RemoveDuplicate(new_rxion_array)) #selected_dict[field_correction] = new_string_rxion_array
                     OutputResults(job)
                     break
                 elif field_correction == 1 or field_correction == 2 or field_correction == 3:
-                    print("-----------------------")
-                    incorrect_data = job[8][job[6][field_correction - 1].lower()]
+                    print ('-' * 10)
+                    incorrect_data = job[4][job[2][field_correction - 1].lower()]
                     for item in incorrect_data:
-                        print(str(incorrect_data.index(item) + 1) + ".",item)
+                        print(incorrect_data.index(item) + 1,". ",item)
                     while True:
-                        user_selection = input("\nWhich value is correct? If none are listed, please enter one. ")
+                        user_selection = input("\nwhich value is correct?  ")
                         try:
                             user_selection = int(user_selection)
                             if user_selection <= len(incorrect_data) + 1:
-                                job[7][job[6][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
+                                job[1][job[2][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
                                 break
                             else:
                                 print("Error! Invalid input. Please enter a valid number or string.")
                         except:
                             if type(user_selection) == str:
-                                job[8][job[6][field_correction - 1].lower()].append(user_selection)
-                                job[7][job[6][field_correction - 1].lower()] = user_selection
-                                print("\nAre you sure you want to use",user_selection,"?")                                
-                                break
+                                job[4][job[2][field_correction - 1].lower()].append(user_selection)
+                                job[1][job[2][field_correction - 1].lower()] = user_selection                                
+                                break                    
                     OutputResults(job)
                     break
                 else: 
@@ -380,6 +319,25 @@ def UserValidation():
             break
         else:
             print('Invalid input. Please try again.')
+
+def RxionFormatting(dictionary):
+    new_rxion_array = []
+    for key in dictionary:
+        if key in job[3]:
+            print (key)
+            print("-----------------------")
+            # # Added loop to print entire document with flagged text highlighted
+            # doctext = str(job[10])
+            # for element in dictionary[key]:
+            #     doctext = re.sub(str(element),str(HighlightText(element)),doctext)
+            # print(doctext)
+            ArrayFormatting(dictionary[key])
+            user_selection = input("\nIs this restriction flagged correctly? (y/n)  ").lower().strip()
+            if user_selection == "y":
+                new_rxion_array.append(key)
+            elif user_selection == "n":
+                print ("This restriction will be unflagged\n")
+    return new_rxion_array
 
 def RxionSentenceOutput(dictionary):
     new_rxion_array = []
@@ -486,8 +444,7 @@ else:
                 print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
         else:            
             fileInput = False
-
-
+            
 if len(filename_array) > 0:
     start = timeit.default_timer()
     print("\nPlease wait while we process",len(filename_array),"file(s)... \n")
@@ -519,3 +476,194 @@ else:
     
 for job in jobDataArray:
     OutputResults(job)
+
+############################################    INACTIVE FUNCTIONS    ############################################
+# Similarity check and sentence output
+#Searches through all tokens to check similarity with restriction items.
+def SimilarityList(sentences, restrictions):
+    sent_count = 1
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        rxsion = nlp(restrictions)
+        rx_sim = 0
+        for token in doc:
+            for rx in rxsion:
+                if rx.similarity(token) > .70:
+                    #print(f'{token.text:{15}}{rx.text:{15}}{rx.similarity(token) * 100}')
+                    rx_sim = 1                    
+        if rx_sim == 1:            
+            print(str(sent_count) + ". " + str(sentence))
+            sent_count += 1
+
+#Part of Speech Tagging
+def PartofSpeechList(sentences):
+    output_file = open("./newfile.csv","w+")    
+    output_file.write("TEXT,LEMMA,POS,DEP,HEAD,HAS_VECTOR\n")
+    for sentence in sentences:
+        doc = nlp(str(sentence))        
+        for token in doc:
+            output_file.write(str(token.text) + "," + str(token.lemma_) + "," + str(token.pos_) + "," + str(token.dep_) + "," + str(token.head.text) + "," + str(token.has_vector) + "\n")
+            #print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}} {token.head.text:{15}} {token.has_vector:{15}} ')
+    output_file.close()
+
+#Purge Stop Words
+def PurgeStopList(sentences):
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        purge_string = ""
+        for token in doc:
+            if token.is_stop == 'False':
+                purge_string += str(token.text) + " "
+            else:
+                continue
+
+#Lemmatization
+def LemmaList(sentences):
+    lemma_string = ""
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            print(f'{token.text:{15}} {token.lemma_:{15}} ')
+            lemma_string += str(token.lemma_) + " "
+    return lemma_string
+
+#Syntactic dependency
+def SyntacticList(sentences):    
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for chunk in doc.noun_chunks:
+            print(f'{chunk.text:{30}}{chunk.root.text:{15}}{chunk.root.dep_}')
+
+#Output all token info
+def TokenList(sentences):    
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        for token in doc:
+            print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{10}} {token.is_stop}')
+
+#Remove punctuation from string
+def RemovePunct(sentstring):
+    import string
+    nopunct = ""
+    sentstring = str(sentstring)
+    for char in sentstring:
+        if char not in string.punctuation:
+            nopunct += char    
+    return nopunct
+
+#Named entity recognition ORG select
+def NER_function(sentences):
+    entities = []
+    for sentence in sentences:
+        sentence = RemovePunct(sentence)
+        doc = nlp(str(sentence))
+        for ent in doc.ents:
+            publisher_patterns = ["Inc", "LLC","Inc.", "Incorporated", "©", "Copyright"]
+            #FIND Orgs
+            if ent.label_.lower() == "org" and any(pattern in ent.text for pattern in publisher_patterns):                
+                for token in ent:
+                    if token.pos_ == "PROPN" and token.dep_ == "compound" or token.dep_ == "ROOT":
+                        entities.append(ent.text)
+                        print(ent.text)
+                    elif token.pos_ == "PUNCT":
+                        entities.append(ent.text)
+                        print(ent.text)
+
+            elif ent.label_.lower() == "org":
+                entities.append(ent.text)
+                print(ent.text)
+                #print(f'{ent.text:{30}} {ent.label_:{15}}')
+
+        for token in doc:
+            if token.text.title() in entities:
+                if token.pos_ == "PROPN":
+                    #print(f'{token.text:{15}} {token.lemma_:{15}} {token.pos_:{10}} {token.dep_:{15}}')
+                    continue
+    print(ArrayMode(entities))
+
+# from sense2vec import Sense2Vec
+# s2v = Sense2Vec().from_disk("../../../s2v_reddit_2015_md")
+
+def FindSimilarTerms(inputarray):
+    from sense2vec import Sense2Vec
+    output_array = []    
+    for element in inputarray:
+        try:
+            output_array.append(element)
+            element = element.replace(" ","_")
+            #s2v = Sense2Vec().from_disk("../../../s2v_reddit_2019_lg")
+            s2v = Sense2Vec().from_disk("../../../s2v_reddit_2015_md")
+            query = str(element) + "|NOUN"
+            assert query in s2v
+            vector = s2v[query]
+            freq = s2v.get_freq(query)
+            most_similar = s2v.most_similar(query, n=5)
+            for i in most_similar:            
+                i = i[0].split("|")
+                i = i[0].replace("_"," ").lower()
+                output_array.append(i)                
+        except:
+            pass
+    if output_array > inputarray:
+        return output_array
+    else:
+        return inputarray
+
+# [('machine_learning|NOUN', 0.8986967),
+#  ('computer_vision|NOUN', 0.8636297),
+#  ('deep_learning|NOUN', 0.8573361)]
+
+#################################  SANDBOX AREA #################################################
+
+# RULES BASED MATCHER
+# keysight_pub_pattern = [{'POS': 'PROPN', 'DEP': 'compound'},
+#            {'POS': 'PROPN', 'DEP': 'ROOT'},
+#            {'POS': 'PUNCT'},
+#            {'POS': 'PROPN', 'DEP': 'appos'}]
+
+
+
+# # # Displacy output to browser
+# # from spacy import displacy
+# # #Obtain IP for browser view
+# # import socket
+# # host_ip = socket.gethostbyname(socket.gethostname())
+# # print("\nYour rendered strings will be located at the following address: "+ str(host_ip) + ":5000\n")
+# # i = 1
+# # for sentence in sentences:
+# #     print("Sentence " + str(i) + " of " + str(len(sentences)))
+# #     displacy.serve(sentence, style='dep') # OR ent
+# #     input()
+
+# #Tesseract output defaults to unicode that causes errors when executed by Windows
+# #Convert_ansi detects if windows is being utilized and converts to an acceptable format
+# # def convert_ansi(file_input):
+# #     import codecs
+# #     import platform
+# #     current_sys = platform.system()
+# #     inputfile = "./"+ file_input + ".txt"    
+# #     outputfile = "./"+ file_input + "ansi.txt"
+# #     if str(current_sys) == "Windows":
+# #         print("The current OS is: " + current_sys + ". You must convert")
+# #         with io.open( inputfile , mode='r', encoding='utf8') as fc:
+# #             content = fc.read()
+# #         with io.open( outputfile , mode='w', encoding='cp1252') as fc:
+# #             fc.write(content)
+# #         return str(outputfile)        
+# #     else:
+# #         return inputfile
+
+# Semantic meaning extraction
+# if negative semantic and restriction in sentence
+#   Mark as prohibited restriction
+# if positive semantic and restriction in sentence
+#   Mark as allowed restriction
+
+# RULE BASED extraction
+# if negative statement > restriction in sentence
+# if positive statement > restriction in sentence
+
+
+# SENSE2VEC
+#https://github.com/explosion/sense2vec
+# pip3 install sense2vec
