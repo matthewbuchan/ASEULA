@@ -463,20 +463,16 @@ if len(filename_array) > 0:
             full_job_text = full_job_text + str(sentence) + "\n"
         jobDataArray.append(ASEULA_Function(document,full_job_text))
         i += 1
+    end = timeit.default_timer()
+    runtime = end - start
+    if runtime > 59:
+        print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)\nPlease verify the results: ")
+    else:
+        print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)\nPlease verify the results: ")        
+    for job in jobDataArray:
+            OutputResults(job)
 else:
     print("\nNo input was provided. Thank you for using ASEULA!\n")
-
-#Processing time output
-end = timeit.default_timer()
-runtime = end - start
-if runtime > 59:
-    print("\nJob Runtime: " + str(runtime/60) + " Minutes\n")
-else:
-    print("\nJob Runtime: " + str(runtime) + " Seconds\n")
-    
-for job in jobDataArray:
-    OutputResults(job)
-
 ############################################    INACTIVE FUNCTIONS    ############################################
 # Similarity check and sentence output
 #Searches through all tokens to check similarity with restriction items.

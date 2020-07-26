@@ -478,9 +478,9 @@ if len(filename_array) > 0:
     end = timeit.default_timer()
     runtime = end - start
     if runtime > 59:
-        print("\nJob Runtime: " + str(runtime/60) + " Minutes\n")
+        print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)\nPlease verify the results: ")
     else:
-        print("\nJob Runtime: " + str(runtime) + " Seconds\n")
+        print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)\nPlease verify the results: ")        
     for job in jobDataArray:
             OutputResults(job)
 else:
