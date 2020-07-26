@@ -356,7 +356,7 @@ else:
 
 if len(filename_array) > 0:
     start = timeit.default_timer()
-    inputFile = input("\nPlease enter the absolute path for file or directory you would like to process (or press enter to continue): ").strip('"')
+    print("Please wait while we process",len(filename_array),"file(s)... \n")
     for job in filename_array:
         inputfile = ProcessInputFile(job)
         text = paragraph_parse(inputfile)
