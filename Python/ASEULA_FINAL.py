@@ -211,7 +211,7 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
     rxion_poc_patterns = ["person of concern", "persons of concern", "people of concern"]
     rxion_lab_patterns = ["lab-use"]
     rxion_site_patterns = ["single fixed geographic site", "fixed geographic site", "geographic site", "on-site", "on-site use"]
-    rxion_virt_patterns = ["virtualization", "virtualizing", "multiplexing", "pooling"]
+    #rxion_virt_patterns = ["virtualization", "virtualizing", "multiplexing", "pooling"]
 
     rxion_instructional_sentences = []
     rxion_research_sentences = []
@@ -233,57 +233,75 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
         if any(pattern in sentence_lower for pattern in rxion_instructional_patterns):
             if any(pattern in sentence_lower for pattern in pos_trigger_words):
                 rxion_array.append("Instructional-use only")
-                rxion_instructional_sentences.append(sentence)
+                rxion_instructional_sentences.append(HighlightText(sentence))
                 # print(HighlightText(sentence_string))
+            else:
+                rxion_instructional_sentences.append(sentence)
         if any(pattern in sentence_lower for pattern in rxion_research_patterns):
             if any(pattern in sentence_lower for pattern in pos_trigger_words):
                 rxion_array.append("Research-use only")
-                rxion_research_sentences.append(sentence)
+                rxion_research_sentences.append(HighlightText(sentence))
                 # print(HighlightText(sentence_string))
+            else:
+                rxion_research_sentences.append(sentence)
         if any(pattern in sentence_lower for pattern in rxion_physical_patterns):
             if any(pattern in sentence_lower for pattern in pos_trigger_words):
                 rxion_array.append("Requires Physical Device")
-                rxion_physical_sentences.append(sentence)
+                rxion_physical_sentences.append(HighlightText(sentence))
                 # print(HighlightText(sentence_string))       
+            else:
+                rxion_physical_sentences.append(sentence)
         if any(pattern in sentence_lower for pattern in rxion_rdp_patterns):
             if any(pattern in sentence_lower for pattern in neg_trigger_words):
                 rxion_array.append("No RDP use")
-                rxion_rdp_sentences.append(sentence)
+                rxion_rdp_sentences.append(HighlightText(sentence))
                 # print(HighlightText(sentence_string))
+            else:
+                rxion_rdp_sentences.append(sentence)
         if any(pattern in sentence_lower for pattern in rxion_campus_patterns):
             rxion_array.append("Use geographically limited (Campus)")
             rxion_campus_sentences.append(sentence)  
             # print(HighlightText(sentence_string))
+
         if any(pattern in sentence_lower for pattern in rxion_radius_patterns):
             rxion_array.append("Use geographically limited (radius)")
             rxion_radius_sentences.append(sentence)
             # print(HighlightText(sentence_string))
+
         if any(pattern in sentence_lower for pattern in rxion_us_patterns):
             if any(pattern in sentence_lower for pattern in pos_trigger_words):
                 rxion_array.append("US use only")
-                rxion_us_sentences.append(sentence)
+                rxion_us_sentences.append(HighlightText(sentence))
                 # print(HighlightText(sentence_string))
+            else:
+                rxion_us_sentences.append(sentence)
         if any(pattern in sentence_lower for pattern in rxion_vpn_patterns):
             if any(pattern in sentence_lower for pattern in pos_trigger_words):
                 rxion_array.append("VPN required off-site")
-                rxion_vpn_sentences.append(sentence)
+                rxion_vpn_sentences.append(HighlightText(sentence))
                 # print(HighlightText(sentence_string))
+            else:
+                rxion_vpn_sentences.append(sentence)
         if any(pattern in sentence_lower for pattern in rxion_embargo_patterns):
             rxion_array.append("Block embargoed countries")
             rxion_embargo_sentences.append(sentence)
             # print(HighlightText(sentence_string))
+            
         if any(pattern in sentence_lower for pattern in rxion_poc_patterns):
             rxion_array.append("Block use from Persons of Concern")
             rxion_poc_sentences.append(sentence)
             # print(HighlightText(sentence_string))
+
         if any(pattern in sentence_lower for pattern in rxion_lab_patterns):
             rxion_array.append("On-site (lab) use only")
             rxion_lab_sentences.append(sentence)
             # print(HighlightText(sentence_string))
+
         if any(pattern in sentence_lower for pattern in rxion_site_patterns):
             rxion_array.append("On-site use for on-site students only")
             rxion_site_sentences.append(sentence)
             # print(HighlightText(sentence_string))
+
         # else:
         #     print(sentence_string)
     # i = 1
@@ -365,7 +383,7 @@ def UserValidation(): # Provides interface for users to validate findings
 def RxionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
     new_rxion_array = []
     for key in dictionary:
-        if key in job[4]:
+        if dictionary[key] != []:
             print (key)
             print("-----------------------")
             # # Added loop to print entire document with flagged text highlighted.

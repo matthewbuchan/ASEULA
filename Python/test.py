@@ -18,14 +18,20 @@
 
 
 
-# fields = ["Url", "Software name", "Organization"]
-# stripped_url = ["a", "b", "c"]
-# stripped_software = ["d", "e", "f"]
-# stripped_org = ["g", "h", "i"]
+fields = ["Url", "Software name", "Organization"]
+stripped_url = ["a", "b", "c"]
+stripped_software = ["d", "e", "f"]
+stripped_org = ["h"]
 
-# selected_dict = {"url": stripped_url[1], "software name": stripped_software[2], "org": stripped_org[0]}
-# field_dict = {"url": stripped_url, "software name": stripped_software, "org": stripped_org}
+#selected_dict = {"url": stripped_url[1], "software name": stripped_software[2], "org": stripped_org[0]}
+field_dict = {"url": stripped_url, "software name": stripped_software, "org": stripped_org}
 
+for key in field_dict:
+    if field_dict[key] != []:
+        i = 1
+        for element in field_dict[key]:
+            print (str(i) + ".", element)
+            i += 1
 
 # print ("old: " + selected_dict["software name"])
 # user_input()
@@ -39,9 +45,10 @@
 # elif test_type == str:
 #     print ("this is a string")
 
-test = input("type something: ")
-test_type2 = int(test)
-if type(test_type2) == int:
-    print ("this is a int")
-elif type(test_type2) == str:
-    print ("this is a string")
+# test = input("type something: ")
+# test_type2 = int(test)
+# if type(test_type2) == int:
+#     print ("this is a int")
+# elif type(test_type2) == str:
+#     print ("this is a string")
+
