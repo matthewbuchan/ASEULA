@@ -225,8 +225,8 @@ def OutputResults(job):
     print("Information Webpage: ", job[1]['information webpage'])
     print("Licensing Restrictions: ", job[1]['licensing restrictions'])
     print("-----------------------")    
-    UserVerification()
-def UserVerification():
+    UserValidation()
+def UserValidation():
     while True:
         info_check = str(input("Is the information above correct? (y/n)  ")).lower().strip()
         if info_check == "y":

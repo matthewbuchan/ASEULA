@@ -12,6 +12,7 @@
 # install Tesseract-OCR for windows
 from colorama import Fore, Back, Style
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, pytesseract as tess, platform
+import os.path
 from spacy.lang.en import English
 from re import search
 from statistics import mode
@@ -86,7 +87,7 @@ def UrlList(sentences): # Generates listing of websites identified in the docume
             if token.like_url == True:
                 UrlList.append(token.text)
     return UrlList
-def AseulaFunction(document,full_job_text): # Performs data extraction from the converted documents
+def AseulaMain(document,full_job_text): # Performs data extraction from the converted documents
     #**********************************************    Organization     ***************************************************#
     # Establish variables to store publisher
     organization_entity_array = []
@@ -137,24 +138,39 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
         information_webpage = information_webpage.replace('\n', '')
     else:        
         information_webpage = "Unknown"
-        
-    # Establishes variables to store restriction patterns and trigger words.
+    
+    restriction_sentence_dict,rxion_array_string = ProcessRestrictions(document)
+    fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"]
+    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string}
+    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
+    
+    return [os.path.basename(job),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
+def ProcessRestrictions(document): # Establishes restriction variables and executes each type
     rxion_array = []
     rxion_patterns = {}
-    pos_trigger_words = ["only","grant","allow","permit","granting"]
-    neg_trigger_words = ["no","not","may not", "not permitted", "not allowed", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
-    rxion_patterns["Instructional-use only"] = ["teaching", "instruction","academic","purposes", "educational","institution"]
-    rxion_patterns["Research-use only"] = ["research"]
-    rxion_patterns["Requires Physical Device"] = ["activation key"]
-    rxion_patterns["No RDP use"] = ["remote access", "remote", "rdp", "remote interface"]
-    rxion_patterns["Use geographically limited (Campus)"] = ["internally","designated site", "customer's campus"]
-    rxion_patterns["Use geographically limited (radius)"] = ["radius", "geographically-limited radius", "particular geography", "site license"]
-    rxion_patterns["US use only"] = ["united states use", "u.s.", "u.s. use","export"]
-    rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network"]
+    pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
+        "permits", "permitting", "permitted", "require", "requires", "requiring", "required", "authorize", "authorizes", \
+            "authorizing", "authorized", "necessary"]
+    neg_trigger_words = ["no", "not", "may not", "not granted", "not allowed", "not permitted", "forbidden", "restricts", "restricted",\
+         "prohibits", "prohibited"]
+    rxion_patterns["Instructional-use only"] = ["teaching", "teaching use", "teaching-use", "instruction", "instructional use",\
+         "instructional-use", "instructional purposes", "academic", "academic use", "academic-use", "academic instruction",\
+              "academic institution", "academic purposes", "educational", "educational use", "educational-use",\
+                   "educational instruction", "educational institution", "institution", "educational purposes"]
+    rxion_patterns["Research-use only"] = ["research", "research use", "research-use"]
+    rxion_patterns["Requires Physical Device"] = ["activation key", "dongle"]
+    rxion_patterns["No RDP use"] = ["remote", "rdp", "remote access", "remote-access", "remote desktop", "remote interface"]
+    rxion_patterns["Use geographically limited (Campus)"] = ["designated site", "customer's campus", "internally"]
+    rxion_patterns["Use geographically limited (radius)"] = ["radius", "limited radius", "geographically limited radius",\
+         "geographically-limited radius", "particular geography", "site license", "site licenses"]
+    rxion_patterns["US use only"] = ["united states", "united states use", "u.s.", "u.s. use","export"]
+    rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network", "remote access"]
     rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export"]
-    rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern","denied persons"]
+    rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern",\
+        "denied persons"]
     rxion_patterns["On-site (lab) use only"] = ["lab-use"]
-    rxion_patterns["On-site use for on-site students only"] = ["fixed geographic site", "geographic site", "on-site", "on-site use"]
+    rxion_patterns["On-site use for on-site students only"] = ["single fixed geographic site", "fixed geographic site",\
+         "geographic site", "on-site", "on-site use"]
     rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
     restriction_sentence_dict = dict()
 
@@ -169,40 +185,38 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
         rxion_array.append("Needs Review")
 
     rxion_array_string = ArrayToString(RemoveDuplicate(rxion_array))
-
-    fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"]
-    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string}
-    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
-    return [os.path.basename(job),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
+    return restriction_sentence_dict, rxion_array_string
 def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # Function to find restriction sentences
     rxion_sentences_array = []
     rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
     for sent in document.sents:
         sentence = str(sent).lower()
         for rx in rx_array:
-            if rx[2] in sentence:
-                if any(pattern in restrictionString.lower() for pattern in neg):
+            if rx[2] in sentence: # All sentences containing a restriction
+                if any(pattern in restrictionString.lower() for pattern in neg): # All sentences containing a negative trigger
                     if rx[0] in sentence and str(sent) not in rxion_sentences_array:
                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-                        if re.search(reg_pattern,sentence): #  and pattern_found == False
-                            rxion_sentences_array.append(str(sent))                            
+                        if re.search(reg_pattern,sentence):
+                            rxion_sentences_array.append(HighlightText(str(sent)))
                         elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(str(sent))                            
-                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array:
+                            rxion_sentences_array.append(HighlightText(str(sent)))
+                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array:                        
                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-                        if re.search(reg_pattern,sentence): #  and pattern_found == False
-                            rxion_sentences_array.append(str(sent))                            
+                        if re.search(reg_pattern,sentence):
+                            rxion_sentences_array.append(HighlightText(str(sent)))
                         elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(str(sent))                            
-                elif rx[0] in sentence and str(sent) not in rxion_sentences_array:
-                    reg_pattern = re.compile(r"("+ rx[1] + r".*" + rx[0] + r")?.*" + rx[2])
-                    reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*" + rx[0] + r")?")
-                    if re.search(reg_pattern,sentence): #  and pattern_found == False
-                        rxion_sentences_array.append(str(sent))                        
+                            rxion_sentences_array.append(HighlightText(str(sent)))
+                elif rx[0] in sentence and str(sent) not in rxion_sentences_array: # All sentences containing a positive trigger                    
+                    reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2])
+                    reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0])
+                    if re.search(reg_pattern,sentence):
+                        rxion_sentences_array.append(HighlightText(str(sent)))
                     elif re.search(reg_pattern_rev,sentence):
-                        rxion_sentences_array.append(str(sent))                        
+                        rxion_sentences_array.append(HighlightText(str(sent)))
+                elif str(sent) not in rxion_sentences_array:
+                    rxion_sentences_array.append(str(sent))
     if len(rxion_sentences_array) > 0:
         return rxion_sentences_array
 def OutputResults(job): # Summarized output
@@ -213,8 +227,8 @@ def OutputResults(job): # Summarized output
     print("Information Webpage: ", job[1]['information webpage'])
     print("Licensing Restrictions: ", job[1]['licensing restrictions'])
     print("-----------------------")
-    UserVerification()
-def UserVerification(): # Provides interface for users to validate findings
+    UserValidation()
+def UserValidation(): # Provides interface for users to validate findings
     while True:
         info_check = str(input("Is the information above correct? (y/n)  ")).lower().strip()
         if info_check == "y":
@@ -225,7 +239,7 @@ def UserVerification(): # Provides interface for users to validate findings
                 print(job[2].index(selection) + 1,". ",selection)
                 #print (*job[6], sep= ", ")
             while True:
-                field_correction = int(input("\nWhich of the fields information needs to be corrected?  "))
+                field_correction = int(input("\nWe're sorry. Which of the following fields is incorrect? Please enter the corresponding number. "))
                 if field_correction == 4:
                     print ('\n')
                     print ('-' * 10)
@@ -236,24 +250,31 @@ def UserVerification(): # Provides interface for users to validate findings
                 elif field_correction == 1 or field_correction == 2 or field_correction == 3:
                     print ('-' * 10)
                     incorrect_data = job[4][job[2][field_correction - 1].lower()]
-                    for item in incorrect_data:
-                        print(incorrect_data.index(item) + 1,". ",item)
-                    while True:
-                        user_selection = input("\nwhich value is correct?  ")
-                        try:
-                            user_selection = int(user_selection)
-                            if user_selection <= len(incorrect_data) + 1:
-                                job[1][job[2][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
-                                break
-                            else:
-                                print("Error! Invalid input. Please enter a valid number or string.")
-                        except:
-                            if type(user_selection) == str:
-                                job[4][job[2][field_correction - 1].lower()].append(user_selection)
-                                job[1][job[2][field_correction - 1].lower()] = user_selection
-                                break
-                    OutputResults(job)
-                    break
+                    if incorrect_data:
+                        for item in incorrect_data:
+                            print(incorrect_data.index(item) + 1,". ",item)
+                        while True:
+                            user_selection = input("\nWhich value is correct? If none are correct, please enter one. ")
+                            try:
+                                user_selection = int(user_selection)
+                                if user_selection <= len(incorrect_data) + 1:
+                                    job[1][job[2][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
+                                    break
+                                else:
+                                    print("Error! Invalid input. Please enter a valid number or string.")
+                            except:
+                                if type(user_selection) == str:
+                                    job[4][job[2][field_correction - 1].lower()].append(user_selection)
+                                    job[1][job[2][field_correction - 1].lower()] = user_selection
+                                    break
+                        OutputResults(job)
+                        break
+                    else:
+                        user_selection = str(input("\nNo value were found, please provide the correct value if it is known. "))
+                        job[4][job[2][field_correction - 1].lower()].append(user_selection)
+                        job[1][job[2][field_correction - 1].lower()] = user_selection
+                        OutputResults(job)
+                        break
                 else: 
                     print("Error! Invalid input. Please enter a valid field option.")
             break
@@ -285,7 +306,7 @@ def ArrayFormatting(array): # Returns dictionary items requested by the RxionSen
     print ("\n")
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
     return Fore.YELLOW + str(usertext).upper() + Fore.RESET
-def ArrayMode(list): # Assists in determining entities from the ASEULAFunction
+def ArrayMode(list): # Assists in determining entities from the AseulaMain
     return(mode(list))
 def RemoveDuplicate(array): # Function that removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
@@ -314,7 +335,7 @@ if len(sys.argv) >= 2:
         filename_array.append(filename.strip('"'))
         i += 1
 else:
-    print("\nASEULA Alpha V.1 for",current_sys)    
+    print("\nASEULA Alpha Build 200727 for",current_sys)
     fileInput = True
     current_sys = platform.system()
     while fileInput == True:
@@ -324,7 +345,7 @@ else:
             if current_sys.lower() == "windows":
                 while True:
                     if os.path.isdir(inputFile) == True:
-                        filelist = os.listdir(inputFile)        
+                        filelist = os.listdir(inputFile)
                         for f in filelist:
                             if ".pdf" in str(f) or ".docx" in str(f) or ".txt" in str(f):
                                 filename_array.append(str(inputFile) + "\\" + str(f))
@@ -336,19 +357,18 @@ else:
                         print("You did not enter a valid file or directory. Read the directions. ")
             elif current_sys.lower() == "linux":
                 while True:
-                    if os.path.isdir(inputFile) == True:
-                        filelist = os.system("ls -la *.pdf *.txt *.docx | awk '{print \"\\\"\"$9" "$10\"\\\"\"}' > newfile.txt")
-                        f_list = ""
-                        listfile = open("newfile.txt")
-                        for line in listfile:    
-                            f_list = f_list +"./"+ line.strip('\"\n') + " "
-                        os.system("python3 ../Python/Experiments/Testcoding-regex.py " + f_list)
+                    if os.path.isdir(inputFile):
+                        filelist = os.listdir(inputFile)
+                        for line in filelist:    
+                            filename_array.append(str(inputFile) + line)
+                        print(filename_array)
                         break
-                    elif os.path.isfile(inputFile) == True:
+                    elif os.path.isfile(inputFile):
                         filename_array.append(inputFile)
                         break
                     else:
-                        print("You did not enter a valid file or directory. Read the directions. ")
+                        print(inputFile,"You did not enter a valid file or directory. Read the directions. ")
+                        break
             else:
                 print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
         else:            
@@ -368,15 +388,15 @@ if len(filename_array) > 0:
             sentences.append(re.sub(r'\n{1,}'," ",str(sent))) # Remove new line characters from each sentence            
         full_job_text = ""
         for sentence in sentences:
-            full_job_text = full_job_text + str(sentence) + "\n"        
-        jobDataArray.append(AseulaFunction(document, full_job_text))
+            full_job_text = full_job_text + str(sentence) + "\n"
+        jobDataArray.append(AseulaMain(document, full_job_text))
         i += 1
     end = timeit.default_timer()
     runtime = end - start
     if runtime > 59:
         print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)\nPlease verify the results: ")
     else:
-        print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)\nPlease verify the results: ")        
+        print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)\nPlease verify the results: ")
     for job in jobDataArray:
             OutputResults(job)
 else:

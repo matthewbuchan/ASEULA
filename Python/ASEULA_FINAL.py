@@ -194,23 +194,29 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
     #------------------------------------------------  RESTRICTIONS  ------------------------------------------------#
 
     # Establishes variables to store restriction patterns and trigger words.    
-    pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", "permits", "permitting", "permitted", "require", \
-    "requires", "requiring", "required", "authorize", "authorizes", "authorizing", "authorized"]
-    neg_trigger_words = ["may not", "not granted", "not allowed", "not permitted", "forbidden", "restricts", "restricted", "prohibits", "prohibited"]
-    rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instructional use", "instructional-use", "instructional purposes", "academic use", "academic-use", \
-    "academic instruction", "academic institution", "academic purposes", "educational use", "educational-use", "educational instruction", "educational institution", \
-    "educational purposes"]
+    pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
+        "permits", "permitting", "permitted", "require", "requires", "requiring", "required", "authorize", "authorizes", \
+            "authorizing", "authorized", "necessary"]
+    neg_trigger_words = ["no", "not", "may not", "not granted", "not allowed", "not permitted", "forbidden", "restricts", "restricted",\
+         "prohibits", "prohibited"]
+    rxion_instructional_patterns = ["teaching", "teaching use", "teaching-use", "instruction", "instructional use",\
+         "instructional-use", "instructional purposes", "academic", "academic use", "academic-use", "academic instruction",\
+              "academic institution", "academic purposes", "educational", "educational use", "educational-use",\
+                   "educational instruction", "educational institution", "institution", "educational purposes"]
     rxion_research_patterns = ["research", "research use", "research-use"]
-    rxion_physical_patterns = ["activation key"]
-    rxion_rdp_patterns = ["remote access", "remote-access", "remote desktop", "remote interface"]
-    rxion_campus_patterns = ["designated site", "customer's campus"]
-    rxion_radius_patterns = ["radius", "limited radius", "geographically limited radius", "geographically-limited radius", "particular geography", "site license", "site licenses"]
-    rxion_us_patterns = ["united states","united states use", "u.s.", "u.s. use"]
-    rxion_vpn_patterns = ["vpn", "virtual private network"]
-    rxion_embargo_patterns = ["embargo", "embargoed", "embargoed country"]
-    rxion_poc_patterns = ["person of concern", "persons of concern", "people of concern"]
+    rxion_physical_patterns = ["activation key", "dongle"]
+    rxion_rdp_patterns = ["remote", "rdp", "remote access", "remote-access", "remote desktop", "remote interface"]
+    rxion_campus_patterns = ["designated site", "customer's campus", "internally"]
+    rxion_radius_patterns = ["radius", "limited radius", "geographically limited radius",\
+         "geographically-limited radius", "particular geography", "site license", "site licenses"]
+    rxion_us_patterns = ["united states", "united states use", "u.s.", "u.s. use","export"]
+    rxion_vpn_patterns = ["vpn", "virtual private network", "remote access"]
+    rxion_embargo_patterns = ["embargo", "embargoed", "embargoed country","export"]
+    rxion_poc_patterns = ["person of concern", "persons of concern", "people of concern",\
+        "denied persons"]
     rxion_lab_patterns = ["lab-use"]
-    rxion_site_patterns = ["single fixed geographic site", "fixed geographic site", "geographic site", "on-site", "on-site use"]
+    rxion_site_patterns = ["single fixed geographic site", "fixed geographic site",\
+         "geographic site", "on-site", "on-site use"]
     #rxion_virt_patterns = ["virtualization", "virtualizing", "multiplexing", "pooling"]
 
     rxion_instructional_sentences = []
