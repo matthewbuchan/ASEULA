@@ -356,25 +356,32 @@ def UserValidation(): # Provides interface for users to validate findings
                 elif field_correction == 1 or field_correction == 2 or field_correction == 3:
                     print("-----------------------")
                     incorrect_data = job[8][job[6][field_correction - 1].lower()]
-                    for item in incorrect_data:
-                        print(str(incorrect_data.index(item) + 1) + ".",item)
-                    while True:
-                        user_selection = input("\nWhich value is correct? If none are listed, please enter one. ")
-                        try:
-                            user_selection = int(user_selection)
-                            if user_selection <= len(incorrect_data) + 1:
-                                job[7][job[6][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
-                                break
-                            else:
-                                print("Error! Invalid input. Please enter a valid number or string.")
-                        except:
-                            if type(user_selection) == str:
-                                job[8][job[6][field_correction - 1].lower()].append(user_selection)
-                                job[7][job[6][field_correction - 1].lower()] = user_selection
-                                print("\nAre you sure you want to use",user_selection,"?")                                
-                                break
-                    OutputResults(job)
-                    break
+                    if incorrect_data:
+                        for item in incorrect_data:
+                            print(str(incorrect_data.index(item) + 1) + ".",item)
+                        while True:
+                            user_selection = input("\nWhich value is correct? If none are correct, please enter one. ")
+                            try:
+                                user_selection = int(user_selection)
+                                if user_selection <= len(incorrect_data) + 1:
+                                    job[7][job[6][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
+                                    break
+                                else:
+                                    print("Error! Invalid input. Please enter a valid number or string.")
+                            except:
+                                if type(user_selection) == str:
+                                    job[8][job[6][field_correction - 1].lower()].append(user_selection)
+                                    job[7][job[6][field_correction - 1].lower()] = user_selection
+                                    print("\nAre you sure you want to use",user_selection,"?")                                
+                                    break
+                        OutputResults(job)
+                        break
+                    else:
+                        user_selection = str(input("\nNo value were found, please provide the correct value if it is known. "))
+                        job[8][job[6][field_correction - 1].lower()].append(user_selection)
+                        job[7][job[6][field_correction - 1].lower()] = user_selection
+                        OutputResults(job)
+                        break
                 else: 
                     print("Error! Invalid input. Please enter a valid field option.")
             break
