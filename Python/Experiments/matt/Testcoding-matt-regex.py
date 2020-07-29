@@ -57,7 +57,7 @@ def ProcessInputFile(inputfilename): # Determines file type and conversion steps
         return open_file
     else:
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
-def ConvertAnsi(file_input): # Converts .txt files if not formatted properly
+def ConvertAnsi(file_input): # Converts .txt files if not formatted properly (UTF-8 > ANSI)
     import codecs
     inputfile = file_input
     if current_sys.lower() == "windows":
@@ -66,7 +66,7 @@ def ConvertAnsi(file_input): # Converts .txt files if not formatted properly
         return content
     else:
         return inputfile
-def paragraph_parse(ocr_input): # Splits paragraphs before processing occurs
+def paragraph_parse(ocr_input): # Splits paragraphs before processing text
     all_paragraphs = re.split('\n{2,}', ocr_input)
     parsed_paragraphs = ""
     for paragraph in all_paragraphs:
@@ -234,8 +234,9 @@ def UserValidation(): # Provides interface for users to validate findings
             while True:
                 field_correction = int(input("\nWe're sorry. Which of the following fields is incorrect? Please enter the corresponding number. "))
                 if field_correction == 4:
-                    new_rxion_array = RxionSentenceOutput(job[5])
+                    new_rxion_array = RestrictionSentenceOutput(job[5])
                     job[1][job[2][field_correction - 1].lower()] = ArrayToString(RemoveDuplicate(new_rxion_array))
+                    print("\n")
                     OutputResults(job)
                     break
                 elif field_correction == 1 or field_correction == 2 or field_correction == 3:
@@ -272,7 +273,7 @@ def UserValidation(): # Provides interface for users to validate findings
             break
         else:
             print('Invalid input. Please try again.')
-def RxionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
+def RestrictionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
     new_rxion_array = []    
     for key in dictionary:        
         i = 1
@@ -280,7 +281,7 @@ def RxionSentenceOutput(dictionary): # Displays restriction sentences used in th
         for item in dictionary[key]:
             print(str(i) + ".",item.strip("\n"))
             i += 1
-        user_selection = input("\nIs this restriction flagged correctly? (y/n)\n").lower().strip()
+        user_selection = input("\nIs this restriction flagged correctly? (y/n)").lower().strip()
         if user_selection == "y":
             new_rxion_array.append(key)
         elif user_selection == "n":
@@ -290,10 +291,10 @@ def HighlightText(usertext): # Returns inputted text as yellow for easy identifi
     return Fore.YELLOW + str(usertext) + Fore.RESET
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     return(mode(list))
-def RemoveDuplicate(array): # Function that removes duplicate elements in an array.
+def RemoveDuplicate(array): # Removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
     return array
-def ArrayToString(array): # Function that returns array elements as string.
+def ArrayToString(array): # Converts an array to a string.
     array_string = ""
     i = 0
     while i <= (len(array)-1):
@@ -305,6 +306,20 @@ def ArrayToString(array): # Function that returns array elements as string.
     return array_string
 def ParagraphToLower(m): # Changes full uppercase paragraphs to lower.
     return m.group(0).lower()
+def SimilarityList(sentences, restrictions): #Searches through all tokens to check similarity with restriction items. (Inactive)
+    sent_count = 1
+    for sentence in sentences:
+        doc = nlp(str(sentence))
+        rxsion = nlp(restrictions)
+        rx_sim = 0
+        for token in doc:
+            for rx in rxsion:
+                if rx.similarity(token) > .70:
+                    #print(f'{token.text:{15}}{rx.text:{15}}{rx.similarity(token) * 100}')
+                    rx_sim = 1                    
+        if rx_sim == 1:            
+            print(str(sent_count) + ". " + str(sentence))
+            sent_count += 1
 # def FindSimilarTerms(inputarray): #Find similar terms for an input variable
 #     output_array = []    
 #     for element in inputarray:
