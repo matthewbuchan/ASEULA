@@ -1,4 +1,5 @@
 ########################################################  IMPORT/INSTALL  ########################################################
+
 # pip install spacy
 # python -m spacy download en_core_web_sm
 # pip install docx2txt
@@ -17,7 +18,9 @@ from tqdm import tqdm # Progress Bar
 from colored import fg, bg, attr # Highlighted Text
 from colorama import Fore, Back, Style # Highlighted Text
 from PIL import Image as im
+
 ########################################################  SCRIPT CONFIG  ########################################################
+
 current_sys = platform.system()
 if current_sys.lower() == "windows":
     if os.path.isfile(r'C:\Program Files\Tesseract-OCR\tesseract.exe'):
@@ -35,7 +38,9 @@ nlp = spacy.load('en_core_web_sm')
 # Establishes variable for English sentence parsing method.
 sentence_parser = English()
 sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
+
 ########################################################    FUNCTIONS    ########################################################
+
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
     # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
     # Checks if the input file is .txt.
@@ -329,8 +334,8 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
         "US use only": rxion_us_sentences,"VPN required off-site": rxion_vpn_sentences,"Block embargoed countries": rxion_embargo_sentences, \
         "Block use from Persons of Concern": rxion_poc_sentences,"On-site (lab) use only": rxion_lab_sentences,"On-site use for on-site students only": rxion_site_sentences}
 
-    return [os.path.basename(job),software_name,publisher_name,information_webpage, rxion_array, string_rxion_array, fields, selected_dict, field_dict, sentence_dict, full_job_text]
-def OutputResults(job): # Summarized output
+    return [os.path.basename(job),software_name,publisher_name,information_webpage, rxion_array, string_rxion_array, fields, selected_dict, field_dict, sentence_dict, full_job_text] 
+def OutputResults(job): # Summarized output.
     print("\nHere's what we found for", job[0])
     print("-----------------------")
     # Prints all established variables for the input file.
@@ -340,7 +345,7 @@ def OutputResults(job): # Summarized output
     print("Licensing Restrictions: ", job[7]["licensing restrictions"])
     print("-----------------------")
     UserValidation()
-def UserValidation(): # Provides interface for users to validate findings
+def UserValidation(): # Provides interface for users to validate findings.
     while True:
         info_check = str(input("Is the information above correct? (y/n)  ")).lower().strip()
         if info_check == "y":
@@ -393,7 +398,7 @@ def UserValidation(): # Provides interface for users to validate findings
             break
         else:
             print('Invalid input. Please try again.')
-def RxionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
+def RxionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function.
     new_rxion_array = []
     for key in dictionary:
         if dictionary[key] != []:
@@ -411,16 +416,16 @@ def RxionSentenceOutput(dictionary): # Displays restriction sentences used in th
             elif user_selection == "n":
                 print ("This restriction will be unflagged.\n")    
     return new_rxion_array
-def ArrayFormatting(array): # Returns dictionary items requested by the RxionSentenceOutput
+def ArrayFormatting(array): # Returns dictionary items requested by the RxionSentenceOutput.
     i=1
     for element in array:
         print (str(i) + ".", element)
         i+=1
     print ("\n")
-def HighlightText(usertext): # Returns inputted text as yellow for easy identification
+def HighlightText(usertext): # Returns inputted text as yellow for easy identification.
     from colorama import Fore, Back, Style
     return Fore.YELLOW + str(usertext) + Fore.RESET
-def ArrayMode(list): # Assists in determining entities from the ASEULAFunction
+def ArrayMode(list): # Assists in determining entities from the ASEULAFunction.
     return(mode(list))
 def RemoveDuplicate(array): # Function that removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
@@ -437,7 +442,9 @@ def ArrayToString(array): # Function that returns array elements as string.
     return array_string
 def ParagraphToLower(inputtext): # Changes full uppercase paragraphs to lower.
     return inputtext.group(0).lower()
+
 ###############################################    EXECUTION    ###############################################
+
 filename_array = []
 jobDataArray = []
 jobSentenceArray = []
@@ -488,7 +495,7 @@ else:
                 print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
         else:
             fileInput = False
-# Evaluates for inputted files and processes the files
+# Evaluates for inputted files and processes the files.
 if len(filename_array) > 0:
     start = timeit.default_timer()
     print("\nPlease wait while we process",len(filename_array),"file(s)... \n")
