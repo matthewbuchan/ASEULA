@@ -35,8 +35,7 @@ elif current_sys.lower() == "linux":
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 ###############################################    FUNCTIONS    ###############################################
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
-    if inputfilename.endswith('.txt'):
-        # Opens the .txt file.
+    if inputfilename.endswith('.txt'):        
         try:
             open_file = open(inputfilename).read()
         except:
@@ -321,7 +320,7 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
             print(str(sent_count) + ". " + str(sentence))
             sent_count += 1
 # def FindSimilarTerms(inputarray): #Find similar terms for an input variable
-#     output_array = []    
+#     output_array = []
 #     for element in inputarray:
 #         try:
 #             output_array.append(element)
@@ -399,7 +398,7 @@ if len(filename_array) > 0:
         inputfile = ProcessInputFile(job)
         text = paragraph_parse(inputfile)
         text = re.sub(r'\([A-z0-9]{1,3}?\)',"",text) # Remove (a), (b), (iii) bulleting
-        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) #Change full uppercase paragraphs to lower
+        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) # Change full uppercase paragraphs to lower
         document = nlp(text)
         sentences = []
         for sent in document.sents:
