@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        html,body{
+            height: 100%;
+        }        
+        .wrapper{
+            height: 100%;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 80% 80px;
+            grid-template-areas:
+            "main-left main-right"
+            "submittal submittal";
+        }
+        .main-left{
+            grid-area: main-left;
+            margin: auto;
+        }
+        .main-right{
+            grid-area: main-right;
+            margin: auto;
+        }        
+        .submittal{
+            grid-area: submittal;
+            margin: auto;
+        }
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASEULA Home</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="main-left">
+            <button>Import File/Directory</button>
+            <div>File list</div>
+        </div>
+        <div class="main-right">
+            <p>Text Entry</p>
+            <textarea rows="40" cols="80"></textarea>
+        </div>
+        <div class="submittal"><button>Submit</button></div>
+    </div>
+</body>
+</html>
