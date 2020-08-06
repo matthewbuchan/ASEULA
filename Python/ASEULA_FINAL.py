@@ -18,6 +18,7 @@ from tqdm import tqdm # Progress Bar
 from colored import fg, bg, attr # Highlighted Text
 from colorama import Fore, Back, Style # Highlighted Text
 from PIL import Image as im
+import csv
 
 ########################################################  SCRIPT CONFIG  ########################################################
 
@@ -442,6 +443,19 @@ def ArrayToString(array): # Function that returns array elements as string.
     return array_string
 def ParagraphToLower(inputtext): # Changes full uppercase paragraphs to lower.
     return inputtext.group(0).lower()
+def CsvDump(job):
+    if not os.path.exists(".\\CSV Dump\\csv_dump.csv"):
+        f = open(".\\CSV Dump\\csv_dump.csv", "a", newline="")
+        head_tup = ("Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions")
+        writer = csv.writer(f, delimiter=";#")
+        writer.writerow(head_tup)
+    else:
+        f = open(".\\CSV Dump\\csv_dump.csv", "a", newline="")
+
+    job_tup=(job[7]["software name"], job[7]["publisher"], job[7]["information webpage"], job[7]["licensing restrictions"])
+    writer = csv.writer(f, delimiter=";#")
+    writer.writerow(job_tup)
+    f.close()
 
 ###############################################    EXECUTION    ###############################################
 
@@ -495,6 +509,7 @@ else:
                 print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
         else:
             fileInput = False
+
 # Evaluates for inputted files and processes the files.
 if len(filename_array) > 0:
     start = timeit.default_timer()
@@ -521,5 +536,6 @@ if len(filename_array) > 0:
         print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)\nPlease verify the results: ")        
     for job in jobDataArray:
             OutputResults(job)
+            CsvDump(job)
 else:
     print("\nNo input was provided. Thank you for using ASEULA!\n")
