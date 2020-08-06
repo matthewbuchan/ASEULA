@@ -7,41 +7,87 @@
         .wrapper{
             height: 100%;
             display: grid;
-            grid-template-columns: 50% 50%;
-            grid-template-rows: 80% 80px;
+            grid-template-columns: 100%;
+            grid-template-rows: 10% 80% 80px;
             grid-template-areas:
-            "main-left main-right"
-            "submittal submittal";
+            "main-select"
+            "main-content"
+            "main-submit";
         }
-        .main-left{
-            grid-area: main-left;
+        .main-select{            
+            grid-area: main-select;            
             margin: auto;
         }
-        .main-right{
-            grid-area: main-right;
+        .main-select-opt{
+            margin: auto;
+        }
+        .main-content{
+            grid-area: main-content;
             margin: auto;
         }        
-        .submittal{
-            grid-area: submittal;
+        .main-submit{
+            grid-area: main-submit;
             margin: auto;
+        }
+        .mainform{
+            width: 400px;
+            height: 600px;
+            margin: auto;
+
+        }
+        .mainform > button , .main-select-opt{
+            position: relative;      
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        button{
+            padding: .5em;
         }
     </style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASEULA Home</title>
+    <!-- <script>
+        $(document).ready(function(){
+            $("select").change(function(){
+                $(this).find("option:selected").each(function(){
+                    var opVal = $(this).attr("value");
+                    if(opVal){
+                        $""
+                    }
+                })
+            })
+        })
+    </script> -->
 </head>
 <body>
-    <div class="wrapper">
-        <div class="main-left">
-            <button>Import File/Directory</button>
-            <div>File list</div>
+    <div class="main-select">
+        <div class="">
+            <h3>Please select an input type:</h3>
+            <select name="inputtype" id="inputtype">
+                <option value="fdinput">File/Directory</option>
+                <option value="textinput">Text</option>
+            </select>
         </div>
-        <div class="main-right">
-            <p>Text Entry</p>
-            <textarea rows="40" cols="80"></textarea>
+    </div>
+    <div class="main-content">
+        <div class="fdinput">
+            <h3>File input form</h3>
+            <form class="fileform" action="" method="POST" enctype="multipart/form-data">
+                <button>Import File/Directory</button>
+                <div>File list</div>
+            </form>
         </div>
-        <div class="submittal"><button>Submit</button></div>
+        <div class="textinput">
+            <h3>Text input form</h3>
+            <form class="textform" action="">
+                <p>Text Entry</p>
+                <textarea rows="40" cols="80"></textarea>
+            </form>
+        </div>
+        <div class="main-submit"><button>Submit</button></div>
     </div>
 </body>
 </html>
