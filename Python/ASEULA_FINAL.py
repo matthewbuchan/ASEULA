@@ -1,5 +1,4 @@
 ########################################################  IMPORT/INSTALL  ########################################################
-
 # pip install spacy
 # python -m spacy download en_core_web_sm
 # pip install docx2txt
@@ -9,7 +8,7 @@
 # pip install tqdm
 # pip install colored
 # pip install colorama
-import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, pytesseract as tess, platform
+import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform
 from spacy.lang.en import English
 from re import search
 from statistics import mode
@@ -18,8 +17,6 @@ from tqdm import tqdm # Progress Bar
 from colored import fg, bg, attr # Highlighted Text
 from colorama import Fore, Back, Style # Highlighted Text
 from PIL import Image as im
-import csv
-
 ########################################################  SCRIPT CONFIG  ########################################################
 
 current_sys = platform.system()
@@ -444,16 +441,18 @@ def ArrayToString(array): # Function that returns array elements as string.
 def ParagraphToLower(inputtext): # Changes full uppercase paragraphs to lower.
     return inputtext.group(0).lower()
 def CsvDump(job):
-    if not os.path.exists(".\\CSV Dump\\csv_dump.csv"):
-        f = open(".\\CSV Dump\\csv_dump.csv", "a", newline="")
+    if not os.path.exists(".\\csv_dump.csv"):
+        f = open(".\\csv_dump.csv", "w+", newline="")
         head_tup = ("Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions")
-        writer = csv.writer(f, delimiter=";#")
+        #writer = csv.writer(f, delimiter=";")
+        writer = csv.writer(f)
         writer.writerow(head_tup)
     else:
-        f = open(".\\CSV Dump\\csv_dump.csv", "a", newline="")
+        f = open(".\\csv_dump.csv", "a", newline="")
 
     job_tup=(job[7]["software name"], job[7]["publisher"], job[7]["information webpage"], job[7]["licensing restrictions"])
-    writer = csv.writer(f, delimiter=";#")
+    #writer = csv.writer(f, delimiter=";")
+    writer = csv.writer(f)
     writer.writerow(job_tup)
     f.close()
 

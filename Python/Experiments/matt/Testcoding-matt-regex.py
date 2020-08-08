@@ -11,7 +11,7 @@
 # install ghostscript for windows
 # install Tesseract-OCR for windows
 from colorama import Fore, Back, Style
-import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, pytesseract as tess, platform
+import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform
 import os.path
 from spacy.lang.en import English
 from re import search
@@ -161,9 +161,9 @@ def ProcessRestrictions(document): # Establishes restriction variables and execu
          "geographically-limited radius", "particular geography", "site license", "site licenses"]
     rxion_patterns["US use only"] = ["united states", "united states use", "u.s.", "u.s. use","export"]
     rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network", "remote access"]
-    rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export"]
+    rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export","countries"]
     rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern",\
-        "denied persons"]
+        "denied persons","person","entity"]
     rxion_patterns["On-site (lab) use only"] = ["lab-use"]
     rxion_patterns["On-site use for on-site students only"] = ["single fixed geographic site", "fixed geographic site",\
          "geographic site", "on-site", "on-site use"]
@@ -305,6 +305,21 @@ def ArrayToString(array): # Converts an array to a string.
     return array_string
 def ParagraphToLower(m): # Changes full uppercase paragraphs to lower.
     return m.group(0).lower()
+def CsvDump(job):
+    if not os.path.exists(".\\csv_dump.csv"):
+        f = open(".\\csv_dump.csv", "w+", newline="")
+        head_tup = ("Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions")
+        #writer = csv.writer(f, delimiter=";")
+        writer = csv.writer(f)
+        writer.writerow(head_tup)
+    else:
+        f = open(".\\csv_dump.csv", "a", newline="")
+
+    job_tup=(job[7]["software name"], job[7]["publisher"], job[7]["information webpage"], job[7]["licensing restrictions"])
+    #writer = csv.writer(f, delimiter=";")
+    writer = csv.writer(f)
+    writer.writerow(job_tup)
+    f.close()
 def SimilarityList(sentences, restrictions): #Searches through all tokens to check similarity with restriction items. (Inactive)
     sent_count = 1
     for sentence in sentences:
