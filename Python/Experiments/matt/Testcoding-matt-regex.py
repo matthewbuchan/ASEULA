@@ -154,9 +154,9 @@ def ProcessRestrictions(document): # Establishes restriction variables and execu
               "academic institution", "academic purposes", "educational", "educational use", "educational-use",\
                    "educational instruction", "educational institution", "institution", "educational purposes"]
     rxion_patterns["Research-use only"] = ["research", "research use", "research-use"]
-    rxion_patterns["Requires Physical Device"] = ["activation key", "dongle"]
+    rxion_patterns["Requires Physical Device"] = ["activation key", "dongle","hardware"]
     rxion_patterns["No RDP use"] = ["remote", "rdp", "remote access", "remote-access", "remote desktop", "remote interface"]
-    rxion_patterns["Use geographically limited (Campus)"] = ["designated site", "customer's campus", "internally"]
+    rxion_patterns["Use geographically limited (Campus)"] = ["designated site", "customer's campus", "internally","campus","facility"]
     rxion_patterns["Use geographically limited (radius)"] = ["radius", "limited radius", "geographically limited radius",\
          "geographically-limited radius", "particular geography", "site license", "site licenses"]
     rxion_patterns["US use only"] = ["united states", "united states use", "u.s.", "u.s. use","export"]
@@ -305,7 +305,7 @@ def ArrayToString(array): # Converts an array to a string.
     return array_string
 def ParagraphToLower(m): # Changes full uppercase paragraphs to lower.
     return m.group(0).lower()
-def CsvDump(job):
+def CsvDump(job): # Output to CSV for download and site import
     if not os.path.exists(".\\csv_dump.csv"):
         f = open(".\\csv_dump.csv", "w+", newline="")
         head_tup = ("Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions")

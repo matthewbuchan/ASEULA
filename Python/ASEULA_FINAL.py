@@ -207,16 +207,16 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
               "academic institution", "academic purposes", "educational", "educational use", "educational-use",\
                    "educational instruction", "educational institution", "institution", "educational purposes"]
     rxion_research_patterns = ["research", "research use", "research-use"]
-    rxion_physical_patterns = ["activation key", "dongle"]
+    rxion_physical_patterns = ["activation key", "dongle","hardware"]
     rxion_rdp_patterns = ["remote", "rdp", "remote access", "remote-access", "remote desktop", "remote interface"]
-    rxion_campus_patterns = ["designated site", "customer's campus", "internally"]
+    rxion_campus_patterns = ["designated site", "customer's campus", "internally","campus","facility"]
     rxion_radius_patterns = ["radius", "limited radius", "geographically limited radius",\
          "geographically-limited radius", "particular geography", "site license", "site licenses"]
     rxion_us_patterns = ["united states", "united states use", "u.s.", "u.s. use","export"]
     rxion_vpn_patterns = ["vpn", "virtual private network", "remote access"]
-    rxion_embargo_patterns = ["embargo", "embargoed", "embargoed country","export"]
+    rxion_embargo_patterns = ["embargo", "embargoed", "embargoed country","export","countries"]
     rxion_poc_patterns = ["person of concern", "persons of concern", "people of concern",\
-        "denied persons"]
+        "denied persons","person","entity"]
     rxion_lab_patterns = ["lab-use"]
     rxion_site_patterns = ["single fixed geographic site", "fixed geographic site",\
          "geographic site", "on-site", "on-site use"]
