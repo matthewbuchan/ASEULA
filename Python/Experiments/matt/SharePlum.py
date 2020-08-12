@@ -65,7 +65,7 @@ sp_data = new_list.GetListItems()
 
 # site_url="https://arizonastateu.sharepoint.com/sites/O365FSEETSClassroom/"
 
-# if ctx_auth.acquire_token_for_user("mbuchan7@sundevils.asu.edu","Fh232tAK%2"):
+# if ctx_auth.acquire_token_for_user("mbuchan7@sundevils.asu.edu",""):
 #   request = ClientRequest(ctx_auth)
 #   options = RequestOptions("{0}/_api/web/".format(site_url))
 #   options.set_header('Accept', 'application/json')
