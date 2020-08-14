@@ -11,7 +11,7 @@
 # install ghostscript for windows
 # install Tesseract-OCR for windows
 from colorama import Fore, Back, Style
-import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform
+import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, ctypes
 import os.path
 from spacy.lang.en import English
 from re import search
@@ -20,6 +20,9 @@ from wand.image import Image as wi
 from tqdm import tqdm
 from pathlib import Path
 from PIL import Image as im
+from openpyxl import Workbook
+from openpyxl.worksheet.table import Table, TableStyleInfo
+# from .models import * # DJANGO SPECIFIC
 # from sense2vec import Sense2Vec #Sense2Vec installation required with s2v_md files for the FindSimilarTerms function
 ##############################################    SCRIPT CONFIG    ############################################
 current_sys = platform.system()
@@ -34,8 +37,36 @@ elif current_sys.lower() == "linux":
     tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract' #LINUX
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 ###############################################    FUNCTIONS    ###############################################
+def get_display_name(): # Get display name
+    GetUserNameEx = ctypes.windll.secur32.GetUserNameExW
+    NameDisplay = 3
+    size = ctypes.pointer(ctypes.c_ulong(0))
+    GetUserNameEx(NameDisplay, None, size)
+    nameBuffer = ctypes.create_unicode_buffer(size.contents.value)
+    GetUserNameEx(NameDisplay, nameBuffer, size)
+    return nameBuffer.value
+print(get_display_name())
+
+def RunQueue(filename_array): # Executes program if filenames are provided
+    if len(filename_array) > 0:
+        start = timeit.default_timer()
+        print("Please wait while your file(s) are being processed... \n")
+        for job in filename_array:
+            jobDataArray.append(AseulaMain(job))
+            #i += 1
+        end = timeit.default_timer()
+        runtime = end - start
+        if runtime > 59:
+            print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)")
+        else:
+            print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)")
+        for job in jobDataArray:
+            UserValidation(job)
+        XlsxDump(jobDataArray)
+    else:
+        print("\nNo input was provided. Thank you for using ASEULA!\n")
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
-    if inputfilename.endswith('.txt'):        
+    if inputfilename.endswith('.txt'):
         try:
             open_file = open(inputfilename).read()
         except:
@@ -52,7 +83,7 @@ def ProcessInputFile(inputfilename): # Determines file type and conversion steps
             page = wi(image = img)
             pic = im.open(io.BytesIO(page.make_blob('jpeg')))
             text = tess.image_to_string(pic, lang = 'eng')
-            open_file += text            
+            open_file += text
         return open_file
     else:
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
@@ -72,22 +103,26 @@ def ParagraphParse(ocr_input): # Splits paragraphs before processing text
         paragraph = paragraph.replace("\n", " ")
         parsed_paragraphs += str(paragraph) + "\n"
     return parsed_paragraphs
-def BulletUpperRemove(textinput):
+def BulletUpperRemove(textinput): # Removes bulleted items and calls paragraph to lower
     ex_bulleted_text = re.sub(r'\([A-z0-9]{1,3}?\)',"",textinput) # Remove (a), (b), (iii) bulleting
     caps_to_lower_text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,ex_bulleted_text) # Change full uppercase paragraphs to lower
     return caps_to_lower_text
+def ParagraphToLower(m): # Changes full uppercase paragraphs to lower.
+    return m.group(0).lower()
 def UrlList(sentences): # Generates listing of websites identified in the document
     from spacy import attrs
-    UrlList = []    
+    UrlList = []
     for sentence in sentences:
         doc = nlp(str(sentence))
         for token in doc:
             if token.like_url == True:
                 UrlList.append(token.text)
     return UrlList
+def RemoveNewLine(s): # Removes new line characters from strings
+    return re.sub(r'\n{1,}'," ",str(s))
 def AseulaMain(jobfile): # Performs data extraction from the converted documents
     #**********************************************    Organization     ***************************************************#
-    processed_file = ProcessInputFile(job)
+    processed_file = ProcessInputFile(jobfile)
     parsed_paragraphs = ParagraphParse(processed_file)
     text = BulletUpperRemove(parsed_paragraphs)
     document = nlp(text)
@@ -108,10 +143,10 @@ def AseulaMain(jobfile): # Performs data extraction from the converted documents
                         organization_entity_array.append(str(entity.text).title())
                     
     # Checks if organization_entity_array is empty. Prints mode of the array if elements exist.
-    if organization_entity_array:        
+    if organization_entity_array:
         publisher_name = ArrayMode(organization_entity_array)
         publisher_name = publisher_name.replace('\n', ' ')
-    else:        
+    else:
         publisher_name = "Unknown"
     #**********************************************  Software Name   ***************************************************#
     # Establishes variable to store matching entities.
@@ -141,10 +176,10 @@ def AseulaMain(jobfile): # Performs data extraction from the converted documents
 
     # Extracts each word within the input file as an array. Space characters used as a delimiter.
     url_array = UrlList(sentences) # FORCE URL FUNCTION FILL instead of regex
-    if url_array:        
+    if url_array:
         information_webpage = ArrayMode(url_array)
         information_webpage = information_webpage.replace('\n', '')
-    else:        
+    else:
         information_webpage = "Unknown"
     
     restriction_sentence_dict,rxion_array = ProcessRestrictions(document)
@@ -154,7 +189,7 @@ def AseulaMain(jobfile): # Performs data extraction from the converted documents
     selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string}
     field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
     
-    return [os.path.basename(job),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
+    return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
 def ProcessRestrictions(document): # Establishes restriction variables and executes each type
     rxion_array = []
     rxion_patterns = {}
@@ -192,7 +227,7 @@ def ProcessRestrictions(document): # Establishes restriction variables and execu
             restriction_sentence_dict[str(rxion)] = RemoveDuplicate(rxiontmp)
     if not rxion_array:
         rxion_array.append("Needs Review")
-    return restriction_sentence_dict, rxion_array    
+    return restriction_sentence_dict, rxion_array
 def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # Function to find restriction sentences
     rxion_sentences_array = []
     rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
@@ -224,23 +259,23 @@ def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # F
                         rxion_sentences_array.append(HighlightText(str(sent)))
                 elif str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
                     rxion_sentences_array.append(str(sent))
-    if len(rxion_sentences_array) > 0:        
+    if len(rxion_sentences_array) > 0:
         return rxion_sentences_array
 def OutputResults(job): # Summarized output
-    print("\nHere's what we found for", job[0])
-    print("-----------------------")    
+    print("\nPlease verify all information is correct for", job[0])
+    print("------------------------------------------------------")
     print("Software: ", job[1]['software name'])
     print("Publisher: ", job[1]['publisher'])
     print("Information Webpage: ", job[1]['information webpage'])
     print("Licensing Restrictions: ", job[1]['licensing restrictions'])
-    print("-----------------------")    
+    print("------------------------------------------------------")
 def UserValidation(job): # Provides interface for users to validate findings
-    for selection in job[2]:        
+    for selection in job[2]:
         if len(job[1][str(selection).lower()]) == 1:
             print("\nPlease verify the",selection,"is:",job[1][str(selection).lower()])
         else:
             print("\nPlease verify the",selection,"are:",job[1][str(selection).lower()])
-        while True:            
+        while True:
             if job[2].index(selection) + 1 == 4:
                 new_rxion_array = RestrictionSentenceOutput(job[5])
                 job[1][job[2][job[2].index(selection)].lower()] = ArrayToString(RemoveDuplicate(new_rxion_array))
@@ -268,21 +303,20 @@ def UserValidation(job): # Provides interface for users to validate findings
                                 else:
                                     job[4][job[2][job[2].index(selection)].lower()].append(user_selection)
                                     job[1][job[2][job[2].index(selection)].lower()] = user_selection
-                                    break                    
+                                    break
                     break
                 else:
                     user_selection = str(input("\nNo value was found, please provide the correct value if it is known: "))
                     if user_selection:
                         job[4][job[2][job[2].index(selection)].lower()].append(user_selection)
-                        job[1][job[2][job[2].index(selection)].lower()] = user_selection                    
+                        job[1][job[2][job[2].index(selection)].lower()] = user_selection
                     break
             else: 
                 print("Error! Invalid input. Please enter a valid field option.")
     OutputResults(job)
-
 def RestrictionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
-    new_rxion_array = []    
-    for key in dictionary:        
+    new_rxion_array = []
+    for key in dictionary:
         i = 1
         print("-"*25+"\n",key,"\n"+"-"*25+"\n")
         for item in dictionary[key]:
@@ -298,8 +332,6 @@ def HighlightText(usertext): # Returns inputted text as yellow for easy identifi
     return Fore.YELLOW + str(usertext) + Fore.RESET
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     return(mode(list))
-def RemoveNewLine(s):
-    return re.sub(r'\n{1,}'," ",str(s))
 def RemoveDuplicate(array): # Removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
     return array
@@ -313,23 +345,16 @@ def ArrayToString(array): # Converts an array to a string.
             array_string += array[i]
         i += 1
     return array_string
-def ParagraphToLower(m): # Changes full uppercase paragraphs to lower.
-    return m.group(0).lower()
-def CsvDump(job): # Output to CSV for download and site import
-    if not os.path.exists(".\\csv_dump.csv"):
-        f = open(".\\csv_dump.csv", "w+", newline="")
-        head_tup = ("Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions")
-        #writer = csv.writer(f, delimiter=";")
-        writer = csv.writer(f)
-        writer.writerow(head_tup)
-    else:
-        f = open(".\\csv_dump.csv", "a", newline="")
-
-    job_tup=(job[7]["software name"], job[7]["publisher"], job[7]["information webpage"], job[7]["licensing restrictions"])
-    #writer = csv.writer(f, delimiter=";")
-    writer = csv.writer(f)
-    writer.writerow(job_tup)
-    f.close()
+def XlsxDump(jobDataArray): # Output to CSV for download and site import
+    wb = Workbook()
+    ws = wb.active
+    ws.append(["Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions"])
+    for job in jobDataArray:
+        ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]])
+    tab = Table(displayName="Table1", ref="A1:D" + str(len(jobDataArray)+1))
+    ws.add_table(tab)
+    wb.save("./xlsx_dump.xlsx")
+    # wb.save("media/xlsx_dump.xlsx") # FOR DJANGO
 def SimilarityList(sentences, restrictions): #Searches through all tokens to check similarity with restriction items. (Inactive)
     sent_count = 1
     for sentence in sentences:
@@ -340,8 +365,8 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
             for rx in rxsion:
                 if rx.similarity(token) > .70:
                     #print(f'{token.text:{15}}{rx.text:{15}}{rx.similarity(token) * 100}')
-                    rx_sim = 1                    
-        if rx_sim == 1:            
+                    rx_sim = 1
+        if rx_sim == 1:
             print(str(sent_count) + ". " + str(sentence))
             sent_count += 1
 # def FindSimilarTerms(inputarray): #Find similar terms for an input variable
@@ -349,17 +374,17 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
 #     for element in inputarray:
 #         try:
 #             output_array.append(element)
-#             element = element.replace(" ","_")            
+#             element = element.replace(" ","_")
 #             s2v = Sense2Vec().from_disk("../../../s2v_reddit_2015_md")
 #             query = str(element) + "|NOUN"
 #             assert query in s2v
 #             vector = s2v[query]
 #             freq = s2v.get_freq(query)
 #             most_similar = s2v.most_similar(query, n=5)
-#             for i in most_similar:            
+#             for i in most_similar:
 #                 i = i[0].split("|")
 #                 i = i[0].replace("_"," ").lower()
-#                 output_array.append(i)                
+#                 output_array.append(i)
 #         except:
 #             pass
 #     if output_array > inputarray:
@@ -367,13 +392,14 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
 #     else:
 #         return inputarray
 #     pass
-###############################################    EXECUTION    ###############################################
+
+###############################################    COMMAND LINE EXECUTION    ###############################################
 filename_array = [] #Filename storage for jobs
 rxion_array = []
 rxionjob_sentence_array = [] #Temporary pattern matched sentence storage for jobs
 jobDataArray = []
 i = 0
-if len(sys.argv) >= 2:    
+if len(sys.argv) >= 2:
     for filename in sys.argv[1:]:
         fileArray = []
         filename_array.append(filename.strip('"'))
@@ -382,7 +408,7 @@ else:
     print("\nASEULA Alpha Build 200727 for",current_sys)
     fileInput = True
     current_sys = platform.system()
-    while fileInput == True:        
+    while fileInput == True:
         inputFile = input("\nPlease enter the absolute path for file or directory you would like to process (or press enter to continue): ").strip('"')
         if inputFile != "":
             if current_sys.lower() == "windows":
@@ -402,7 +428,7 @@ else:
                 while True:
                     if os.path.isdir(inputFile):
                         filelist = os.listdir(inputFile)
-                        for line in filelist:    
+                        for line in filelist:
                             filename_array.append(str(inputFile) + line)
                         print(filename_array)
                         break
@@ -414,21 +440,55 @@ else:
                         break
             else:
                 print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
-        else:            
+        else:
             fileInput = False
-if len(filename_array) > 0:
-    start = timeit.default_timer()
-    print("Please wait while we process",len(filename_array),"file(s)... \n")
-    for job in filename_array:
-        jobDataArray.append(AseulaMain(job))
-        i += 1
-    end = timeit.default_timer()
-    runtime = end - start
-    if runtime > 59:
-        print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)")
-    else:
-        print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)")
-    for job in jobDataArray:
-        UserValidation(job)
-else:
-    print("\nNo input was provided. Thank you for using ASEULA!\n")
+RunQueue(filename_array)
+###############################################    DJANGO FRAMEWORK EXECUTION    ###############################################
+# # IMPORT PATTERNS
+# rxion_patterns = {}
+# pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
+#     "permits", "permitting", "permitted", "require", "requires", "requiring", "required", "authorize", "authorizes", \
+#         "authorizing", "authorized", "necessary"]
+# neg_trigger_words = ["no", "not", "may not", "not granted", "not allowed", "not permitted", "forbidden", "restricts", "restricted",\
+#         "prohibits", "prohibited"]
+# rxion_patterns["Instructional-use only"] = ["teaching", "teaching use", "teaching-use", "instruction", "instructional use",\
+#         "instructional-use", "instructional purposes", "academic", "academic use", "academic-use", "academic instruction",\
+#             "academic institution", "academic purposes", "educational", "educational use", "educational-use",\
+#                 "educational instruction", "educational institution", "institution", "educational purposes"]
+# rxion_patterns["Research-use only"] = ["research", "research use", "research-use"]
+# rxion_patterns["Requires Physical Device"] = ["activation key", "dongle","hardware"]
+# rxion_patterns["No RDP use"] = ["remote", "rdp", "remote access", "remote-access", "remote desktop", "remote interface"]
+# rxion_patterns["Use geographically limited (Campus)"] = ["designated site", "customer's campus", "internally","campus","facility"]
+# rxion_patterns["Use geographically limited (radius)"] = ["radius", "limited radius", "geographically limited radius",\
+#         "geographically-limited radius", "particular geography", "site license", "site licenses"]
+# rxion_patterns["US use only"] = ["united states", "united states use", "u.s.", "u.s. use","export"]
+# rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network", "remote access"]
+# rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export","countries"]
+# rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern",\
+#     "denied persons","person","entity"]
+# rxion_patterns["On-site (lab) use only"] = ["lab-use"]
+# rxion_patterns["On-site use for on-site students only"] = ["single fixed geographic site", "fixed geographic site",\
+#         "geographic site", "on-site", "on-site use"]
+# rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
+
+
+# for pattern in rxion_patterns:
+#     print("----",pattern)
+#     restrictionTitle.objects.create(restriction=pattern)
+#     for term in rxion_patterns[pattern]:
+#         print(term)
+#         r_id = restrictionTitle.objects.get(restriction=pattern)
+#         restrictionTerm.objects.create(restriction=r_id, restrictionterm=term)
+# for pattern in pos_trigger_words:
+#     print(pattern)
+#     positiveTerm.objects.create(posterm=pattern)
+# for pattern in neg_trigger_words:
+#     print(pattern)
+#     negativeTerm.objects.create(negterm=pattern)
+
+# # Execution
+
+# queuearray = [str(jobData.objects.get(pk=21).filefield.path)]
+
+# print(queuearray[0])
+# AseulaMain(queuearray[0])
