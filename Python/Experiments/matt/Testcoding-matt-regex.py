@@ -65,13 +65,17 @@ def ConvertAnsi(file_input): # Converts .txt files if not formatted properly (UT
         return content
     else:
         return inputfile
-def paragraph_parse(ocr_input): # Splits paragraphs before processing text
+def ParagraphParse(ocr_input): # Splits paragraphs before processing text
     all_paragraphs = re.split('\n{2,}', ocr_input)
     parsed_paragraphs = ""
     for paragraph in all_paragraphs:
         paragraph = paragraph.replace("\n", " ")
         parsed_paragraphs += str(paragraph) + "\n"
     return parsed_paragraphs
+def BulletUpperRemove(textinput):
+    ex_bulleted_text = re.sub(r'\([A-z0-9]{1,3}?\)',"",textinput) # Remove (a), (b), (iii) bulleting
+    caps_to_lower_text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,ex_bulleted_text) # Change full uppercase paragraphs to lower
+    return caps_to_lower_text
 def UrlList(sentences): # Generates listing of websites identified in the document
     from spacy import attrs
     UrlList = []    
@@ -81,8 +85,18 @@ def UrlList(sentences): # Generates listing of websites identified in the docume
             if token.like_url == True:
                 UrlList.append(token.text)
     return UrlList
-def AseulaMain(document,full_job_text): # Performs data extraction from the converted documents
+def AseulaMain(jobfile): # Performs data extraction from the converted documents
     #**********************************************    Organization     ***************************************************#
+    processed_file = ProcessInputFile(job)
+    parsed_paragraphs = ParagraphParse(processed_file)
+    text = BulletUpperRemove(parsed_paragraphs)
+    document = nlp(text)
+    sentences = []
+    for sent in document.sents:
+        sentences.append(RemoveNewLine(sent)) # Remove new line characters from each sentence
+    full_job_text = ""
+    for sentence in sentences:
+        full_job_text = full_job_text + str(sentence) + "\n"
     # Establish variables to store publisher
     organization_entity_array = []
     publisher_patterns = ["inc", "inc.","llc","incorporated", "©", "copyright"]
@@ -219,66 +233,60 @@ def OutputResults(job): # Summarized output
     print("Publisher: ", job[1]['publisher'])
     print("Information Webpage: ", job[1]['information webpage'])
     print("Licensing Restrictions: ", job[1]['licensing restrictions'])
-    print("-----------------------")
-    UserValidation()
-def UserValidation(): # Provides interface for users to validate findings
-    while True:
-        info_check = str(input("Is the information above correct? (y/n)  ")).lower().strip()
-        if info_check == "y":
-            print ("Information will shortly pushed to SharePoint. Thank you for using ASEULA!")
-            break
-        elif info_check == "n":
-            for selection in job[2]:
-                print(job[2].index(selection) + 1,". ",selection)
-            while True:
-                field_correction = int(input("\nWe're sorry. Which of the following fields is incorrect? Please enter the corresponding number. "))
-                if field_correction == 4:
-                    new_rxion_array = RestrictionSentenceOutput(job[5])
-                    job[1][job[2][field_correction - 1].lower()] = ArrayToString(RemoveDuplicate(new_rxion_array))
-                    print("\n")
-                    OutputResults(job)
-                    break
-                elif field_correction == 1 or field_correction == 2 or field_correction == 3:
-                    print ('-' * 10)
-                    incorrect_data = job[4][job[2][field_correction - 1].lower()]
-                    if incorrect_data:
-                        for item in incorrect_data:
-                            print(incorrect_data.index(item) + 1,". ",item)
-                        while True:
-                            user_selection = input("\nWhich value is correct? If none are correct, please enter one. ")
-                            try:
-                                user_selection = int(user_selection)
-                                if user_selection <= len(incorrect_data) + 1:
-                                    job[1][job[2][field_correction - 1].lower()] = incorrect_data[user_selection - 1]
+    print("-----------------------")    
+def UserValidation(job): # Provides interface for users to validate findings
+    for selection in job[2]:        
+        if len(job[1][str(selection).lower()]) == 1:
+            print("\nPlease verify the",selection,"is:",job[1][str(selection).lower()])
+        else:
+            print("\nPlease verify the",selection,"are:",job[1][str(selection).lower()])
+        while True:            
+            if job[2].index(selection) + 1 == 4:
+                new_rxion_array = RestrictionSentenceOutput(job[5])
+                job[1][job[2][job[2].index(selection)].lower()] = ArrayToString(RemoveDuplicate(new_rxion_array))
+                print("\n")
+                break
+            elif job[2].index(selection) + 1 == 1 or job[2].index(selection) + 1 == 2 or job[2].index(selection) + 1 == 3:
+                print ('-' * 10)
+                incorrect_data = job[4][job[2][job[2].index(selection)].lower()]
+                if incorrect_data:
+                    for item in incorrect_data:
+                        print(incorrect_data.index(item) + 1,". ",item)
+                    while True:
+                        user_selection = input("\nPress enter if the selection is correct, otherwise select an option or enter a value: ")
+                        try:
+                            user_selection = int(user_selection)
+                            if user_selection <= len(incorrect_data) + 1:
+                                job[1][job[2][job[2].index(selection)].lower()] = incorrect_data[user_selection - 1]
+                                break
+                            else:
+                                print("Error! Invalid input. Please enter a valid number or string.")
+                        except:
+                            if type(user_selection) == str:
+                                if user_selection == "":
                                     break
                                 else:
-                                    print("Error! Invalid input. Please enter a valid number or string.")
-                            except:
-                                if type(user_selection) == str:
-                                    job[4][job[2][field_correction - 1].lower()].append(user_selection)
-                                    job[1][job[2][field_correction - 1].lower()] = user_selection
-                                    break
-                        OutputResults(job)
-                        break
-                    else:
-                        user_selection = str(input("\nNo value were found, please provide the correct value if it is known. "))
-                        if user_selection:
-                            job[4][job[2][field_correction - 1].lower()].append(user_selection)
-                            job[1][job[2][field_correction - 1].lower()] = user_selection
-                        OutputResults(job)
-                        break
-                else: 
-                    print("Error! Invalid input. Please enter a valid field option.")
-            break
-        else:
-            print('Invalid input. Please try again.')
+                                    job[4][job[2][job[2].index(selection)].lower()].append(user_selection)
+                                    job[1][job[2][job[2].index(selection)].lower()] = user_selection
+                                    break                    
+                    break
+                else:
+                    user_selection = str(input("\nNo value was found, please provide the correct value if it is known: "))
+                    if user_selection:
+                        job[4][job[2][job[2].index(selection)].lower()].append(user_selection)
+                        job[1][job[2][job[2].index(selection)].lower()] = user_selection                    
+                    break
+            else: 
+                print("Error! Invalid input. Please enter a valid field option.")
+    OutputResults(job)
+
 def RestrictionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
     new_rxion_array = []    
     for key in dictionary:        
         i = 1
         print("-"*25+"\n",key,"\n"+"-"*25+"\n")
         for item in dictionary[key]:
-            print(str(i) + ".",item.strip("\n"))
+            print(str(i) + ".",RemoveNewLine(item))
             i += 1
         user_selection = input("\nIs this restriction flagged correctly? (y/n)").lower().strip()
         if user_selection == "y":
@@ -290,6 +298,8 @@ def HighlightText(usertext): # Returns inputted text as yellow for easy identifi
     return Fore.YELLOW + str(usertext) + Fore.RESET
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     return(mode(list))
+def RemoveNewLine(s):
+    return re.sub(r'\n{1,}'," ",str(s))
 def RemoveDuplicate(array): # Removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
     return array
@@ -410,26 +420,15 @@ if len(filename_array) > 0:
     start = timeit.default_timer()
     print("Please wait while we process",len(filename_array),"file(s)... \n")
     for job in filename_array:
-        inputfile = ProcessInputFile(job)
-        text = paragraph_parse(inputfile)
-        text = re.sub(r'\([A-z0-9]{1,3}?\)',"",text) # Remove (a), (b), (iii) bulleting
-        text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,text) # Change full uppercase paragraphs to lower
-        document = nlp(text)
-        sentences = []
-        for sent in document.sents:
-            sentences.append(re.sub(r'\n{1,}'," ",str(sent))) # Remove new line characters from each sentence            
-        full_job_text = ""
-        for sentence in sentences:
-            full_job_text = full_job_text + str(sentence) + "\n"
-        jobDataArray.append(AseulaMain(document, full_job_text))
+        jobDataArray.append(AseulaMain(job))
         i += 1
     end = timeit.default_timer()
     runtime = end - start
     if runtime > 59:
-        print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)\nPlease verify the results: ")
+        print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)")
     else:
-        print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)\nPlease verify the results: ")
+        print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)")
     for job in jobDataArray:
-            OutputResults(job)
+        UserValidation(job)
 else:
     print("\nNo input was provided. Thank you for using ASEULA!\n")
