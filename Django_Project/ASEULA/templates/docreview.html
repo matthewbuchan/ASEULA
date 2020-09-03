@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+{% block title %} Processing Files {% endblock %}
+{% block body %}
+<form class="main-content" method="post" enctype="multipart/form-data">
+    {% for proc_file in Documents %}
+    <h2>Please validate all findings for {{ proc_file.filename }}</h2>
+    <table class="resultstable">
+        <tr>
+            <td>
+                <h3>Software Name: {{ proc_file.softwarename }}</h3>
+                <!-- <div>
+                {% for field in InfoFieldName %}
+                    <p>{{ field.infoField }}</p>
+                {% endfor %}
+                </div> -->
+                <div>
+                    {{proc_file.infoFieldList}}
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Publisher Name: {{ proc_file.publishername }}</h3>
+                <!-- List all publisher possibilities -->
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Information Page: {{ proc_file.informationpage }}</h3>
+                <!-- List all info possibilities -->
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Restriction List: {{ proc_file.restrictionlist }}</h3>
+            </td>
+        </tr>
+    </table>
+    {% endfor %}
+</form>
+{% endblock %}

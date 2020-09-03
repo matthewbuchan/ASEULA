@@ -6,7 +6,6 @@
 # pip install pytesseract
 # pip install wand
 # pip install tqdm
-# pip install colored
 # pip install colorama
 # pip install openpyxl
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform
@@ -15,7 +14,6 @@ from re import search
 from statistics import mode
 from wand.image import Image as wi
 from tqdm import tqdm # Progress Bar
-from colored import fg, bg, attr # Highlighted Text
 from colorama import Fore, Back, Style # Highlighted Text
 from PIL import Image as im
 from openpyxl import Workbook
@@ -45,6 +43,7 @@ sentence_parser.add_pipe(sentence_parser.create_pipe('sentencizer'))
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
     # Checks the input file's format, converts it if necessary, opens it, and initializes the Spacy loader for the specified file.
     # Checks if the input file is .txt.
+    print("Processing",os.path.basename(inputfilename))
     if inputfilename.endswith('.txt'):
         # Opens the .txt file.
         try:

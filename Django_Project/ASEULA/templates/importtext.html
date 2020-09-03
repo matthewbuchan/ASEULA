@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+{% block title %} Text Input {% endblock %}
+{% block body %}
+<body>
+    <form id="textinput" class="textform main-content" method="POST" enctype="multipart/form-data">    
+        {% csrf_token %}
+        <p>Please paste the text into the area below.</p>
+        <textarea name="document" rows="35" cols="100"></textarea>
+        <div><button>Submit</button></div>
+    </form>
+</body>
+{% endblock %}

@@ -437,6 +437,30 @@ def ArrayToString(array): # Function that returns array elements as string.
     return array_string
 def ParagraphToLower(inputtext): # Changes full uppercase paragraphs to lower.
     return inputtext.group(0).lower()
+# def FindSimilarTerms(inputarray): #Find similar terms for an input variable
+#     output_array = []
+#     for element in inputarray:
+#         try:
+#             output_array.append(element)
+#             element = element.replace(" ","_")
+#             s2v = Sense2Vec().from_disk("../../../s2v_reddit_2015_md")
+#             query = str(element) + "|NOUN"
+#             assert query in s2v
+#             vector = s2v[query]
+#             freq = s2v.get_freq(query)
+#             most_similar = s2v.most_similar(query, n=5)
+#             for i in most_similar:
+#                 i = i[0].split("|")
+#                 i = i[0].replace("_"," ").lower()
+#                 output_array.append(i)
+#         except:
+#             pass
+#     if output_array > inputarray:
+#         return output_array
+#     else:
+#         return inputarray
+#     pass
+
 ###############################################    EXECUTION    ###############################################
 filename_array = []
 jobDataArray = []

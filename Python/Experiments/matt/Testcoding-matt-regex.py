@@ -7,11 +7,12 @@
 # pip install docx2txt
 # pip install PyPDF2
 # pip install tqdm
+# pip install openpyxl
 # install imagemagick for windows
 # install ghostscript for windows
 # install Tesseract-OCR for windows
 from colorama import Fore, Back, Style
-import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, ctypes
+import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, openpyxl
 import os.path
 from spacy.lang.en import English
 from re import search
@@ -37,16 +38,6 @@ elif current_sys.lower() == "linux":
     tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract' #LINUX
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 ###############################################    FUNCTIONS    ###############################################
-def get_display_name(): # Get display name
-    GetUserNameEx = ctypes.windll.secur32.GetUserNameExW
-    NameDisplay = 3
-    size = ctypes.pointer(ctypes.c_ulong(0))
-    GetUserNameEx(NameDisplay, None, size)
-    nameBuffer = ctypes.create_unicode_buffer(size.contents.value)
-    GetUserNameEx(NameDisplay, nameBuffer, size)
-    return nameBuffer.value
-print(get_display_name())
-
 def RunQueue(filename_array): # Executes program if filenames are provided
     if len(filename_array) > 0:
         start = timeit.default_timer()
@@ -83,7 +74,7 @@ def ProcessInputFile(inputfilename): # Determines file type and conversion steps
             page = wi(image = img)
             pic = im.open(io.BytesIO(page.make_blob('jpeg')))
             text = tess.image_to_string(pic, lang = 'eng')
-            open_file += text
+            open_file += text        
         return open_file
     else:
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
@@ -101,7 +92,7 @@ def ParagraphParse(ocr_input): # Splits paragraphs before processing text
     parsed_paragraphs = ""
     for paragraph in all_paragraphs:
         paragraph = paragraph.replace("\n", " ")
-        parsed_paragraphs += str(paragraph) + "\n"
+        parsed_paragraphs += str(paragraph) + "\n"    
     return parsed_paragraphs
 def BulletUpperRemove(textinput): # Removes bulleted items and calls paragraph to lower
     ex_bulleted_text = re.sub(r'\([A-z0-9]{1,3}?\)',"",textinput) # Remove (a), (b), (iii) bulleting
@@ -369,30 +360,6 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
         if rx_sim == 1:
             print(str(sent_count) + ". " + str(sentence))
             sent_count += 1
-# def FindSimilarTerms(inputarray): #Find similar terms for an input variable
-#     output_array = []
-#     for element in inputarray:
-#         try:
-#             output_array.append(element)
-#             element = element.replace(" ","_")
-#             s2v = Sense2Vec().from_disk("../../../s2v_reddit_2015_md")
-#             query = str(element) + "|NOUN"
-#             assert query in s2v
-#             vector = s2v[query]
-#             freq = s2v.get_freq(query)
-#             most_similar = s2v.most_similar(query, n=5)
-#             for i in most_similar:
-#                 i = i[0].split("|")
-#                 i = i[0].replace("_"," ").lower()
-#                 output_array.append(i)
-#         except:
-#             pass
-#     if output_array > inputarray:
-#         return output_array
-#     else:
-#         return inputarray
-#     pass
-
 ###############################################    COMMAND LINE EXECUTION    ###############################################
 filename_array = [] #Filename storage for jobs
 rxion_array = []

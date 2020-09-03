@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% block title %}Processed Software{% endblock %}
+{% block body %}
+<body>    
+    <div class="main-select">
+        <h2>Processed Software Listing</h2>
+        {% if Softwares %}
+        <table>
+            <tr class="table-head">
+                <td>Software Name</td>
+                <td>Version</td>
+                <td>Publisher</td>
+                <td>Information URL</td>
+                <td>License Type</td>
+                <td>License Count</td>
+                <td>Restrictions</td>
+                <td>Last Checked</td>
+                <td>Checked By</td>
+                <td>Update</td>
+                <td>Delete</td>
+            </tr>            
+            {% for software in Softwares %}
+            <tr>
+                <td>{{software.softwarename}}</td>
+                <td>{{software.version}}</td>
+                <td>{{software.publishername}}</td>
+                <td>{{software.informationurl}}</td>
+                <td>{{software.licensetype}}</td>
+                <td>{{software.licensecount}}</td>
+                <td>{{software.flaggedrestrictions}}</td>
+                <td>{{software.checkdate}}</td>
+                <td>{{software.checkby}}</td>
+                <td><a href="">Update</a></td>
+                <td><a href="">Delete</a></td>
+            </tr>
+            {% endfor %}        
+        </table>
+        <button>Export</button>
+        {% else %}
+        <p>No software has been processed</p>
+        {% endif %}
+    </div>
+</body>
+{% endblock %}

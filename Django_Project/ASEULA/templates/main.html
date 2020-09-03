@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block title %} ASEULA Home {% endblock %}
+{% block body %}
+<body>
+    <div class="main-select">
+        <div class="container">
+            <h2>Welcome to the ASEULA document processor.</h2>
+            <h3>Please select an input type:</h3>
+            <div>
+                <button onclick="window.location.href='{% url 'importfile' %}';">File Input</button>
+                <button onclick="window.location.href='{% url 'importtext' %}';">Text Input</button>            
+            </div>
+        </div>
+        <div style="height: 550px; width: 75%; margin: auto; text-align: left;">
+            {% if Documents %}
+            <table>
+                <tr class="tablehead">
+                    <td>Filename</td>
+                    <td>Filesize</td>
+                    <td>Link</td>
+                    <td>remove</td>
+                    
+                </tr>
+                {% for document in Documents %}
+                <tr>
+                    <td>{{document.filename}}</td>
+                    <td>{{document.filefield.size}}</td>
+                    <td><a href="{{document.filefield.url}}" target="_blank">{{document.filefield}}</a></td>
+                    <td>
+                        <form method="post" action="{% url 'delete_file' document.pk %}" >
+                            {% csrf_token %}
+                            <button type="submit">delete</button>
+                        </form>
+                    </td>
+                    
+                </tr>            
+                {% endfor %}
+            </table>
+            <div style="text-align: center;"><button onclick="window.location.href='{% url 'ProcessFiles' %}';">Submit File(s)</button></div>
+            {% else %}
+            <h4 style="text-align: center;">The processing queue is empty</h4>
+            {% endif %}                
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+{% endblock %}
