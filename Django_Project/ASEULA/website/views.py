@@ -11,7 +11,7 @@ import datetime
 def Home(request):
         all_documents = fileQueue.objects.all()
         review_docs = processingData.objects.all()
-        return render(request, 'main.html', {'Documents' : all_documents})
+        return render(request, 'main.html', {'Documents' : all_documents, 'RevDocs': review_docs})
 
 def ImportFile(request):
         form = UploadFileForm()        
@@ -88,21 +88,39 @@ def ProcessFiles(request):
                                                 flaggedRestriction.objects.create(filename=processingData.objects.get(filename=jobData[0]),restriction=category)
                                         for sentence in jobData[5][category]:
                                                 flaggedSentence.objects.create(filename=processingData.objects.get(filename=jobData[0]), restriction=flaggedRestriction.objects.get(restriction=category), sentence=sentence)
-
                                 # print(jobData[4],"\n\n") => information summary lists dictionary
                                 # for key in jobData[5]:
                                 #         print(key)
                                 #         print(jobData[5][key],"\n\n") => flagged sentences dictionary
                                 # print(jobData[6],"\n\n") => complete document text
-                documents = processingData.objects.all()
-                return render(request, 'docreview.html', {'RevDocs':documents,})
+                document = processingData.objects.order_by('id').first()
+                return render(request, 'revdocs.html', {'RevDoc':document})
         else:
                 return render(request,"loading.html", {'file_list':file_list,})
 
 def ReviewSoft(request):
-        documents = processingData.objects.all()
-        return render(request, 'docreview.html', {'RevDocs':documents,})
+        document = processingData.objects.order_by('id').first()
+        return render(request, 'revdocs.html', {'RevDoc':document})
 
+def ReviewSoftNext(request,pk):
+        if request.method == 'POST':
+                document = processingData.objects.get(id=pk)                
+                next_document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()
+                print(next_document)
+                if next_document == None:
+                        return render(request, 'revdocs.html', {'RevDoc': document})
+                else:
+                        return render(request, 'revdocs.html', {'RevDoc': next_document})
+
+def ReviewSoftPrev(request,pk):
+        
+        if request.method == 'POST':
+                document = processingData.objects.get(id=pk)
+                prev_document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()                
+                if prev_document == None:
+                        return render(request, 'revdocs.html', {'RevDoc': document})
+                else:
+                        return render(request, 'revdocs.html', {'RevDoc': prev_document})
 
 def Software(request):
         all_software = softwareIndex.objects.all()

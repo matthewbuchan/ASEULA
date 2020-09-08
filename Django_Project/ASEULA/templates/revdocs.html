@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% block title %} Processing Files {% endblock %}
+{% block body %}
+<form class="main-content" method="post" enctype="multipart/form-data">    
+    <table class="resultstable">
+        <tr>
+            <td>
+                
+                <p>Please validate all findings for {{ RevDoc.filename }} - ID: {{ RevDoc.pk }}</p>
+                
+            </td>            
+        </tr>
+        <tr>
+            <td>
+                <h3>Software Name: {{ RevDoc.softwarename }}</h3>
+                {% for element in InfoList %}
+                    <p>{{ element }}</p>
+                {% endfor %}
+                </div>
+                <div>
+                    <!-- {{Document.infoFieldList}} -->
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Publisher Name: {{ RevDoc.publishername }}</h3>
+                <!-- List all publisher possibilities -->
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Information Page: {{ RevDoc.informationpage }}</h3>
+                <!-- List all info possibilities -->
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Restriction List: {{ RevDoc.restrictionlist }}</h3>
+            </td>
+        </tr>
+    </table>
+</form>
+<td>
+    <form method="post" action="{% url 'reviewprev' RevDoc.pk %}">{% csrf_token %}<button type="submit">Prev</button></form>
+    <form method="post" action="{% url 'reviewnext' RevDoc.pk %}">{% csrf_token %}<button type="submit">Next</button></form>
+</td>
+{% endblock %}
