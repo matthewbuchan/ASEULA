@@ -27,14 +27,13 @@ def ImportFile(request):
 
 def ImportText(request):
         if request.method == 'POST':
-                usertext = request.POST.get('document')
-                print(usertext)
-                tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")))
-                f = open(tempfile+".txt",mode="w+")
+                usertext = request.POST.get('document')                
+                tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")                
+                f = open(tempfile,mode="w+")
                 f.write(str(usertext))
-                f.close()
+                f.close()                
                 form = UploadFileForm()
-                form = UploadFileForm(request.POST, tempfile + ".txt")
+                form = UploadFileForm(request.POST, tempfile)
                 if form.is_valid():
                         form.save()
                         return redirect('Home')
@@ -69,8 +68,8 @@ def ProcessFiles(request):
                         else:
                                 #store values from ASEULA Process
                                 jobData = AseulaMain("media/processing/" + str(filename),posterms,negterms, rxion_dict)
-                                # f = fileQueue.objects.get(pk=filename.pk)
-                                # f.delete()
+                                f = fileQueue.objects.get(pk=filename.pk)
+                                f.delete()
                                 # Populate Database
                                 processingData.objects.create(filename=jobData[0], softwarename = jobData[1][jobData[2][0].lower()], publishername=jobData[1][jobData[2][1].lower()], informationpage=jobData[1][jobData[2][2].lower()],restrictionlist=jobData[1][jobData[2][3].lower()],fulldoctext=jobData[6])
                                 for item in jobData[2]: 
