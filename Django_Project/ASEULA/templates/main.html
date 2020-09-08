@@ -4,39 +4,42 @@
 <body>
     <div class="main-select">
         <div class="container">
-            <h2>Welcome to the ASEULA document processor.</h2>
-            <h3>Please select an input type:</h3>
+            <h1>Welcome to ASEULA</h1>
+            <br>
+            <h4>Please select an input type to get started.</h4>
             <div>
-                <button onclick="window.location.href='{% url 'importfile' %}';">File Input</button>
-                <button onclick="window.location.href='{% url 'importtext' %}';">Text Input</button>            
+                <button class="btn btn-secondary" onclick="window.location.href='{% url 'importfile' %}';">File Input</button>
+                <button class="btn btn-secondary" onclick="window.location.href='{% url 'importtext' %}';">Text Input</button>            
             </div>
         </div>
         <div style="height: 550px; width: 75%; margin: auto; text-align: left;">
             {% if Documents %}
-            <table>
-                <tr class="tablehead">
-                    <td>Filename</td>
-                    <td>Filesize</td>
-                    <td>Link</td>
-                    <td>remove</td>
-                    
-                </tr>
-                {% for document in Documents %}
-                <tr>
-                    <td>{{document.filename}}</td>
-                    <td>{{document.filefield.size}}</td>
-                    <td><a href="{{document.filefield.url}}" target="_blank">{{document.filefield}}</a></td>
-                    <td>
-                        <form method="post" action="{% url 'delete_file' document.pk %}" >
-                            {% csrf_token %}
-                            <button type="submit">delete</button>
-                        </form>
-                    </td>
-                    
-                </tr>            
-                {% endfor %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">File Name</th>
+                        <th scope="col">File Size</th>
+                        <th scope="col">Link</th>
+                        <th scope="col">Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for document in Documents %}
+                    <tr>
+                        <td>{{document.filename}}</td>
+                        <td>{{document.filefield.size}}</td>
+                        <td><a href="{{document.filefield.url}}" target="_blank">{{document.filefield}}</a></td>
+                        <td>
+                            <form method="post" action="{% url 'delete_file' document.pk %}" >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" style="margin: 0;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>            
+                    {% endfor %}
+                </tbody>
             </table>
-            <div style="text-align: center;"><button onclick="window.location.href='{% url 'ProcessFiles' %}';">Submit File(s)</button></div>
+            <div style="text-align: center;"><button class="btn btn-primary" onclick="window.location.href='{% url 'ProcessFiles' %}';">Submit File(s)</button></div>
             {% else %}
             <h4 style="text-align: center;">The processing queue is empty</h4>
             {% endif %}                
