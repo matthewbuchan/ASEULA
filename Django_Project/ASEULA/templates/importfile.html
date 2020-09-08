@@ -1,9 +1,11 @@
 {% extends 'index.html' %}
-{% block title %} File Import {% endblock %}
+{% block title %} File Upload Form {% endblock %}
 {% block body %}
 <form class="main-content" method="post" enctype="multipart/form-data">
-    <h2>Upload form</h2>
-    {% csrf_token %}    
-    <div>{{ form.filefield}}<button type="submit">Upload file</button></div>
+    <h1>File Upload Form</h1>
+    <br>
+    <h4>Please upload a file using the area below.</h4>
+    {% csrf_token %}  
+    <div>{{form.filefield}}<button class="btn btn-primary" type="submit">Upload File</button></div>
 </form>
 {% endblock %}

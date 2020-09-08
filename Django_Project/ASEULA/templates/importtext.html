@@ -4,9 +4,11 @@
 <body>
     <form id="textinput" class="textform main-content" method="POST" enctype="multipart/form-data">    
         {% csrf_token %}
-        <p>Please paste the text into the area below.</p>
+        <h1>Text Upload Form</h1>
+        <br>
+        <h4>Please paste the desired text into the area below.</h4>
         <textarea name="document" rows="35" cols="100"></textarea>
-        <div><button>Submit</button></div>
+        <div><button class="btn btn-primary">Submit</button></div>
     </form>
 </body>
 {% endblock %}
