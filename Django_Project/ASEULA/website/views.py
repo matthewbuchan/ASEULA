@@ -11,9 +11,10 @@ import datetime
 def Home(request):
         all_documents = fileQueue.objects.all()
         review_docs = processingData.objects.all()
-        return render(request, 'main.html', {'Documents' : all_documents, 'RevDocs': review_docs})
+        return render(request, 'main.html', {'Documents' : all_documents, 'PendingReview':review_docs})
 
 def ImportFile(request):
+        review_docs = processingData.objects.all()
         form = UploadFileForm()        
         if request.method == "POST":                
                 form = UploadFileForm(request.POST, request.FILES)
@@ -22,10 +23,10 @@ def ImportFile(request):
                         return redirect('Home')
         else:
                 form = UploadFileForm()
-        return render(request, 'importfile.html', {
-                'form': form})
+        return render(request, 'importfile.html', {'PendingReview':review_docs,'form': form})
 
 def ImportText(request):
+        review_docs = processingData.objects.all()
         if request.method == 'POST':
                 usertext = request.POST.get('document')                
                 tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")                
@@ -37,7 +38,7 @@ def ImportText(request):
                 if form.is_valid():
                         form.save()
                         return redirect('Home')
-        return render(request, 'importtext.html')
+        return render(request, 'importtext.html',{'PendingReview':review_docs})
 
 def delete_file(request, pk):
         if request.method == 'POST':
@@ -45,7 +46,7 @@ def delete_file(request, pk):
                 queuedFile.delete()
         return redirect('Home')
 
-def ProcessFiles(request):
+def ProcessFiles(request):        
         posterms = []
         negterms = []
         rxion_dict = {}
@@ -98,29 +99,53 @@ def ProcessFiles(request):
                 return render(request,"loading.html", {'file_list':file_list,})
 
 def ReviewSoft(request):
+        review_docs = processingData.objects.all()
         document = processingData.objects.order_by('id').first()
-        return render(request, 'revdocs.html', {'RevDoc':document})
+        softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+        publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+        infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
 
 def ReviewSoftNext(request,pk):
+        review_docs = processingData.objects.all()
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)                
                 next_document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()
                 print(next_document)
                 if next_document == None:
-                        return render(request, 'revdocs.html', {'RevDoc': document})
+                        softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+                        publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+                        infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
                 else:
-                        return render(request, 'revdocs.html', {'RevDoc': next_document})
+                        softwarefield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+                        publisherfield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+                        infofield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':next_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
 
 def ReviewSoftPrev(request,pk):
-        
+        review_docs = processingData.objects.all()
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)
-                prev_document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()                
+                prev_document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()
                 if prev_document == None:
-                        return render(request, 'revdocs.html', {'RevDoc': document})
+                        softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+                        publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+                        infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
                 else:
-                        return render(request, 'revdocs.html', {'RevDoc': prev_document})
+                        softwarefield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+                        publisherfield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+                        infofield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':prev_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
+
+def ReviewSoftDel(request,pk):
+        if request.method == 'POST':
+                currentrecord = processingData.objects.get(pk=pk)
+                currentrecord.delete()
+                return redirect('ReviewSoft')
 
 def Software(request):
         all_software = softwareIndex.objects.all()
-        return render(request,"software.html",{'Softwares': all_software})
+        review_docs = processingData.objects.all()
+        return render(request,"software.html",{'PendingReview':review_docs,'Softwares': all_software})

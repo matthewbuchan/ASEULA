@@ -4,46 +4,76 @@
 <form class="main-content" method="post" enctype="multipart/form-data">    
     <table class="resultstable">
         <tr>
+            <form method="post" action="{% url 'reviewprev' RevDoc.pk %}">{% csrf_token %}<button type="submit">Prev</button></form>
+            <form method="post" action="{% url 'ReviewSoftDel' RevDoc.pk %}">{% csrf_token %}<button type="submit">Delete</button></form>
+            <form method="post" action="{% url 'reviewnext' RevDoc.pk %}">{% csrf_token %}<button type="submit">Confirm</button></form>
+            <form method="post" action="{% url 'reviewnext' RevDoc.pk %}">{% csrf_token %}<button type="submit">Next</button></form>
+        </tr>
+        <tr>
             <td>
-                
-                <p>Please validate all findings for {{ RevDoc.filename }} - ID: {{ RevDoc.pk }}</p>
-                
+                <h4>Please validate all findings for {{ RevDoc.filename }}</h4>
             </td>            
         </tr>
         <tr>
             <td>
-                <h3>Software Name: {{ RevDoc.softwarename }}</h3>
-                {% for element in InfoList %}
-                    <p>{{ element }}</p>
-                {% endfor %}
-                </div>
-                <div>
-                    <!-- {{Document.infoFieldList}} -->
-                </div>
-
+                <h4>Software Name: 
+                    {% if SoftwareField %}
+                    <input type="text" list="softwarelist" value="{{RevDoc.softwarename}}">
+                    <datalist id="softwarelist">
+                    {% for item in SoftwareField %}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                    </datalist>
+                    {% else %}
+                    <input type="text" value="{{RevDoc.softwarename}}">
+                    {% endif %}
+                    </h4>
+                <!-- <input type="text" list="softwarename"/>
+                <datalist id="softwarename">
+                    
+                </datalist>                 -->
             </td>
         </tr>
         <tr>
             <td>
-                <h3>Publisher Name: {{ RevDoc.publishername }}</h3>
+                <h4>Publisher Name: 
+                    {% if PublisherField %}
+                    <input type="text" list="publisherlist" value="{{RevDoc.publishername}}">
+                    <datalist id="publisherlist">                    
+                    {% for item in PublisherField %}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                    </datalist>
+                    {% else %}
+                    <input type="text" value="{{RevDoc.publishername}}">
+                    {% endif %}
+                </h4>
                 <!-- List all publisher possibilities -->
             </td>
         </tr>
         <tr>
             <td>
-                <h3>Information Page: {{ RevDoc.informationpage }}</h3>
+                <h4>Information Page: 
+                    {% if InfoField %}
+                    <input type="text" id="informationpage" value="{{RevDoc.informationpage}}">
+                    <datalist id="informationpage">
+                    {% for item in InfoField %}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                    </datalist>
+                    {% else %}
+                    <input type="text" value="{{RevDoc.informationpage}}">
+                    {% endif %}
+                </h4>
                 <!-- List all info possibilities -->
             </td>
         </tr>
         <tr>
             <td>
-                <h3>Restriction List: {{ RevDoc.restrictionlist }}</h3>
+                <h4>Restriction List: {{ RevDoc.restrictionlist }}</h4>
             </td>
-        </tr>
+        </tr>        
     </table>
 </form>
-<td>
-    <form method="post" action="{% url 'reviewprev' RevDoc.pk %}">{% csrf_token %}<button type="submit">Prev</button></form>
-    <form method="post" action="{% url 'reviewnext' RevDoc.pk %}">{% csrf_token %}<button type="submit">Next</button></form>
-</td>
+
 {% endblock %}

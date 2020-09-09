@@ -40,9 +40,6 @@ html,body{
     grid-area: main-content;
     text-align: center;
 }
-input{
-    padding: 1em;
-}    
 button{
     padding: .5em;
     margin: 1em;
