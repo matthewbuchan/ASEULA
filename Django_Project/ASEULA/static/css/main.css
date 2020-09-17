@@ -11,7 +11,7 @@ html,body{
     grid-template-rows: 85px auto;
     grid-template-areas:
     "header header"
-    "sidebar main";
+    "main main";
 }
 .header{
     grid-area: header;

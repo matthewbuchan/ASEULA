@@ -152,10 +152,10 @@ def AseulaMain(jobfile, pos, neg, rxion_dict): # Performs data extraction from t
     for token in propn_check:
         if token.pos_ == "PROPN":
             propn_token_array.append(token.text)
+            print(token.text)
     clean_propn_token_array = RemoveDuplicate(propn_token_array)
-    matching = [item for item in clean_propn_token_array if item in publisher_name]
-    stripped_matching = RemoveDuplicate(matching)
-
+    matching = [item for item in clean_propn_token_array if item in publisher_name]    
+    stripped_matching = RemoveDuplicate(matching)    
     if matching:
         software_name = ArrayToString(stripped_matching)
     elif not matching:

@@ -35,24 +35,12 @@
                 </li>
                 {% endif %}
                 <li>
-                    <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Admin</a>
+                    <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Admin Console</a>
                 </li>
         </div>
     </nav>
     <br>
-    <!-- <div class="wrapper">
-        <div class="header">
-            <h1>Engineering Technical Services Tools</h1>
-        </div>
-        <div class="sidebar">
-            <ul style="list-style-type: none;">
-                <li><a href="{% url 'Home' %}">ASEULA Home</a></li>
-                <li><a href="" target="_blank">ETS Software Listing</a></li>
-                {% if RevDocs %}
-                <li><a href="{% url 'ReviewSoft' %}">Pending Review</a></li>
-                {% endif %}
-            </ul>
-        </div> -->
+    <div>
         <div class="main-wrapper">
             {% block body %} {% endblock %}
         </div>

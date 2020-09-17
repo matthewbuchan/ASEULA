@@ -15,29 +15,33 @@ def Home(request):
 
 def ImportFile(request):
         review_docs = processingData.objects.all()
-        form = UploadFileForm()        
-        if request.method == "POST":                
+        filequeue = fileQueue.objects.all()
+        form = UploadFileForm()
+        if request.method == "POST":
                 form = UploadFileForm(request.POST, request.FILES)
                 if form.is_valid():
                         form.save()
                         return redirect('Home')
         else:
                 form = UploadFileForm()
-        return render(request, 'importfile.html', {'PendingReview':review_docs,'form': form})
+        return render(request, 'importfile.html', {'PendingReview':review_docs,'form': form,'FileQueue':filequeue,})
+
+#     filefield = models.FileField(upload_to='processing/')
+#     filename = models.CharField(max_length=30)
 
 def ImportText(request):
         review_docs = processingData.objects.all()
         if request.method == 'POST':
-                usertext = request.POST.get('document')                
+                usertext = request.POST.get('document')
                 tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")                
                 f = open(tempfile,mode="w+")
-                f.write(str(usertext))
-                f.close()                
-                form = UploadFileForm()
-                form = UploadFileForm(request.POST, tempfile)
-                if form.is_valid():
-                        form.save()
-                        return redirect('Home')
+                f.write(str(usertext))                
+                # fs = FileSystemStorage()
+                # fs.save(f.name,"processing/"+f)
+                # if form.is_valid():
+                #         form.save()
+                #         return redirect('Home')
+                f.close()
         return render(request, 'importtext.html',{'PendingReview':review_docs})
 
 def delete_file(request, pk):
@@ -46,7 +50,7 @@ def delete_file(request, pk):
                 queuedFile.delete()
         return redirect('Home')
 
-def ProcessFiles(request):        
+def ProcessFiles(request):
         posterms = []
         negterms = []
         rxion_dict = {}
@@ -54,13 +58,13 @@ def ProcessFiles(request):
                 posterms.append(term.posterm)
         for term in negativeTerm.objects.all():
                 negterms.append(term.negterm)
-        for term in restrictionTerm.objects.all():                
+        for term in restrictionTerm.objects.all():
                 if str(term.restriction) in rxion_dict:
                         rxion_dict[str(term.restriction)].append(str(term))
                 else:
                         rxion_dict[str(term.restriction)] = []
                         rxion_dict[str(term.restriction)].append(str(term))
-        file_list = fileQueue.objects.all()        
+        file_list = fileQueue.objects.all()
         jobData = {}        
         if file_list:
                 for filename in file_list:
@@ -88,62 +92,79 @@ def ProcessFiles(request):
                                                 flaggedRestriction.objects.create(filename=processingData.objects.get(filename=jobData[0]),restriction=category)
                                         for sentence in jobData[5][category]:
                                                 flaggedSentence.objects.create(filename=processingData.objects.get(filename=jobData[0]), restriction=flaggedRestriction.objects.get(restriction=category), sentence=sentence)
-                                # print(jobData[4],"\n\n") => information summary lists dictionary
-                                # for key in jobData[5]:
-                                #         print(key)
-                                #         print(jobData[5][key],"\n\n") => flagged sentences dictionary
-                                # print(jobData[6],"\n\n") => complete document text
                 document = processingData.objects.order_by('id').first()
-                return render(request, 'revdocs.html', {'RevDoc':document})
+                return render(request, 'revdocs.html', {'RevDoc':document, 'PendingReview': document})
         else:
-                return render(request,"loading.html", {'file_list':file_list,})
+                return render(request,"main.html", {'file_list':file_list,})
 
-def ReviewSoft(request):
+def soft_review(request):
         review_docs = processingData.objects.all()
-        document = processingData.objects.order_by('id').first()
-        softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
-        publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
-        infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
+        if review_docs:
+                document = processingData.objects.order_by('id').first()
+                softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+                publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+                infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+                restrictions = flaggedRestriction.objects.filter(filename=document.id)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+        else:
+                return redirect('Home')
 
-def ReviewSoftNext(request,pk):
+def next_review(request,pk):
         review_docs = processingData.objects.all()
         if request.method == 'POST':
-                document = processingData.objects.get(id=pk)                
+                document = processingData.objects.get(id=pk)
                 next_document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()
-                print(next_document)
+                print(document.id)                
                 if next_document == None:
                         softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
+                        restrictions = flaggedRestriction.objects.filter(filename=document.id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
                 else:
+                        print(next_document.id)
                         softwarefield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':next_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
+                        restrictions = flaggedRestriction.objects.filter(filename=next_document.id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':next_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
 
-def ReviewSoftPrev(request,pk):
+def prev_review(request,pk):
         review_docs = processingData.objects.all()
         if request.method == 'POST':
-                document = processingData.objects.get(id=pk)
+                document = processingData.objects.get(id=pk)                
                 prev_document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()
-                if prev_document == None:
+                print(document.id)
+                if prev_document == None:                        
                         softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
+                        restrictions = flaggedRestriction.objects.filter(filename=document.id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
                 else:
+                        print(prev_document.id)
                         softwarefield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':prev_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield})
+                        restrictions = flaggedRestriction.objects.filter(filename=prev_document.id)
+                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':prev_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
 
-def ReviewSoftDel(request,pk):
+def del_review(request,pk):
         if request.method == 'POST':
                 currentrecord = processingData.objects.get(pk=pk)
                 currentrecord.delete()
                 return redirect('ReviewSoft')
+
+def update_review(request,pk):
+        document = processingData.objects.get(id=pk)
+        review_docs = processingData.objects.all()
+        if request.method == 'POST':
+                document.softwarename = request.POST.get('Softwarename')
+                document.publishername = request.POST.get('Publishername')
+                print(request.POST.get('Informationpage'))
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document})
+
+                
 
 def Software(request):
         all_software = softwareIndex.objects.all()

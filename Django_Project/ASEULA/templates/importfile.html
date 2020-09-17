@@ -7,5 +7,25 @@
     <h4>Please upload a file using the area below.</h4>
     {% csrf_token %}  
     <div>{{form.filefield}}<button class="btn btn-primary" type="submit">Upload File</button></div>
+    <div style="height: 550px; width: 75%; margin: auto; text-align: left;">
+        {% if FileQueue %}
+        <table>            
+            <tbody>
+                <tr>
+                    <td>
+                        <h4 style="text-align: center;">Files queued for processing</h4>
+                    </td>
+                </tr>
+                {% for document in FileQueue %}
+                <tr>
+                    <td><h5>{{document.filename}}</h5></td>
+                </tr>            
+                {% endfor %}                
+            </tbody>
+        </table>        
+        {% else %}
+        <h4 style="text-align: center;">The import queue is empty</h4>
+        {% endif %}
+    </div>    
 </form>
 {% endblock %}

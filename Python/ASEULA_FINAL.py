@@ -163,6 +163,7 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
         if token.pos_ == "PROPN":
             # Appends all entities with PERSON label and PROPN part of speech to an array.
             propn_token_array.append(token.text)
+            print(token.text)
     # Checks if the propn_token_array is empty. Prints mode of the array if elements exist.
     clean_propn_token_array = RemoveDuplicate(propn_token_array)
     matching = [item for item in clean_propn_token_array if item in publisher_name]
