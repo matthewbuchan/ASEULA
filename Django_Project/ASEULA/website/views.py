@@ -26,23 +26,20 @@ def ImportFile(request):
                 form = UploadFileForm()
         return render(request, 'importfile.html', {'PendingReview':review_docs,'form': form,'FileQueue':filequeue,})
 
-#     filefield = models.FileField(upload_to='processing/')
-#     filename = models.CharField(max_length=30)
-
 def ImportText(request):
         review_docs = processingData.objects.all()
+        filequeue = fileQueue.objects.all()
         if request.method == 'POST':
                 usertext = request.POST.get('document')
                 tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")                
                 f = open(tempfile,mode="w+")
                 f.write(str(usertext))                
-                # fs = FileSystemStorage()
-                # fs.save(f.name,"processing/"+f)
-                # if form.is_valid():
-                #         form.save()
-                #         return redirect('Home')
+                fs = FileSystemStorage()
+                fs.save("processing/"+ str(f.name),f)
+                fileQueue.objects.create(filefield="processing/"+ str(f.name), filename=f.name)
                 f.close()
-        return render(request, 'importtext.html',{'PendingReview':review_docs})
+                return redirect('Home')
+        return render(request, 'importtext.html', {'PendingReview':review_docs,'FileQueue':filequeue,})
 
 def delete_file(request, pk):
         if request.method == 'POST':
@@ -113,16 +110,14 @@ def next_review(request,pk):
         review_docs = processingData.objects.all()
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)
-                next_document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()
-                print(document.id)                
+                next_document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()                
                 if next_document == None:
                         softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
                         restrictions = flaggedRestriction.objects.filter(filename=document.id)
                         return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
-                else:
-                        print(next_document.id)
+                else:                        
                         softwarefield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
@@ -133,16 +128,14 @@ def prev_review(request,pk):
         review_docs = processingData.objects.all()
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)                
-                prev_document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()
-                print(document.id)
+                prev_document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()                
                 if prev_document == None:                        
                         softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
                         restrictions = flaggedRestriction.objects.filter(filename=document.id)
                         return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
-                else:
-                        print(prev_document.id)
+                else:                        
                         softwarefield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                         publisherfield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                         infofield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
@@ -161,8 +154,11 @@ def update_review(request,pk):
         if request.method == 'POST':
                 document.softwarename = request.POST.get('Softwarename')
                 document.publishername = request.POST.get('Publishername')
+                document.informationpage = request.POST.get('Informationpage')
+                document.save()
+                restrictions = flaggedRestriction.objects.filter(filename=document.id)
                 print(request.POST.get('Informationpage'))
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document})
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document, 'Restrictions':restrictions})
 
                 
 
