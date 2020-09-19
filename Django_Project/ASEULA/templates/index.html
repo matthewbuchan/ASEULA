@@ -29,6 +29,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" target="_blank">Software Listing</a>
                 </li>                
+                <!-- IF SOFTWARE IS IN QUEUE FOR REVIEW -->
                 {% if PendingReview %}
                 <li>
                     <a class="nav-link" href="{% url 'ReviewSoft' %}">Pending Review</a>

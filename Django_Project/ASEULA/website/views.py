@@ -4,7 +4,6 @@ from processing.models import positiveTerm, negativeTerm, restrictionTitle, rest
 from processing.processfile import *
 from django.conf import settings
 from .models import softwareIndex
-from .forms import UploadFileForm
 import datetime
 
 # Create your views here.
@@ -15,29 +14,40 @@ def Home(request):
 
 def ImportFile(request):
         review_docs = processingData.objects.all()
-        filequeue = fileQueue.objects.all()
-        form = UploadFileForm()
+        filequeue = fileQueue.objects.all()        
         if request.method == "POST":
-                form = UploadFileForm(request.POST, request.FILES)
-                if form.is_valid():
-                        form.save()
-                        return redirect('Home')
-        else:
-                form = UploadFileForm()
-        return render(request, 'importfile.html', {'PendingReview':review_docs,'form': form,'FileQueue':filequeue,})
+                # print(newfile)
+                filelist = request.FILES
+                filelisting = request.FILES.getlist('document')
+                postfile = filelist['document']
+                print(len(filelisting))
+                if len(filelisting) >= 2:
+                        for items in filelisting:
+                                print(items)
+                                fs=FileSystemStorage()
+                                fs.save("processing/"+ str(items),items)
+                                fileQueue.objects.create(filefield="processing/"+ str(items), filename=items)
+                else:                        
+                        fs=FileSystemStorage()
+                        fs.save("processing/"+ str(postfile),postfile)
+                        fileQueue.objects.create(filefield="processing/"+ str(filelist['document']), filename=request.FILES)
+                return redirect('Home')
+
+        return render(request, 'importfile.html', {'PendingReview':review_docs,'FileQueue':filequeue,})
 
 def ImportText(request):
         review_docs = processingData.objects.all()
         filequeue = fileQueue.objects.all()
         if request.method == 'POST':
                 usertext = request.POST.get('document')
-                tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")                
+                tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")
                 f = open(tempfile,mode="w+")
-                f.write(str(usertext))                
+                f.write(str(usertext))
                 fs = FileSystemStorage()
                 fs.save("processing/"+ str(f.name),f)
                 fileQueue.objects.create(filefield="processing/"+ str(f.name), filename=f.name)
                 f.close()
+                os.remove(tempfile)
                 return redirect('Home')
         return render(request, 'importtext.html', {'PendingReview':review_docs,'FileQueue':filequeue,})
 
@@ -83,16 +93,16 @@ def ProcessFiles(request):
                                         for item in jobData[4][element]:
                                                 infoFieldArray.objects.create(filename=processingData.objects.get(filename=jobData[0]), categoryname=infoFieldCategory.objects.get(categoryname=element), listvalue=item)
                                 for category in jobData[5]:
-                                        if flaggedRestriction.objects.filter(restriction__icontains=category.lower()):
+                                        if flaggedRestriction.objects.filter(filename=processingData.objects.get(filename=jobData[0]), restriction__icontains=category.lower()):
                                                 pass
                                         else:
                                                 flaggedRestriction.objects.create(filename=processingData.objects.get(filename=jobData[0]),restriction=category)
                                         for sentence in jobData[5][category]:
-                                                flaggedSentence.objects.create(filename=processingData.objects.get(filename=jobData[0]), restriction=flaggedRestriction.objects.get(restriction=category), sentence=sentence)
-                document = processingData.objects.order_by('id').first()
-                return render(request, 'revdocs.html', {'RevDoc':document, 'PendingReview': document})
+                                                flaggedSentence.objects.create(filename=processingData.objects.get(filename=jobData[0]), restriction=flaggedRestriction.objects.get(filename=processingData.objects.get(filename=jobData[0]),restriction=category), sentence=sentence)
+                return redirect('ReviewSoft')
+                
         else:
-                return render(request,"main.html", {'file_list':file_list,})
+                return redirect('ProcessFiles')
 
 def soft_review(request):
         review_docs = processingData.objects.all()
@@ -110,37 +120,27 @@ def next_review(request,pk):
         review_docs = processingData.objects.all()
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)
-                next_document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()                
-                if next_document == None:
-                        softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
-                        publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
-                        infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
-                else:                        
-                        softwarefield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
-                        publisherfield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
-                        infofield = infoFieldArray.objects.filter(filename=next_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        restrictions = flaggedRestriction.objects.filter(filename=next_document.id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':next_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+                if processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first():
+                        document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()
+                softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+                publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+                infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+                restrictions = flaggedRestriction.objects.filter(filename=document.id)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+                
 
 def prev_review(request,pk):
         review_docs = processingData.objects.all()
         if request.method == 'POST':
-                document = processingData.objects.get(id=pk)                
-                prev_document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()                
-                if prev_document == None:                        
-                        softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
-                        publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
-                        infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
-                else:                        
-                        softwarefield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
-                        publisherfield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
-                        infofield = infoFieldArray.objects.filter(filename=prev_document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                        restrictions = flaggedRestriction.objects.filter(filename=prev_document.id)
-                        return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':prev_document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+                document = processingData.objects.get(id=pk)
+                if processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first():
+                        document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()
+                softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
+                publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
+                infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
+                restrictions = flaggedRestriction.objects.filter(filename=document.id)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+                        
 
 def del_review(request,pk):
         if request.method == 'POST':
@@ -156,11 +156,8 @@ def update_review(request,pk):
                 document.publishername = request.POST.get('Publishername')
                 document.informationpage = request.POST.get('Informationpage')
                 document.save()
-                restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                print(request.POST.get('Informationpage'))
+                restrictions = flaggedRestriction.objects.filter(filename=document.id)                
                 return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document, 'Restrictions':restrictions})
-
-                
 
 def Software(request):
         all_software = softwareIndex.objects.all()
