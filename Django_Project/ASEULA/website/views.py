@@ -19,8 +19,7 @@ def ImportFile(request):
         if request.method == "POST":                
                 filelist = request.FILES
                 filelisting = request.FILES.getlist('document')
-                postfile = filelist['document']
-                print(len(filelisting))
+                postfile = filelist['document']                
                 if len(filelisting) >= 2:
                         for items in filelisting:
                                 print(items)
@@ -111,8 +110,7 @@ def flagsentences(document, restrictions):
                         restrictionsentences = flaggedSentence.objects.filter(restriction=restriction.id)
                         for sentence in restrictionsentences:
                                 sentence = str(sentence)
-                                if sentence in sent_array:
-                                        print("DUPLICATE FOUND")
+                                if sentence in sent_array:                                        
                                         pass
                                 else:
                                         sent_array.append(sentence)
