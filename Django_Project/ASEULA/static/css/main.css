@@ -27,7 +27,7 @@ html,body{
 .sidebar > ul > li{
     padding: .5em;
 }
-.main{
+.main-wrapper{
     grid-area: main;
 }
 

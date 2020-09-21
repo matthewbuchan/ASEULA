@@ -8,9 +8,17 @@
 # pip install PyPDF2
 # pip install tqdm
 # pip install openpyxl
-# install imagemagick for windows
-# install ghostscript for windows
-# install Tesseract-OCR for windows
+# pip install colorama
+# ##LINUX SPECIFIC##
+# git clone https://github.com/ImageMagick/ImageMagick.git ImageMagick
+# ImageMagick/configure
+# ImageMagick/make
+# sudo make install
+# sudo apt install tesseract-ocr
+# ##WINDOWS SPECIFIC##
+# download/install imagemagick for windows
+# download/install ghostscript for windows
+# download/install Tesseract-OCR for windows
 from colorama import Fore, Back, Style
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, openpyxl
 import os.path

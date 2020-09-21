@@ -1,87 +1,106 @@
 {% extends 'index.html' %}
 {% block title %} Processing Files {% endblock %}
 {% block body %}
-<table class="resultstable">
-    <tr>
-        <form method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button type="submit"><<</button></form>
-        <form method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button type="submit">Delete</button></form>        
-        <form method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button type="submit">>></button></form>
-    </tr>
-</table>
-<form method='post' class="main-content" action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    <table class="resultstable">
-        <button type="submit">Confirm</button></form>
-        <tr>
-            <td>
-                <h5>Please validate all findings for {{ RevDoc.filename }}</h5>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <h5>Software Name: 
-                    {% if SoftwareField %}
-                    <input name="Softwarename" type="text" list="softwarelist" value="{{RevDoc.softwarename}}">
-                    <datalist id="softwarelist">
-                    {% for item in SoftwareField %}
-                    <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %}
-                    </datalist>
-                    {% else %}
-                    <input name="Softwarename" type="text" value="{{RevDoc.softwarename}}">
-                    {% endif %}
-                    </h5>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <h5>Publisher Name: 
-                    {% if PublisherField %}
-                    <input name="Publishername" type="text" list="publisherlist" value="{{RevDoc.publishername}}">
-                    <datalist id="publisherlist">
-                    {% for item in PublisherField %}
-                    <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %}
-                    </datalist>
-                    {% else %}
-                    <input name="Publishername" type="text" value="{{RevDoc.publishername}}">
-                    {% endif %}
-                </h5>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <h5>Information Page: 
-                    {% if InfoField %}
-                    <input name="Informationpage" type="text" id="informationpage" value="{{RevDoc.informationpage}}">
-                    <datalist id="informationpage">
-                    {% for item in InfoField %}
-                    <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %}
-                    </datalist>
-                    {% else %}
-                    <input name="Informationpage" type="text" value="{{RevDoc.informationpage}}">
-                    {% endif %}
-                </h5>
-            </td>
-        </tr>
-       <tr>
-            <td>
-                <h5>Restriction List:</h5>
-                {% if Restrictions %}
-                {% for item in Restrictions %}
-                <h5>{{ item.restriction }}</h5>
-                {% endfor %}
-                {% else %}
-                <h5>No restrictions have been flagged, please review the license agreement.</h5>
-                {% endif %}
-            </td> 
-        </tr>
-        <tr>
-            <td>
-                <p>{{ RevDoc.fulldoctext }}</p>
-            </td>
-        </tr>
-    </table>    
-</form>
+<style>
+.reviewwrapper{    
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 850px;
+    grid-template-areas:
+    "l-panel r-panel";
+}
+.l-panel{
+    grid-area: l-panel;
+}
+.r-panel{
+    grid-area: r-panel;
+    overflow-y: scroll;
+    padding: 1em;
+}    
+</style>
+<div class="reviewwrapper">
+    <div class="l-panel">
+        <table>
+            <tr>
+                <form method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button type="submit"><<</button></form>
+                <form method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button type="submit">Delete</button></form>        
+                <form method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button type="submit">>></button></form>
+            </tr>
+        </table>
+        <form method='post' action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="resultstable">                
+                <tr>
+                    <td>
+                        <h5>Please validate all findings for {{ RevDoc.filename }}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Software Name: 
+                            {% if SoftwareField %}
+                            <input name="Softwarename" type="text" list="softwarelist" value="{{RevDoc.softwarename}}">
+                            <datalist id="softwarelist">
+                            {% for item in SoftwareField %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+                            </datalist>
+                            {% else %}
+                            <input name="Softwarename" type="text" value="{{RevDoc.softwarename}}">
+                            {% endif %}
+                            </h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Publisher Name: 
+                            {% if PublisherField %}
+                            <input name="Publishername" type="text" list="publisherlist" value="{{RevDoc.publishername}}">
+                            <datalist id="publisherlist">
+                            {% for item in PublisherField %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+                            </datalist>
+                            {% else %}
+                            <input name="Publishername" type="text" value="{{RevDoc.publishername}}">
+                            {% endif %}
+                        </h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Information Page: 
+                            {% if InfoField %}
+                            <input name="Informationpage" type="text" id="informationpage" value="{{RevDoc.informationpage}}">
+                            <datalist id="informationpage">
+                            {% for item in InfoField %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+                            </datalist>
+                            {% else %}
+                            <input name="Informationpage" type="text" value="{{RevDoc.informationpage}}">
+                            {% endif %}
+                        </h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Restriction List:</h5>
+                        {% if Restrictions %}
+                        {% for item in Restrictions %}
+                        <h5>{{ item.restriction }}</h5>
+                        {% endfor %}
+                        {% else %}
+                        <h5>No restrictions have been flagged, please review the license agreement.</h5>
+                        {% endif %}
+                    </td> 
+                </tr>                
+            </table>
+            <button type="submit">Confirm</button>
+        </form>
+    </div>        
+    <div class="r-panel">
+        {{ Strongtext | safe }}
+    </div>
+</div>
 {% endblock %}

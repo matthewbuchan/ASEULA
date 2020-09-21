@@ -1,13 +1,24 @@
-########################################################  IMPORT/INSTALL  ########################################################
+#############################################    INSTALL/IMPORT    ###########################################
+# pip install wheel
 # pip install spacy
 # python -m spacy download en_core_web_sm
-# pip install docx2txt
-# pip install PyPDF2
 # pip install pytesseract
 # pip install wand
+# pip install docx2txt
+# pip install PyPDF2
 # pip install tqdm
-# pip install colorama
 # pip install openpyxl
+# pip install colorama
+# ##LINUX SPECIFIC##
+# git clone https://github.com/ImageMagick/ImageMagick.git ImageMagick
+# ImageMagick/configure
+# ImageMagick/make
+# sudo make install
+# sudo apt install tesseract-ocr
+# ##WINDOWS SPECIFIC##
+# download/install imagemagick for windows
+# download/install ghostscript for windows
+# download/install Tesseract-OCR for windows
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform
 from spacy.lang.en import English
 from re import search

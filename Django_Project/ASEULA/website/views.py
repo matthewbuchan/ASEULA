@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from processing.models import positiveTerm, negativeTerm, restrictionTitle, restrictionTerm,infoFieldCategory,infoFieldArray,processingData,fileQueue, flaggedRestriction, flaggedSentence
+from website.models import softwareIndex
 from processing.processfile import *
 from django.conf import settings
 from .models import softwareIndex
@@ -15,8 +16,7 @@ def Home(request):
 def ImportFile(request):
         review_docs = processingData.objects.all()
         filequeue = fileQueue.objects.all()        
-        if request.method == "POST":
-                # print(newfile)
+        if request.method == "POST":                
                 filelist = request.FILES
                 filelisting = request.FILES.getlist('document')
                 postfile = filelist['document']
@@ -104,6 +104,21 @@ def ProcessFiles(request):
         else:
                 return redirect('ProcessFiles')
 
+def flagsentences(document, restrictions):
+                sent_array = []
+                strongtext = str(document.fulldoctext)
+                for restriction in restrictions:
+                        restrictionsentences = flaggedSentence.objects.filter(restriction=restriction.id)
+                        for sentence in restrictionsentences:
+                                sentence = str(sentence)
+                                if sentence in sent_array:
+                                        print("DUPLICATE FOUND")
+                                        pass
+                                else:
+                                        sent_array.append(sentence)
+                                        strongtext = str(strongtext.replace(sentence, StrongText(sentence)))
+                return strongtext
+
 def soft_review(request):
         review_docs = processingData.objects.all()
         if review_docs:
@@ -112,7 +127,8 @@ def soft_review(request):
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
                 restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+                strongtext = flagsentences(document, restrictions)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'Strongtext':strongtext})
         else:
                 return redirect('Home')
 
@@ -126,7 +142,8 @@ def next_review(request,pk):
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
                 restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+                strongtext = flagsentences(document, restrictions)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'Strongtext':strongtext})
                 
 
 def prev_review(request,pk):
@@ -139,7 +156,8 @@ def prev_review(request,pk):
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
                 restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions})
+                strongtext = flagsentences(document, restrictions)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'Strongtext':strongtext})
                         
 
 def del_review(request,pk):
@@ -149,15 +167,12 @@ def del_review(request,pk):
                 return redirect('ReviewSoft')
 
 def update_review(request,pk):
-        document = processingData.objects.get(id=pk)
-        review_docs = processingData.objects.all()
-        if request.method == 'POST':
-                document.softwarename = request.POST.get('Softwarename')
-                document.publishername = request.POST.get('Publishername')
-                document.informationpage = request.POST.get('Informationpage')
-                document.save()
-                restrictions = flaggedRestriction.objects.filter(filename=document.id)                
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document, 'Restrictions':restrictions})
+        document = processingData.objects.get(id=pk)        
+        if request.method == 'POST':                
+                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'))
+                document.delete()
+                return redirect('ReviewSoft')
+                
 
 def Software(request):
         all_software = softwareIndex.objects.all()

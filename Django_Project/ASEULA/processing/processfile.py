@@ -226,31 +226,65 @@ def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # F
         for rx in rx_array:
             if rx[2] in sentence: # All sentences containing a restriction
                 if any(pattern in restrictionString.lower() for pattern in neg): # All sentences containing a negative trigger
-                    if rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
+                    if rx[0] in sentence and str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array:
                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
                         if re.search(reg_pattern,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
+                            rxion_sentences_array.append(str(sent))
                         elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
-                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
+                            rxion_sentences_array.append(str(sent))
+                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array:
                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
                         if re.search(reg_pattern,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
+                            rxion_sentences_array.append(str(sent))
                         elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
-                elif rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array: # All sentences containing a positive trigger
+                            rxion_sentences_array.append(str(sent))
+                elif rx[0] in sentence and str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array: # All sentences containing a positive trigger
                     reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2])
                     reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0])
                     if re.search(reg_pattern,sentence):
-                        rxion_sentences_array.append(HighlightText(str(sent)))
+                        rxion_sentences_array.append(str(sent))
                     elif re.search(reg_pattern_rev,sentence):
-                        rxion_sentences_array.append(HighlightText(str(sent)))
-                elif str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
+                        rxion_sentences_array.append(str(sent))
+                elif str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array:
                     rxion_sentences_array.append(str(sent))
     if len(rxion_sentences_array) > 0:
         return rxion_sentences_array
+
+# def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # Function to find restriction sentences
+#     rxion_sentences_array = []
+#     rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
+#     for sent in document.sents:
+#         sentence = str(sent).lower()
+#         for rx in rx_array:
+#             if rx[2] in sentence: # All sentences containing a restriction
+#                 if any(pattern in restrictionString.lower() for pattern in neg): # All sentences containing a negative trigger
+#                     if rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
+#                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
+#                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
+#                         if re.search(reg_pattern,sentence):
+#                             rxion_sentences_array.append(HighlightText(str(sent)))
+#                         elif re.search(reg_pattern_rev,sentence):
+#                             rxion_sentences_array.append(HighlightText(str(sent)))
+#                     elif rx[0] not in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
+#                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
+#                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
+#                         if re.search(reg_pattern,sentence):
+#                             rxion_sentences_array.append(HighlightText(str(sent)))
+#                         elif re.search(reg_pattern_rev,sentence):
+#                             rxion_sentences_array.append(HighlightText(str(sent)))
+#                 elif rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array: # All sentences containing a positive trigger
+#                     reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2])
+#                     reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0])
+#                     if re.search(reg_pattern,sentence):
+#                         rxion_sentences_array.append(HighlightText(str(sent)))
+#                     elif re.search(reg_pattern_rev,sentence):
+#                         rxion_sentences_array.append(HighlightText(str(sent)))
+#                 elif str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
+#                     rxion_sentences_array.append(str(sent))
+#     if len(rxion_sentences_array) > 0:
+#         return rxion_sentences_array
 def OutputResults(job): # Summarized output
     print("\nPlease verify all information is correct for", job[0])
     print("------------------------------------------------------")
@@ -320,6 +354,8 @@ def RestrictionSentenceOutput(dictionary): # Displays restriction sentences used
     return new_rxion_array
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
     return Fore.YELLOW + str(usertext) + Fore.RESET
+def StrongText(usertext): # Returns strong tag for easy identification in HTML    
+    return "<mark><strong><em>" + str(usertext) + "</em></strong></mark>"
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     return(mode(list))
 def RemoveDuplicate(array): # Removes duplicate elements in an array.
