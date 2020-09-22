@@ -5,7 +5,7 @@
 .reviewwrapper{    
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 850px;
+    grid-template-rows: 900px;
     grid-template-areas:
     "l-panel r-panel";
 }
@@ -16,17 +16,19 @@
     grid-area: r-panel;
     overflow-y: scroll;
     padding: 1em;
+    border-style: inset;
+    background-color: rgb(245, 245, 245);
 }    
 </style>
 <div class="reviewwrapper">
     <div class="l-panel">
-        <table>
-            <tr>
-                <form method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button type="submit"><<</button></form>
-                <form method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button type="submit">Delete</button></form>        
-                <form method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button type="submit">>></button></form>
-            </tr>
-        </table>
+        <div class="text-center">
+            <div class="btn-group" role="group">
+                <form method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit"><<</button></form>
+                <form method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete</button></form>        
+                <form method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">>></button></form>
+            </div>
+        </div>
         <form method='post' action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
             {% csrf_token %}
             <table class="resultstable">                
@@ -96,7 +98,9 @@
                     </td> 
                 </tr>                
             </table>
-            <button type="submit">Confirm</button>
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Confirm</button>
+            </div>
         </form>
     </div>        
     <div class="r-panel">
