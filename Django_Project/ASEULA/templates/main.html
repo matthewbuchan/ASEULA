@@ -18,7 +18,7 @@
                 <thead>
                     <tr>
                         <th scope="col">File Name</th>
-                        <th scope="col">File Size</th>
+                        <th scope="col">File Size (b)</th>
                         <th scope="col">Link</th>
                         <th scope="col">Remove</th>
                     </tr>
@@ -41,7 +41,7 @@
             </table>
             <div style="text-align: center;"><button class="btn btn-primary" onclick="window.location.href='{% url 'ProcessFiles' %}';">Submit File(s)</button></div>
             {% else %}
-            <h4 style="text-align: center;">The processing queue is empty</h4>
+            <h6 style="text-align: center;">The processing queue is currently empty.</h6>
             {% endif %}                
         </div>
     </div>

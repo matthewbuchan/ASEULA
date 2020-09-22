@@ -7,13 +7,14 @@
     grid-template-columns: 50% 50%;
     grid-template-rows: 900px;
     grid-template-areas:
-    "l-panel r-panel";
+    "l-panel r-panel-header";
 }
 .l-panel{
     grid-area: l-panel;
 }
 .r-panel{
     grid-area: r-panel;
+    height: 800px;
     overflow-y: scroll;
     padding: 1em;
     border-style: inset;
@@ -23,23 +24,20 @@
 <div class="reviewwrapper">
     <div class="l-panel">
         <div class="text-center">
-            <div class="btn-group" role="group">
-                <form method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit"><<</button></form>
-                <form method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete</button></form>        
-                <form method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">>></button></form>
-            </div>
+            <h4>Proccessing Confirmation</h4>
         </div>
+        <br>
         <form method='post' action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
             {% csrf_token %}
             <table class="resultstable">                
                 <tr>
                     <td>
-                        <h5>Please validate all findings for {{ RevDoc.filename }}</h5>
+                        <h6>Please validate all findings for {{ RevDoc.filename }}.</h6>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h5>Software Name: 
+                        <h6>Software Name: 
                             {% if SoftwareField %}
                             <input name="Softwarename" type="text" list="softwarelist" value="{{RevDoc.softwarename}}">
                             <datalist id="softwarelist">
@@ -50,12 +48,12 @@
                             {% else %}
                             <input name="Softwarename" type="text" value="{{RevDoc.softwarename}}">
                             {% endif %}
-                            </h5>
+                            </h6>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h5>Publisher Name: 
+                        <h6>Publisher Name: 
                             {% if PublisherField %}
                             <input name="Publishername" type="text" list="publisherlist" value="{{RevDoc.publishername}}">
                             <datalist id="publisherlist">
@@ -66,12 +64,12 @@
                             {% else %}
                             <input name="Publishername" type="text" value="{{RevDoc.publishername}}">
                             {% endif %}
-                        </h5>
+                        </h6>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h5>Information Page: 
+                        <h6>Information Page: 
                             {% if InfoField %}
                             <input name="Informationpage" type="text" id="informationpage" value="{{RevDoc.informationpage}}">
                             <datalist id="informationpage">
@@ -82,29 +80,39 @@
                             {% else %}
                             <input name="Informationpage" type="text" value="{{RevDoc.informationpage}}">
                             {% endif %}
-                        </h5>
+                        </h6>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h5>Restriction List:</h5>
+                        <h6>Restriction List:</h6>
                         {% if Restrictions %}
                         {% for item in Restrictions %}
-                        <h5>{{ item.restriction }}</h5>
+                        <h6>{{ item.restriction }}</h6>
                         {% endfor %}
                         {% else %}
-                        <h5>No restrictions have been flagged, please review the license agreement.</h5>
+                        <h6>No restrictions have been flagged. Please review the license agreement.</h6>
                         {% endif %}
                     </td> 
                 </tr>                
             </table>
             <div class="text-center">
+                <div class="btn-group" role="group">
+                    <form method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit"><<</button></form>
+                    <form method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete</button></form>        
+                    <form method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">>></button></form>
+                </div>
                 <button class="btn btn-primary" type="submit">Confirm</button>
             </div>
         </form>
-    </div>        
-    <div class="r-panel">
-        {{ Strongtext | safe }}
     </div>
+    <div class="r-panel-header">
+        <div class="text-center">
+            <h4>EULA Document</h4>
+        </div>
+        <div class="r-panel">
+            {{ Strongtext | safe }}
+        </div>
+    </div>   
 </div>
 {% endblock %}

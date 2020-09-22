@@ -3,6 +3,10 @@ html,body{
     height: 100%;
     color: #333333;
     font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+    background-image: url('/static/img/pitchfork.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 700px;
 }
 .wrapper{
     height: 100%;
