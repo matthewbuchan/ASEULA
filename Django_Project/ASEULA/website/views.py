@@ -16,38 +16,43 @@ def Home(request):
 def ImportFile(request):
         review_docs = processingData.objects.all()
         filequeue = fileQueue.objects.all()        
-        if request.method == "POST":                
-                filelist = request.FILES
-                filelisting = request.FILES.getlist('document')
-                postfile = filelist['document']                
-                if len(filelisting) >= 2:
-                        for items in filelisting:
-                                print(items)
+        if request.method == "POST":
+                if request.FILES:
+                        filelist = request.FILES
+                        filelisting = request.FILES.getlist('document')
+                        postfile = filelist['document']                
+                        if len(filelisting) >= 2:
+                                for items in filelisting:
+                                        print(items)
+                                        fs=FileSystemStorage()
+                                        fs.save("processing/"+ str(items),items)
+                                        fileQueue.objects.create(filefield="processing/"+ str(items), filename=items)
+                        else:                        
                                 fs=FileSystemStorage()
-                                fs.save("processing/"+ str(items),items)
-                                fileQueue.objects.create(filefield="processing/"+ str(items), filename=items)
-                else:                        
-                        fs=FileSystemStorage()
-                        fs.save("processing/"+ str(postfile),postfile)
-                        fileQueue.objects.create(filefield="processing/"+ str(filelist['document']), filename=request.FILES)
-                return redirect('Home')
-
+                                fs.save("processing/"+ str(postfile),postfile)
+                                fileQueue.objects.create(filefield="processing/"+ str(filelist['document']), filename=request.FILES)
+                        return redirect('Home')
+                else:
+                        pass
         return render(request, 'importfile.html', {'PendingReview':review_docs,'FileQueue':filequeue,})
 
 def ImportText(request):
         review_docs = processingData.objects.all()
         filequeue = fileQueue.objects.all()
         if request.method == 'POST':
-                usertext = request.POST.get('document')
-                tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")
-                f = open(tempfile,mode="w+")
-                f.write(str(usertext))
-                fs = FileSystemStorage()
-                fs.save("processing/"+ str(f.name),f)
-                fileQueue.objects.create(filefield="processing/"+ str(f.name), filename=f.name)
-                f.close()
-                os.remove(tempfile)
-                return redirect('Home')
+                if request.POST.get('document'):
+                        usertext = request.POST.get('document')
+                        tempfile = str("usertxt" + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))+ ".txt")
+                        f = open(tempfile,mode="w+")
+                        f.write(str(usertext))
+                        fs = FileSystemStorage()
+                        fs.save("processing/"+ str(f.name),f)
+                        fileQueue.objects.create(filefield="processing/"+ str(f.name), filename=f.name)
+                        f.close()
+                        os.remove(tempfile)
+                        return redirect('Home')
+                else:
+                        pass
         return render(request, 'importtext.html', {'PendingReview':review_docs,'FileQueue':filequeue,})
 
 def delete_file(request, pk):

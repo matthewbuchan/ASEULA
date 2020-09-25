@@ -5,21 +5,24 @@
 .reviewwrapper{    
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 900px;
+    grid-template-rows: 850px;
     grid-template-areas:
-    "l-panel r-panel-header";
+    "l-panel r-panel";
 }
 .l-panel{
-    grid-area: l-panel;
+    grid-area: l-panel;    
 }
 .r-panel{
     grid-area: r-panel;
+}
+.r-panel-txt{
     height: 800px;
     overflow-y: scroll;
     padding: 1em;
     border-style: inset;
     background-color: rgb(245, 245, 245);
-}    
+}
+
 </style>
 <div class="reviewwrapper">
     <div class="l-panel">
@@ -27,7 +30,7 @@
             <h4>Proccessing Confirmation</h4>
         </div>
         <br>
-        <form method='post' action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
+        <form method='post' style="height: 650px;" action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
             {% csrf_token %}
             <table class="resultstable">                
                 <tr>
@@ -87,32 +90,37 @@
                     <td>
                         <h6>Restriction List:</h6>
                         {% if Restrictions %}
+                        <ul>
+                            <fieldset id="{{ item.restriction }}">
                         {% for item in Restrictions %}
-                        <h6>{{ item.restriction }}</h6>
+                            <li style="list-style-type: none;">
+                                <input type="radio" id="{{ item.restriction }}" value="{{ item.restriction }}" name="{{ item.restriction }}">
+                                <label for="{{ item.restriction }}"><h6>{{ item.restriction }}</h6></label>
+                            </li>
                         {% endfor %}
+                            </fieldset>
+                        </ul>
                         {% else %}
                         <h6>No restrictions have been flagged. Please review the license agreement.</h6>
                         {% endif %}
                     </td> 
                 </tr>
             </table>
-            <div class="text-center">
-                <div>
-                    <form class="d-inline" method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">Prev</button></form>
-                    <form class="d-inline" method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete</button></form>
-                    <form class="d-inline" method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">Next</button></form>
-                </div>
-                <div>
-                    <button class="btn btn-primary" type="submit">Confirm</button>
-                </div>
+            <div class="text-center position-relative fixed-bottom">
+                <button class="btn btn-primary" type="submit">Confirm</button>
             </div>
         </form>
+        <div class="text-center position-relative fixed-bottom">
+            <form class="d-inline" method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">Prev</button></form>
+            <form class="d-inline" method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete</button></form>
+            <form class="d-inline" method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">Next</button></form>
+        </div>
     </div>
-    <div class="r-panel-header">
+    <div class="r-panel">
         <div class="text-center">
             <h4>EULA Document</h4>
         </div>
-        <div class="r-panel">
+        <div class="rounded r-panel-txt">
             {{ Strongtext | safe }}
         </div>
     </div>

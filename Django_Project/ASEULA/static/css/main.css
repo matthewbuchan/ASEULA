@@ -5,7 +5,7 @@ html,body{
     font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
     background-image: url('/static/img/pitchfork4.jpg');
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center;    
     background-size: 700px;
 }
 .wrapper{
