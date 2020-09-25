@@ -1,6 +1,18 @@
 {% extends 'index.html' %}
 {% block title %} ASEULA Home {% endblock %}
 {% block body %}
+<style>
+#progress-bar{    
+    display: none;
+}
+</style>
+
+<!-- <script type="text/javascript">
+    $(document).ready(function () {
+        $("#progress-bar").hide();
+    });
+</script> -->
+
 <body>
     <div class="main-select">
         <div class="container">
@@ -8,8 +20,8 @@
             <br>
             <h4>Please select an input type to get started.</h4>
             <div>
-                <button class="btn btn-secondary" onclick="window.location.href='{% url 'importfile' %}';">File Input</button>
-                <button class="btn btn-secondary" onclick="window.location.href='{% url 'importtext' %}';">Text Input</button>            
+                <button id="file-input" class="btn btn-secondary" onclick="window.location.href='{% url 'importfile' %}';">File Input</button>
+                <button id="text-input" class="btn btn-secondary" onclick="window.location.href='{% url 'importtext' %}';">Text Input</button>            
             </div>
         </div>
         <div style="height: 550px; width: 75%; margin: auto; text-align: left;">
@@ -39,7 +51,10 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div style="text-align: center;"><button class="btn btn-primary" onclick="window.location.href='{% url 'ProcessFiles' %}';">Submit File(s)</button></div>
+            <div class="progress" style="background-color: transparent;">
+                <div id="progress-bar" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div style="text-align: center;"><button id="submission-btn" class="btn btn-primary" onclick="Show_Progress();window.location.href='{% url 'ProcessFiles' %}';">Submit File(s)</button></div>
             {% else %}
             <h6 style="text-align: center;">The processing queue is currently empty.</h6>
             {% endif %}                

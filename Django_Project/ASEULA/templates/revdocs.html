@@ -94,15 +94,17 @@
                         <h6>No restrictions have been flagged. Please review the license agreement.</h6>
                         {% endif %}
                     </td> 
-                </tr>                
+                </tr>
             </table>
             <div class="text-center">
-                <div class="btn-group" role="group">
-                    <form method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit"><<</button></form>
-                    <form method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete</button></form>        
-                    <form method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">>></button></form>
+                <div>
+                    <form class="d-inline" method="post" action="{% url 'prevdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">Prev</button></form>
+                    <form class="d-inline" method="post" action="{% url 'delreview' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete</button></form>
+                    <form class="d-inline" method="post" action="{% url 'nextdoc' RevDoc.pk %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">Next</button></form>
                 </div>
-                <button class="btn btn-primary" type="submit">Confirm</button>
+                <div>
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                </div>
             </div>
         </form>
     </div>
@@ -113,6 +115,6 @@
         <div class="r-panel">
             {{ Strongtext | safe }}
         </div>
-    </div>   
+    </div>
 </div>
 {% endblock %}
