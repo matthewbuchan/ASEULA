@@ -24,7 +24,6 @@ from PIL import Image as im
 from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from .models import * # DJANGO SPECIFIC
-# from sense2vec import Sense2Vec #Sense2Vec installation required with s2v_md files for the FindSimilarTerms function
 ##############################################    SCRIPT CONFIG    ############################################
 current_sys = platform.system()
 if current_sys.lower() == "windows":
@@ -39,12 +38,11 @@ elif current_sys.lower() == "linux":
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 ###############################################    FUNCTIONS    ###############################################
 def RunQueue(filename_array): # Executes program if filenames are provided
-    if len(filename_array) > 0:
+    if len(filename_array) > 0: # Checks array for filenames
         start = timeit.default_timer()
         print("Please wait while your file(s) are being processed... \n")
-        for job in filename_array:
-            jobDataArray.append(AseulaMain(job))
-            #i += 1
+        for job in filename_array: # 
+            jobDataArray.append(AseulaMain(job))            
         end = timeit.default_timer()
         runtime = end - start
         if runtime > 59:
@@ -181,110 +179,49 @@ def AseulaMain(jobfile, pos, neg, rxion_dict): # Performs data extraction from t
     
     return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
 def ProcessRestrictions(document, pos_trigger_words, neg_trigger_words, rxion_patterns): # Establishes restriction variables and executes each type
-    rxion_array = []
-    # rxion_patterns = {}
-    # pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
-    #     "permits", "permitting", "permitted", "require", "requires", "requiring", "required", "authorize", "authorizes", \
-    #         "authorizing", "authorized", "necessary"]
-    # neg_trigger_words = ["no", "not", "may not", "not granted", "not allowed", "not permitted", "forbidden", "restricts", "restricted",\
-    #      "prohibits", "prohibited"]
-    # rxion_patterns["Instructional-use only"] = ["teaching", "teaching use", "teaching-use", "instruction", "instructional use",\
-    #      "instructional-use", "instructional purposes", "academic", "academic use", "academic-use", "academic instruction",\
-    #           "academic institution", "academic purposes", "educational", "educational use", "educational-use",\
-    #                "educational instruction", "educational institution", "institution", "educational purposes"]
-    # rxion_patterns["Research-use only"] = ["research", "research use", "research-use"]
-    # rxion_patterns["Requires Physical Device"] = ["activation key", "dongle","hardware"]
-    # rxion_patterns["No RDP use"] = ["remote", "rdp", "remote access", "remote-access", "remote desktop", "remote interface"]
-    # rxion_patterns["Use geographically limited (Campus)"] = ["designated site", "customer's campus", "internally","campus","facility"]
-    # rxion_patterns["Use geographically limited (radius)"] = ["radius", "limited radius", "geographically limited radius",\
-    #      "geographically-limited radius", "particular geography", "site license", "site licenses"]
-    # rxion_patterns["US use only"] = ["united states", "united states use", "u.s.", "u.s. use","export"]
-    # rxion_patterns["VPN required off-site"] = ["vpn", "virtual private network", "remote access"]
-    # rxion_patterns["Block embargoed countries"] = ["embargo", "embargoed", "embargoed country","export","countries"]
-    # rxion_patterns["Block use from Persons of Concern"] = ["person of concern", "persons of concern", "people of concern",\
-    #     "denied persons","person","entity"]
-    # rxion_patterns["On-site (lab) use only"] = ["lab-use"]
-    # rxion_patterns["On-site use for on-site students only"] = ["single fixed geographic site", "fixed geographic site",\
-    #      "geographic site", "on-site", "on-site use"]
-    # rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
-    restriction_sentence_dict = dict()
-
-    # Restriction runs
-    for rxion in rxion_patterns:
-        rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion))
-        if rxiontmp:
-            rxion_array.append(str(rxion))
-            restriction_sentence_dict[str(rxion)] = RemoveDuplicate(rxiontmp)
-    if not rxion_array:
-        rxion_array.append("Needs Review")
-    return restriction_sentence_dict, rxion_array
+    rxion_array = [] # Defines restriction array to store restrictions found for each file
+    restriction_sentence_dict = dict() # Defines restriction sentence dictionary that uses the restriction name as a key    
+    for rxion in rxion_patterns: # Loops through restriction types to determine if the restriction applies to the document
+        rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion)) # Returns restriction type to document
+        if rxiontmp: # If the document contains any sentences with the restriction type
+            rxion_array.append(str(rxion)) # Append the restriction type string to the array
+            restriction_sentence_dict[str(rxion)] = RemoveDuplicate(rxiontmp) # Append all unique sentences found for the restriction type to the dictionary
+    if not rxion_array: # If no restriction types were identified
+        rxion_array.append("Needs Review") # Set the restrictions to "needs review"
+    return restriction_sentence_dict, rxion_array # Returns restriction sentences and restriction types array
 def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # Function to find restriction sentences
-    rxion_sentences_array = []
-    rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
-    for sent in document.sents:
-        sentence = str(sent).lower()
-        for rx in rx_array:
-            if rx[2] in sentence: # All sentences containing a restriction
-                if any(pattern in restrictionString.lower() for pattern in neg): # All sentences containing a negative trigger
-                    if rx[0] in sentence and str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array:
-                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
-                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-                        if re.search(reg_pattern,sentence):
-                            rxion_sentences_array.append(str(sent))
-                        elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(str(sent))
-                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array:
-                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
-                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-                        if re.search(reg_pattern,sentence):
-                            rxion_sentences_array.append(str(sent))
-                        elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(str(sent))
-                elif rx[0] in sentence and str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array: # All sentences containing a positive trigger
-                    reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2])
-                    reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0])
-                    if re.search(reg_pattern,sentence):
-                        rxion_sentences_array.append(str(sent))
-                    elif re.search(reg_pattern_rev,sentence):
-                        rxion_sentences_array.append(str(sent))
-                elif str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array:
-                    rxion_sentences_array.append(str(sent))
-    if len(rxion_sentences_array) > 0:
-        return rxion_sentences_array
-
-# def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # Function to find restriction sentences
-#     rxion_sentences_array = []
-#     rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
-#     for sent in document.sents:
-#         sentence = str(sent).lower()
-#         for rx in rx_array:
-#             if rx[2] in sentence: # All sentences containing a restriction
-#                 if any(pattern in restrictionString.lower() for pattern in neg): # All sentences containing a negative trigger
-#                     if rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
-#                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
-#                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-#                         if re.search(reg_pattern,sentence):
-#                             rxion_sentences_array.append(HighlightText(str(sent)))
-#                         elif re.search(reg_pattern_rev,sentence):
-#                             rxion_sentences_array.append(HighlightText(str(sent)))
-#                     elif rx[0] not in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
-#                         reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
-#                         reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-#                         if re.search(reg_pattern,sentence):
-#                             rxion_sentences_array.append(HighlightText(str(sent)))
-#                         elif re.search(reg_pattern_rev,sentence):
-#                             rxion_sentences_array.append(HighlightText(str(sent)))
-#                 elif rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array: # All sentences containing a positive trigger
-#                     reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2])
-#                     reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0])
-#                     if re.search(reg_pattern,sentence):
-#                         rxion_sentences_array.append(HighlightText(str(sent)))
-#                     elif re.search(reg_pattern_rev,sentence):
-#                         rxion_sentences_array.append(HighlightText(str(sent)))
-#                 elif str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
-#                     rxion_sentences_array.append(str(sent))
-#     if len(rxion_sentences_array) > 0:
-#         return rxion_sentences_array
+    rxion_sentences_array = [] # Define the array to store sentences flagged for the restriction type
+    rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions] #sets all variables in custom array for processing
+    for sent in document.sents: # Loops through each sentence in the document
+        sentence = str(sent).lower() # converts the sentence to lower to be compatible with term matching
+        for rx in rx_array: # For each pos, neg, restriction term combination
+            if rx[2] in sentence: # If there is a restriction term in the sentence
+                if any(pattern in restrictionString.lower() for pattern in neg): # If there are any negative terms in the restriction type (NO RDP), ONLY search for RESTRICTED ITEMS
+                    if rx[0] in sentence and str(sent) not in rxion_sentences_array:# and str(sent) not in rxion_sentences_array: # If there is both a positive and negative trigger word, and the sentence has not been flagged.
+                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2]) # If sentence contains negative, positive, then restriction (NOT...ALLOWED...REMOTE)
+                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?") # If sentence contains restriction, negative, then positive (REMOTE...NOT...ALLOWED)
+                        if re.search(reg_pattern,sentence): # If first search version found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                        elif re.search(reg_pattern_rev,sentence): # If second (reverse negative) found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array:# and str(sent) not in rxion_sentences_array: # If only a negative and restriction term are in sentence and sentence has not been flagged.
+                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2]) # If sentence contains negative, then restriction (No...Remote)
+                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?") # If sentence contains restriction, then negative (Remote...Prohibited)
+                        if re.search(reg_pattern,sentence): # If first search version found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                        elif re.search(reg_pattern_rev,sentence): # If second search version found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                elif rx[0] in sentence and str(sent) not in rxion_sentences_array:# and str(sent) not in rxion_sentences_array: # All sentences containing a positive trigger
+                    reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2]) # If sentence contains an optional negative, positive, then restriction (grants...remote)
+                    reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0]) # If sentence contains restriction, optional negative, then positive (remote...allowed)
+                    if re.search(reg_pattern,sentence): # If first search version found
+                        rxion_sentences_array.append(str(sent)) # Append to sentence array
+                    elif re.search(reg_pattern_rev,sentence): # If second search version found
+                        rxion_sentences_array.append(str(sent)) # Append to sentence array
+                elif str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array: # If there is a restriction term and the sentence has not been flagged
+                    rxion_sentences_array.append(str(sent)) # Append to the sentence array
+    if len(rxion_sentences_array) > 0: # If sentences were flagged during the search
+        return rxion_sentences_array # Return the sentence array
 def OutputResults(job): # Summarized output
     print("\nPlease verify all information is correct for", job[0])
     print("------------------------------------------------------")
@@ -357,7 +294,10 @@ def HighlightText(usertext): # Returns inputted text as yellow for easy identifi
 def StrongText(usertext): # Returns strong tag for easy identification in HTML    
     return "<mark><strong><em>" + str(usertext) + "</em></strong></mark>"
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
-    return(mode(list))
+    try:
+        return(mode(list))
+    except:
+        return str("Unknown")
 def RemoveDuplicate(array): # Removes duplicate elements in an array.
     array = list(dict.fromkeys(array))
     return array
@@ -445,6 +385,9 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
 #         else:
 #             fileInput = False
 # RunQueue(filename_array)
+
+################################################################################################################################
+#  if the database gets corrupted, use the script below to re-establish default values after clearing all cache files          #
 ###############################################    DJANGO FRAMEWORK EXECUTION    ###############################################
 # # IMPORT PATTERNS
 # rxion_patterns = {}

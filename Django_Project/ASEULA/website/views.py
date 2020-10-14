@@ -20,7 +20,7 @@ def ImportFile(request):
                 if request.FILES:
                         filelist = request.FILES
                         filelisting = request.FILES.getlist('document')
-                        postfile = filelist['document']                
+                        postfile = filelist['document']
                         if len(filelisting) >= 2:
                                 for items in filelisting:
                                         print(items)
@@ -76,7 +76,7 @@ def ProcessFiles(request):
                         rxion_dict[str(term.restriction)] = []
                         rxion_dict[str(term.restriction)].append(str(term))
         file_list = fileQueue.objects.all()
-        jobData = {}        
+        jobData = {}
         if file_list:
                 for filename in file_list:
                         if processingData.objects.filter(filename__icontains=str(filename)):
@@ -115,7 +115,7 @@ def flagsentences(document, restrictions):
                         restrictionsentences = flaggedSentence.objects.filter(restriction=restriction.id)
                         for sentence in restrictionsentences:
                                 sentence = str(sentence)
-                                if sentence in sent_array:                                        
+                                if sentence in sent_array:
                                         pass
                                 else:
                                         sent_array.append(sentence)
@@ -161,7 +161,6 @@ def prev_review(request,pk):
                 restrictions = flaggedRestriction.objects.filter(filename=document.id)
                 strongtext = flagsentences(document, restrictions)
                 return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'Strongtext':strongtext})
-                        
 
 def del_review(request,pk):
         if request.method == 'POST':
@@ -170,8 +169,8 @@ def del_review(request,pk):
                 return redirect('ReviewSoft')
 
 def update_review(request,pk):
-        document = processingData.objects.get(id=pk)        
-        if request.method == 'POST':                
+        document = processingData.objects.get(id=pk)
+        if request.method == 'POST':
                 softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'))
                 document.delete()
                 return redirect('ReviewSoft')
