@@ -209,6 +209,8 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
     url_findings = RemoveDuplicate(url_array)
 
     #------------------------------------------------  RESTRICTIONS  ------------------------------------------------#
+    #                                                                                                                #
+    #----------------------------------------------------------------------------------------------------------------#
 
     # Establishes variables to store restriction patterns and trigger words.    
     pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
@@ -248,7 +250,6 @@ def AseulaFunction(document,full_job_text): # Performs data extraction from the 
     rxion_poc_sentences = []
     rxion_lab_sentences = []
     rxion_site_sentences = []
-    
     rxion_array = []
     for sentence in document.sents:
         sentence_string = str(sentence) 

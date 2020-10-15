@@ -9,12 +9,14 @@
 # pip install tqdm
 # pip install openpyxl
 # pip install colorama
+
 # ##LINUX SPECIFIC##
 # git clone https://github.com/ImageMagick/ImageMagick.git ImageMagick
 # ImageMagick/configure
 # ImageMagick/make
 # sudo make install
 # sudo apt install tesseract-ocr
+
 # ##WINDOWS SPECIFIC##
 # download/install imagemagick for windows
 # download/install ghostscript for windows
@@ -33,15 +35,16 @@ from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 # from .models import * # DJANGO SPECIFIC
 # from sense2vec import Sense2Vec #Sense2Vec installation required with s2v_md files for the FindSimilarTerms function
-##############################################    SCRIPT CONFIG    ############################################
+
+###################################################    SYSTEM CONFIGURATION    ##############################################################
+#                                            Defines all system configuration variables                                                     #
+#############################################################################################################################################
 current_sys = platform.system()
 if current_sys.lower() == "windows":
     if os.path.isfile(r'C:\Program Files\Tesseract-OCR\tesseract.exe'):
         tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe' #WINDOWS DEFAULT INSTALL
     elif os.path.isfile(r'%USERPROFILE%\AppData\Local\Tesseract-OCR\tesseract.exe'):
         tess.pytesseract.tesseract_cmd = r'%USERPROFILE%\AppData\Local\Tesseract-OCR\tesseract.exe' #WINDOWS USER INSTALL
-    else:
-        tess.pytesseract.tesseract_cmd = input("Please enter the tesseract.exe file path: ")
 elif current_sys.lower() == "linux":
     tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract' #LINUX
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
@@ -383,7 +386,7 @@ if len(sys.argv) >= 2:
         filename_array.append(filename.strip('"'))
         i += 1
 else:
-    print("\nASEULA Alpha Build 200727 for",current_sys)
+    print("\nASEULA Beta Build 201015 for",current_sys)
     fileInput = True
     current_sys = platform.system()
     while fileInput == True:
