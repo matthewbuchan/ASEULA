@@ -8,9 +8,9 @@
 # pip install PyPDF2
 # pip install tqdm
 # pip install openpyxl
-# install imagemagick for windows
-# install ghostscript for windows
-# install Tesseract-OCR for windows
+# install imagemagick for windows using default system installation settings
+# install ghostscript for windows 
+# install Tesseract-OCR for windows 
 from colorama import Fore, Back, Style
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, openpyxl
 import os.path
@@ -25,35 +25,90 @@ from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from .models import * # DJANGO SPECIFIC
 ##############################################    SCRIPT CONFIG    ############################################
-current_sys = platform.system()
-if current_sys.lower() == "windows":
-    if os.path.isfile(r'C:\Program Files\Tesseract-OCR\tesseract.exe'):
-        tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe' #WINDOWS DEFAULT INSTALL
-    elif os.path.isfile(r'%USERPROFILE%\AppData\Local\Tesseract-OCR\tesseract.exe'):
-        tess.pytesseract.tesseract_cmd = r'%USERPROFILE%\AppData\Local\Tesseract-OCR\tesseract.exe' #WINDOWS USER INSTALL
+current_sys = platform.system() # Loads current operating system name as a variable
+if current_sys.lower() == "windows": # Checks if variable is Windows
+    if os.path.isfile(r'C:\Program Files\Tesseract-OCR\tesseract.exe'): # Checks if tesseract installation exists
+        tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe' # Tesseract path set for default Windows installation path
+        print(">>Tesseract installation located.<<")
     else:
-        tess.pytesseract.tesseract_cmd = input("Please enter the tesseract.exe file path: ")
-elif current_sys.lower() == "linux":
-    tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract' #LINUX
+        print(">>Tesseract installation not found.<<")
+elif current_sys.lower() == "linux": # Checks if variable is Linux
+    if os.path.isfile(r'/usr/bin/tesseract'): # Checks if tesseract installation exists
+        tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract' # Tesseract path set for default Linux installation path
+        print(">>Tesseract installation located.<<")
+    else:
+        print(">>Tesseract installation not found.<<")
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 ###############################################    FUNCTIONS    ###############################################
-def RunQueue(filename_array): # Executes program if filenames are provided
-    if len(filename_array) > 0: # Checks array for filenames
-        start = timeit.default_timer()
-        print("Please wait while your file(s) are being processed... \n")
-        for job in filename_array: # 
-            jobDataArray.append(AseulaMain(job))            
-        end = timeit.default_timer()
-        runtime = end - start
-        if runtime > 59:
-            print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)")
-        else:
-            print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)")
-        for job in jobDataArray:
-            UserValidation(job)
-        XlsxDump(jobDataArray)
-    else:
-        print("\nNo input was provided. Thank you for using ASEULA!\n")
+def AseulaMain(jobfile, pos, neg, rxion_dict): # Performs data extraction from the converted documents
+    #**********************************************    Organization     ***************************************************#
+    processed_file = ProcessInputFile(jobfile) # Determines file type and conversion steps.
+    parsed_paragraphs = ParagraphParse(processed_file) # Splits paragraphs before processing text.
+    text = BulletUpperRemove(parsed_paragraphs) # Cleans bulleted items in document and converts full uppercase paragraphs to lower.
+    document = nlp(text) # Sets document text to a Natural Language Processing (NLP) format.
+    sentences = [] # Array initialized to store individual sentences retrieved from NLP processing.
+    for sent in document.sents: # Extracts each sentence from NLP document.
+        sentences.append(RemoveNewLine(sent)) # Remove new line characters from each sentence and appends to sentence array.
+    full_job_text = "" # Sets variable to store full document text
+    for sentence in sentences: # Extracts each sentence from the sentence array.
+        full_job_text = full_job_text + str(sentence) + "\n" # Concatenates each sentence to the full job text file with a new line character.
+    # Establish variables to store publisher
+    organization_entity_array = [] # Defines array to store items determined as organizational entities
+    publisher_patterns = ["inc", "inc.","llc","incorporated", "©", "copyright"] # Defines patterns to identify publishers
+    for entity in document.ents: # For each NLP entity object
+        if entity.label_ == "ORG": # If the entity label == ORG
+            if any(pattern in entity.text.lower() for pattern in publisher_patterns): # If entity value contains any pattern from publisher_patterns
+                for element in publisher_patterns: 
+                    if entity.text != element:
+                        organization_entity_array.append(str(entity.text).title()) # Append entity value to organization_entity_array
+                    
+    # Checks if organization_entity_array is empty. Prints mode of the array if elements exist.
+    if organization_entity_array: # If organizations are contained in the array
+        publisher_name = ArrayMode(organization_entity_array) # Uses mode to select the publisher name
+        publisher_name = publisher_name.replace('\n', ' ') # Removes the newline character from the string
+    else: # If no organizations are listed in the organization_entity_array
+        publisher_name = "Unknown" # Set publisher name to Unknown
+    #**********************************************  Software Name   ***************************************************#
+    # Establishes variable to store matching entities.
+    person_entity_string = "" # Establishes string variable for software name
+    for entity in document.ents: # For each NLP entity object
+        if entity.label_ == "PERSON": # If entity label = PERSON
+            person_entity_string += entity.text + "\n" # Set person_entity_string to entity.text
+    propn_check = nlp(person_entity_string) # Stores NLP object as propn_check variable
+
+    # Establishes variable to store matching entities.
+    propn_token_array = [] # Defines array to store propn tokens
+    for token in propn_check: # Loops through each token in propn_check
+        if token.pos_ == "PROPN":  # Verifies the NLP object is a proper noun (common for the entity type)
+            propn_token_array.append(token.text) # Appends the token text to the propn_token_array
+    clean_propn_token_array = RemoveDuplicate(propn_token_array) # Removes duplicate tokens from propn_token_array
+    matching = [item for item in clean_propn_token_array if item in publisher_name] # Finds all items contained in both propn_token_array and person_entity_string
+    stripped_matching = RemoveDuplicate(matching) # Removes all duplicate items from matching and stores in stripped_matching
+    if matching: # If there are names in matching
+        software_name = ArrayToString(stripped_matching) # Sets array to string
+    elif not matching: # If there are no names matching
+        software_name = ArrayMode(propn_token_array) # Set software_name by using the ArrayMode function
+    else: # If no others
+        software_name = "Unknown" # Set software name to Unknown
+    software_findings = clean_propn_token_array + stripped_matching # Adds stripped matching to clean_propn_token_array
+    software_findings = RemoveDuplicate(software_findings) # Remove all duplicates from software_findings Array
+
+    # Extracts each word within the input file as an array. Space characters used as a delimiter.
+    url_array = UrlList(sentences) # FORCE URL FUNCTION FILL instead of regex
+    if url_array: # If there are values in the URL array
+        information_webpage = ArrayMode(url_array) # Set information_webpage by using the ArrayMode
+        information_webpage = information_webpage.replace('\n', '') # Remove new line character from variable
+    else: # If no URL variables exist
+        information_webpage = "Unknown" # Set to Unknown
+    
+    restriction_sentence_dict,rxion_array = ProcessRestrictions(document, pos, neg, rxion_dict) # Processes restrictions via processrestrictions and stores sentence dictionary
+    rxion_array_string = ArrayToString(RemoveDuplicate(rxion_array)) # Sets restriction array to string value
+
+    fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"] # Establishes field names for titles
+    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string} # Stores all discovered variables for the job
+    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)} # Defines output information dictionary
+    
+    return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text] # Return job data to Django
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
     if inputfilename.endswith('.txt'):
         try:
@@ -86,98 +141,29 @@ def ConvertAnsi(file_input): # Converts .txt files if not formatted properly (UT
     else:
         return inputfile
 def ParagraphParse(ocr_input): # Splits paragraphs before processing text
-    all_paragraphs = re.split('\n{2,}', ocr_input)
-    parsed_paragraphs = ""
-    for paragraph in all_paragraphs:
-        paragraph = paragraph.replace("\n", " ")
-        parsed_paragraphs += str(paragraph) + "\n"    
-    return parsed_paragraphs
+    all_paragraphs = re.split('\n{2,}', ocr_input) # Splits paragraphs by multiple newline characters
+    parsed_paragraphs = "" # Sets variable for the parsed paragraphs
+    for paragraph in all_paragraphs: # For each paragraph
+        paragraph = paragraph.replace("\n", " ") # Replaces newline characters with spaces
+        parsed_paragraphs += str(paragraph) + "\n" # Concatenates paragraph to paragraph string with new line character at the end
+    return parsed_paragraphs # returns paragraphs
 def BulletUpperRemove(textinput): # Removes bulleted items and calls paragraph to lower
     ex_bulleted_text = re.sub(r'\([A-z0-9]{1,3}?\)',"",textinput) # Remove (a), (b), (iii) bulleting
     caps_to_lower_text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,ex_bulleted_text) # Change full uppercase paragraphs to lower
-    return caps_to_lower_text
+    return caps_to_lower_text # Returns lower case strings
 def ParagraphToLower(m): # Changes full uppercase paragraphs to lower.
-    return m.group(0).lower()
+    return m.group(0).lower() # Returns lower case paragraphs
 def UrlList(sentences): # Generates listing of websites identified in the document
-    from spacy import attrs
-    UrlList = []
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        for token in doc:
-            if token.like_url == True:
-                UrlList.append(token.text)
-    return UrlList
+    from spacy import attrs # Imports spacy attributes function to find specific attributes
+    UrlList = [] # Defines array for discovered URLs
+    for sentence in sentences: # For each sentence
+        doc = nlp(str(sentence)) # Sets NLP sentence object to variable
+        for token in doc: # For each sentence in document
+            if token.like_url == True: # If the sentenece matches the URL attribute
+                UrlList.append(token.text) # Store URL in array
+    return UrlList # Return URL array
 def RemoveNewLine(s): # Removes new line characters from strings
-    return re.sub(r'\n{1,}'," ",str(s))
-def AseulaMain(jobfile, pos, neg, rxion_dict): # Performs data extraction from the converted documents
-    #**********************************************    Organization     ***************************************************#
-    processed_file = ProcessInputFile(jobfile)
-    parsed_paragraphs = ParagraphParse(processed_file)
-    text = BulletUpperRemove(parsed_paragraphs)
-    document = nlp(text)
-    sentences = []
-    for sent in document.sents:
-        sentences.append(RemoveNewLine(sent)) # Remove new line characters from each sentence
-    full_job_text = ""
-    for sentence in sentences:
-        full_job_text = full_job_text + str(sentence) + "\n"
-    # Establish variables to store publisher
-    organization_entity_array = []
-    publisher_patterns = ["inc", "inc.","llc","incorporated", "©", "copyright"]
-    for entity in document.ents:
-        if entity.label_ == "ORG":
-            if any(pattern in entity.text.lower() for pattern in publisher_patterns):
-                for element in publisher_patterns:
-                    if entity.text != element:
-                        organization_entity_array.append(str(entity.text).title())
-                    
-    # Checks if organization_entity_array is empty. Prints mode of the array if elements exist.
-    if organization_entity_array:
-        publisher_name = ArrayMode(organization_entity_array)
-        publisher_name = publisher_name.replace('\n', ' ')
-    else:
-        publisher_name = "Unknown"
-    #**********************************************  Software Name   ***************************************************#
-    # Establishes variable to store matching entities.
-    person_entity_string = ""
-    for entity in document.ents:
-        if entity.label_ == "PERSON":
-            person_entity_string += entity.text + "\n"
-    propn_check = nlp(person_entity_string)
-
-    # Establishes variable to store matching entities.
-    propn_token_array = []
-    for token in propn_check:
-        if token.pos_ == "PROPN":
-            propn_token_array.append(token.text)            
-    clean_propn_token_array = RemoveDuplicate(propn_token_array)
-    matching = [item for item in clean_propn_token_array if item in publisher_name]    
-    stripped_matching = RemoveDuplicate(matching)    
-    if matching:
-        software_name = ArrayToString(stripped_matching)
-    elif not matching:
-        software_name = ArrayMode(propn_token_array)
-    else:
-        software_name = "Unknown"
-    software_findings = clean_propn_token_array + stripped_matching
-    software_findings = RemoveDuplicate(software_findings)
-
-    # Extracts each word within the input file as an array. Space characters used as a delimiter.
-    url_array = UrlList(sentences) # FORCE URL FUNCTION FILL instead of regex
-    if url_array:
-        information_webpage = ArrayMode(url_array)
-        information_webpage = information_webpage.replace('\n', '')
-    else:
-        information_webpage = "Unknown"
-    
-    restriction_sentence_dict,rxion_array = ProcessRestrictions(document, pos, neg, rxion_dict)
-    rxion_array_string = ArrayToString(RemoveDuplicate(rxion_array))
-
-    fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"]
-    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string}
-    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
-    
-    return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
+    return re.sub(r'\n{1,}'," ",str(s)) # Returns lines without excessive newline characters
 def ProcessRestrictions(document, pos_trigger_words, neg_trigger_words, rxion_patterns): # Establishes restriction variables and executes each type
     rxion_array = [] # Defines restriction array to store restrictions found for each file
     restriction_sentence_dict = dict() # Defines restriction sentence dictionary that uses the restriction name as a key    
@@ -222,14 +208,6 @@ def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # F
                     rxion_sentences_array.append(str(sent)) # Append to the sentence array
     if len(rxion_sentences_array) > 0: # If sentences were flagged during the search
         return rxion_sentences_array # Return the sentence array
-def OutputResults(job): # Summarized output
-    print("\nPlease verify all information is correct for", job[0])
-    print("------------------------------------------------------")
-    print("Software: ", job[1]['software name'])
-    print("Publisher: ", job[1]['publisher'])
-    print("Information Webpage: ", job[1]['information webpage'])
-    print("Licensing Restrictions: ", job[1]['licensing restrictions'])
-    print("------------------------------------------------------")
 def UserValidation(job): # Provides interface for users to validate findings
     for selection in job[2]:
         if len(job[1][str(selection).lower()]) == 1:
@@ -290,36 +268,36 @@ def RestrictionSentenceOutput(dictionary): # Displays restriction sentences used
             print ("This restriction will be unflagged\n")
     return new_rxion_array
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
-    return Fore.YELLOW + str(usertext) + Fore.RESET
+    return Fore.YELLOW + str(usertext) + Fore.RESET # Returns highlighed characters
 def StrongText(usertext): # Returns strong tag for easy identification in HTML    
-    return "<mark><strong><em>" + str(usertext) + "</em></strong></mark>"
+    return "<mark><strong><em>" + str(usertext) + "</em></strong></mark>" # Returns string contained in HTML tags
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     try:
-        return(mode(list))
+        return(mode(list)) # Returns the array value that appears the most
     except:
-        return str("Unknown")
+        return str("Unknown") # Returns unknown if the mode function errors
 def RemoveDuplicate(array): # Removes duplicate elements in an array.
-    array = list(dict.fromkeys(array))
+    array = list(dict.fromkeys(array)) # Removes duplicate array items
     return array
 def ArrayToString(array): # Converts an array to a string.
-    array_string = ""
+    array_string = "" # Defines empty string
     i = 0
-    while i <= (len(array)-1):
-        if (i != (len(array)-1)):
-            array_string += array[i] + ", "
-        elif (i == (len(array)-1)):
-            array_string += array[i]
-        i += 1
+    while i <= (len(array)-1): # While array element is less than array length
+        if (i != (len(array)-1)):  # If element is not the last item in array
+            array_string += array[i] + ", " # Concatenate array item plus comma
+        elif (i == (len(array)-1)): # If element is the last element in array
+            array_string += array[i] # Concatenate array item without comma
+        i += 1 # Add to i
     return array_string
 def XlsxDump(jobDataArray): # Output to CSV for download and site import
-    wb = Workbook()
-    ws = wb.active
-    ws.append(["Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions"])
-    for job in jobDataArray:
-        ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]])
-    tab = Table(displayName="Table1", ref="A1:D" + str(len(jobDataArray)+1))
-    ws.add_table(tab)
-    wb.save("./xlsx_dump.xlsx")
+    wb = Workbook() # Establishes workbook object format for sharepoint list
+    ws = wb.active 
+    ws.append(["Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions"]) # Appends header to ws object
+    for job in jobDataArray: # Loops through each job
+        ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]]) # Appends data from each job to line in ws object
+    tab = Table(displayName="Table1", ref="A1:D" + str(len(jobDataArray)+1)) # Defines table dimensions
+    ws.add_table(tab) # Adds table dimensions to ws object
+    wb.save("./xlsx_dump.xlsx") # Saves excel table document
     # wb.save("media/xlsx_dump.xlsx") # FOR DJANGO
 def SimilarityList(sentences, restrictions): #Searches through all tokens to check similarity with restriction items. (Inactive)
     sent_count = 1
@@ -335,56 +313,6 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
         if rx_sim == 1:
             print(str(sent_count) + ". " + str(sentence))
             sent_count += 1
-###############################################    COMMAND LINE EXECUTION    ###############################################
-# filename_array = [] #Filename storage for jobs
-# rxion_array = []
-# rxionjob_sentence_array = [] #Temporary pattern matched sentence storage for jobs
-# jobDataArray = []
-# i = 0
-# if len(sys.argv) >= 2:
-#     for filename in sys.argv[1:]:
-#         fileArray = []
-#         filename_array.append(filename.strip('"'))
-#         i += 1
-# else:
-#     print("\nASEULA Alpha Build 200727 for",current_sys)
-#     fileInput = True
-#     current_sys = platform.system()
-#     while fileInput == True:
-#         inputFile = input("\nPlease enter the absolute path for file or directory you would like to process (or press enter to continue): ").strip('"')
-#         if inputFile != "":
-#             if current_sys.lower() == "windows":
-#                 while True:
-#                     if os.path.isdir(inputFile) == True:
-#                         filelist = os.listdir(inputFile)
-#                         for f in filelist:
-#                             if ".pdf" in str(f) or ".docx" in str(f) or ".txt" in str(f):
-#                                 filename_array.append(str(inputFile) + "\\" + str(f))
-#                         break
-#                     elif os.path.isfile(inputFile) == True:
-#                         filename_array.append(inputFile)
-#                         break
-#                     else:
-#                         print("You did not enter a valid file or directory. Read the directions. ")
-#             elif current_sys.lower() == "linux":
-#                 while True:
-#                     if os.path.isdir(inputFile):
-#                         filelist = os.listdir(inputFile)
-#                         for line in filelist:
-#                             filename_array.append(str(inputFile) + line)
-#                         print(filename_array)
-#                         break
-#                     elif os.path.isfile(inputFile):
-#                         filename_array.append(inputFile)
-#                         break
-#                     else:
-#                         print(inputFile,"You did not enter a valid file or directory. Read the directions. ")
-#                         break
-#             else:
-#                 print("Sorry, this script is only compatible with superior operating systems. Get a real computer, jack a**. ")
-#         else:
-#             fileInput = False
-# RunQueue(filename_array)
 
 ################################################################################################################################
 #  if the database gets corrupted, use the script below to re-establish default values after clearing all cache files          #
