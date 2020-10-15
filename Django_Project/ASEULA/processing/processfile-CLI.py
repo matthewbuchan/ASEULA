@@ -1,4 +1,6 @@
-#############################################    INSTALL/IMPORT    ###########################################
+####################################################    INSTALLATION STEPS    ###############################################################
+#                                                Required programs to run ASEULA                                                            #
+#############################################################################################################################################
 # pip install wheel
 # pip install spacy
 # python -m spacy download en_core_web_sm
@@ -21,6 +23,11 @@
 # download/install imagemagick for windows
 # download/install ghostscript for windows
 # download/install Tesseract-OCR for windows
+
+############################################################    IMPORT    ###################################################################
+#                                            Defines all modules required to be imported                                                    #
+#############################################################################################################################################
+
 from colorama import Fore, Back, Style
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, openpyxl
 import os.path
@@ -33,8 +40,6 @@ from pathlib import Path
 from PIL import Image as im
 from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
-# from .models import * # DJANGO SPECIFIC
-# from sense2vec import Sense2Vec #Sense2Vec installation required with s2v_md files for the FindSimilarTerms function
 
 ###################################################    SYSTEM CONFIGURATION    ##############################################################
 #                                            Defines all system configuration variables                                                     #
@@ -52,6 +57,7 @@ nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, nam
 #######################################################    SYSTEM VARIABLES    ##############################################################
 #                                         Defines all system variables for the Python Program                                               #
 #############################################################################################################################################
+
 rxion_patterns = {} # Defines dictionary for restriction patterns
 pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
     "permits", "permitting", "permitted", "require", "requires", "requiring", "required", "authorize", "authorizes", \
@@ -375,6 +381,7 @@ def XlsxDump(jobDataArray): # Output to CSV for download and site import
 #######################################################    PROGRAM EXECUTION    #############################################################
 #                                                  Executes CLI functions for ASEULA                                                        #
 #############################################################################################################################################
+
 filename_array = [] #Filename storage for jobs
 rxion_array = []
 rxionjob_sentence_array = [] #Temporary pattern matched sentence storage for jobs
