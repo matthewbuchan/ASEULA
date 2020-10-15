@@ -1,4 +1,6 @@
-#############################################    INSTALL/IMPORT    ###########################################
+####################################################    INSTALLATION STEPS    ###############################################################
+#                                                Required programs to run ASEULA-DJANGO                                                     #
+#############################################################################################################################################
 # pip install wheel
 # pip install spacy
 # python -m spacy download en_core_web_sm
@@ -11,6 +13,11 @@
 # install imagemagick for windows using default system installation settings
 # install ghostscript for windows 
 # install Tesseract-OCR for windows 
+
+############################################################    IMPORT    ###################################################################
+#                                            Defines all modules required to be imported                                                    #
+#############################################################################################################################################
+
 from colorama import Fore, Back, Style
 import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, openpyxl
 import os.path
@@ -24,7 +31,11 @@ from PIL import Image as im
 from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from .models import * # DJANGO SPECIFIC
-##############################################    SCRIPT CONFIG    ############################################
+
+###################################################    SYSTEM CONFIGURATION    ##############################################################
+#                                            Defines all system configuration variables                                                     #
+#############################################################################################################################################
+
 current_sys = platform.system() # Loads current operating system name as a variable
 if current_sys.lower() == "windows": # Checks if variable is Windows
     if os.path.isfile(r'C:\Program Files\Tesseract-OCR\tesseract.exe'): # Checks if tesseract installation exists
@@ -39,7 +50,11 @@ elif current_sys.lower() == "linux": # Checks if variable is Linux
     else:
         print(">>Tesseract installation not found.<<")
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
-###############################################    FUNCTIONS    ###############################################
+
+#######################################################    SYSTEM FUNCTIONS    ##############################################################
+#                                          Defines all system functions executed by DJANGO                                                  #
+#############################################################################################################################################
+
 def AseulaMain(jobfile, pos, neg, rxion_dict): # Performs data extraction from the converted documents
     #**********************************************    Organization     ***************************************************#
     processed_file = ProcessInputFile(jobfile) # Determines file type and conversion steps.
@@ -314,9 +329,10 @@ def SimilarityList(sentences, restrictions): #Searches through all tokens to che
             print(str(sent_count) + ". " + str(sentence))
             sent_count += 1
 
-################################################################################################################################
-#  if the database gets corrupted, use the script below to re-establish default values after clearing all cache files          #
 ###############################################    DJANGO FRAMEWORK EXECUTION    ###############################################
+#  if the database gets corrupted, use the script below to re-establish default values after clearing all cache files          #
+################################################################################################################################
+
 # # IMPORT PATTERNS
 # rxion_patterns = {}
 # pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
