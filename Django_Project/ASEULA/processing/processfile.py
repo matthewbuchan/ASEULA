@@ -7,8 +7,6 @@
 # pip install pytesseract
 # pip install wand
 # pip install docx2txt
-# pip install PyPDF2
-# pip install tqdm
 # pip install openpyxl
 # install imagemagick for windows using default system installation settings
 # install ghostscript for windows 
@@ -19,7 +17,7 @@
 #############################################################################################################################################
 
 from colorama import Fore, Back, Style
-import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, openpyxl
+import io, os, sys, re, timeit, statistics, docx2txt, re, spacy, csv, pytesseract as tess, platform, openpyxl
 import os.path
 from spacy.lang.en import English
 from re import search
@@ -48,7 +46,7 @@ elif current_sys.lower() == "linux": # Checks if variable is Linux
         tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract' # Tesseract path set for default Linux installation path
         print(">>Tesseract installation located.<<")
     else:
-        print(">>Tesseract installation not found.<<")
+        print("\n>>Tesseract installation not found. Please install tesseract in the default location<<\n")
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 
 #######################################################    SYSTEM FUNCTIONS    ##############################################################
@@ -125,24 +123,24 @@ def AseulaMain(jobfile, pos, neg, rxion_dict): # Performs data extraction from t
     
     return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text] # Return job data to Django
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
-    if inputfilename.endswith('.txt'):
+    if inputfilename.endswith('.txt'): # Checks to see if filetype is text file
         try:
-            open_file = open(inputfilename).read()
+            open_file = open(inputfilename).read() # Attempts to load text file without conversion
         except:
-            open_file = ConvertAnsi(inputfilename)
+            open_file = ConvertAnsi(inputfilename) # Sets openfile to ANSI converted copy
         return open_file
-    elif inputfilename.endswith('.docx'):
-        open_file = docx2txt.process(inputfilename)
+    elif inputfilename.endswith('.docx'): # Check if document is Word Document
+        open_file = docx2txt.process(inputfilename) # stores opened word document as variable
         return open_file
-    elif inputfilename.endswith('.pdf'):
-        pdf = wi(filename = inputfilename, resolution = 300)
-        pdfImg = pdf.convert('jpeg')
-        open_file = ""
-        for img in tqdm(pdfImg.sequence, desc=os.path.basename(inputfilename)):
-            page = wi(image = img)
-            pic = im.open(io.BytesIO(page.make_blob('jpeg')))
-            text = tess.image_to_string(pic, lang = 'eng')
-            open_file += text        
+    elif inputfilename.endswith('.pdf'): # Check if document is a PDF
+        pdf = wi(filename = inputfilename, resolution = 300) # Processes PDF and converts to image for further processing
+        pdfImg = pdf.convert('jpeg') # Converts image to jpeg format
+        open_file = "" # Defines string variable to store text
+        for img in tqdm(pdfImg.sequence, desc=os.path.basename(inputfilename)): # For each image (page)
+            page = wi(image = img) # Sets image to page variable
+            pic = im.open(io.BytesIO(page.make_blob('jpeg'))) # Opens image and stores in pic variable
+            text = tess.image_to_string(pic, lang = 'eng') # Processes image through tesseract and stores extracted text as a variable
+            open_file += text # Concatenate extracted text to the full string file
         return open_file
     else:
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
@@ -223,65 +221,6 @@ def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # F
                     rxion_sentences_array.append(str(sent)) # Append to the sentence array
     if len(rxion_sentences_array) > 0: # If sentences were flagged during the search
         return rxion_sentences_array # Return the sentence array
-def UserValidation(job): # Provides interface for users to validate findings
-    for selection in job[2]:
-        if len(job[1][str(selection).lower()]) == 1:
-            print("\nPlease verify the",selection,"is:",job[1][str(selection).lower()])
-        else:
-            print("\nPlease verify the",selection,"are:",job[1][str(selection).lower()])
-        while True:
-            if job[2].index(selection) + 1 == 4:
-                new_rxion_array = RestrictionSentenceOutput(job[5])
-                job[1][job[2][job[2].index(selection)].lower()] = ArrayToString(RemoveDuplicate(new_rxion_array))
-                print("\n")
-                break
-            elif job[2].index(selection) + 1 == 1 or job[2].index(selection) + 1 == 2 or job[2].index(selection) + 1 == 3:
-                print ('-' * 10)
-                incorrect_data = job[4][job[2][job[2].index(selection)].lower()]
-                if incorrect_data:
-                    for item in incorrect_data:
-                        print(incorrect_data.index(item) + 1,". ",item)
-                    while True:
-                        user_selection = input("\nPress enter if the selection is correct, otherwise select an option or enter a value: ")
-                        try:
-                            user_selection = int(user_selection)
-                            if user_selection <= len(incorrect_data) + 1:
-                                job[1][job[2][job[2].index(selection)].lower()] = incorrect_data[user_selection - 1]
-                                break
-                            else:
-                                print("Error! Invalid input. Please enter a valid number or string.")
-                        except:
-                            if type(user_selection) == str:
-                                if user_selection == "":
-                                    break
-                                else:
-                                    job[4][job[2][job[2].index(selection)].lower()].append(user_selection)
-                                    job[1][job[2][job[2].index(selection)].lower()] = user_selection
-                                    break
-                    break
-                else:
-                    user_selection = str(input("\nNo value was found, please provide the correct value if it is known: "))
-                    if user_selection:
-                        job[4][job[2][job[2].index(selection)].lower()].append(user_selection)
-                        job[1][job[2][job[2].index(selection)].lower()] = user_selection
-                    break
-            else: 
-                print("Error! Invalid input. Please enter a valid field option.")
-    OutputResults(job)
-def RestrictionSentenceOutput(dictionary): # Displays restriction sentences used in the UserValidation function
-    new_rxion_array = []
-    for key in dictionary:
-        i = 1
-        print("-"*25+"\n",key,"\n"+"-"*25+"\n")
-        for item in dictionary[key]:
-            print(str(i) + ".",RemoveNewLine(item))
-            i += 1
-        user_selection = input("\nIs this restriction flagged correctly? (y/n)").lower().strip()
-        if user_selection == "y":
-            new_rxion_array.append(key)
-        elif user_selection == "n":
-            print ("This restriction will be unflagged\n")
-    return new_rxion_array
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
     return Fore.YELLOW + str(usertext) + Fore.RESET # Returns highlighed characters
 def StrongText(usertext): # Returns strong tag for easy identification in HTML    
@@ -314,20 +253,6 @@ def XlsxDump(jobDataArray): # Output to CSV for download and site import
     ws.add_table(tab) # Adds table dimensions to ws object
     wb.save("./xlsx_dump.xlsx") # Saves excel table document
     # wb.save("media/xlsx_dump.xlsx") # FOR DJANGO
-def SimilarityList(sentences, restrictions): #Searches through all tokens to check similarity with restriction items. (Inactive)
-    sent_count = 1
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        rxsion = nlp(restrictions)
-        rx_sim = 0
-        for token in doc:
-            for rx in rxsion:
-                if rx.similarity(token) > .70:
-                    #print(f'{token.text:{15}}{rx.text:{15}}{rx.similarity(token) * 100}')
-                    rx_sim = 1
-        if rx_sim == 1:
-            print(str(sent_count) + ". " + str(sentence))
-            sent_count += 1
 
 ###############################################    DJANGO FRAMEWORK EXECUTION    ###############################################
 #  if the database gets corrupted, use the script below to re-establish default values after clearing all cache files          #

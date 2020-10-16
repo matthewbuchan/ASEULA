@@ -7,7 +7,6 @@
 # pip install pytesseract
 # pip install wand
 # pip install docx2txt
-# pip install PyPDF2
 # pip install tqdm
 # pip install openpyxl
 # pip install colorama
@@ -29,7 +28,7 @@
 #############################################################################################################################################
 
 from colorama import Fore, Back, Style
-import io, os, sys, re, timeit, statistics, docx2txt, PyPDF2, re, spacy, csv, pytesseract as tess, platform, openpyxl
+import io, os, sys, re, timeit, statistics, docx2txt, re, spacy, csv, pytesseract as tess, platform, openpyxl
 import os.path
 from spacy.lang.en import English
 from re import search
@@ -48,16 +47,25 @@ current_sys = platform.system()
 if current_sys.lower() == "windows":
     if os.path.isfile(r'C:\Program Files\Tesseract-OCR\tesseract.exe'):
         tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe' #WINDOWS DEFAULT INSTALL
+        print(">>Tesseract installation located.<<")
     elif os.path.isfile(r'%USERPROFILE%\AppData\Local\Tesseract-OCR\tesseract.exe'):
         tess.pytesseract.tesseract_cmd = r'%USERPROFILE%\AppData\Local\Tesseract-OCR\tesseract.exe' #WINDOWS USER INSTALL
+        print(">>Tesseract installation located.<<")    
 elif current_sys.lower() == "linux":
     tess.pytesseract.tesseract_cmd = r'/usr/bin/tesseract' #LINUX
+    print(">>Tesseract installation located.<<")
+else:
+    print("\n>>Tesseract installation not found. Please install tesseract in the default location<<\n")
 nlp = spacy.load('en_core_web_sm') # Load English tokenizer, tagger, parser, named entity recognition (NER), and word vectors.
 
 #######################################################    SYSTEM VARIABLES    ##############################################################
 #                                         Defines all system variables for the Python Program                                               #
 #############################################################################################################################################
 
+filename_array = [] #Filename storage for jobs
+rxion_array = [] # Defines array to store all discovered restriction types
+rxionjob_sentence_array = [] #Temporary pattern matched sentence storage for jobs
+jobDataArray = [] # Defines array to store all data obtained when processing files
 rxion_patterns = {} # Defines dictionary for restriction patterns
 pos_trigger_words = ["only", "grant", "grants", "granting", "granted", "allow", "allows", "allowing", "allowed", "permit", \
     "permits", "permitting", "permitted", "require", "requires", "requiring", "required", "authorize", "authorizes", \
@@ -97,192 +105,189 @@ publisher_patterns = ["inc", "inc.","llc","incorporated", "©", "copyright"]
 #############################################################################################################################################
 
 def RunQueue(filename_array): # Executes program if filenames are provided
-    if len(filename_array) > 0:
-        start = timeit.default_timer()
-        print("Please wait while your file(s) are being processed... \n")
-        for job in filename_array:
-            jobDataArray.append(AseulaMain(job))            
-        end = timeit.default_timer()
-        runtime = end - start
-        if runtime > 59:
-            print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)")
+    if len(filename_array) > 0: # Examines array to see if files are queued for processing
+        start = timeit.default_timer() # Starts timer to track processing time
+        print("Please wait while your file(s) are being processed... \n") # Status printout to notify user
+        for job in filename_array: # For each filename in the array
+            jobDataArray.append(AseulaMain(job)) # Appends processed job data from ASEULA function
+        end = timeit.default_timer() # Stores processing time for all files
+        runtime = end - start # Stores elapsed time for job processing in seconds
+        if runtime > 59: # If runtime is over 59 seconds
+            print("\n\nFile processing complete. (Processing time: " + str(runtime/60) + " Minutes)") # Output elapsed time in minutes
         else:
-            print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)")
-        for job in jobDataArray:
-            UserValidation(job)
-        XlsxDump(jobDataArray)
+            print("\n\nFile processing complete. (Processing time: " + str(runtime) + " Seconds)") # Output elapsed time in seconds
+        for job in jobDataArray: # For each processed job in the stored jobDataArray
+            UserValidation(job) # Perform validation using the UserValidation function
+        XlsxDump(jobDataArray) # Output all processed results to an Excel Table format for sharepoint list import
     else:
-        print("\nNo input was provided. Thank you for using ASEULA!\n")
+        print("\nNo input was provided. Thank you for using ASEULA!\n") # Output for no files processed
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
-    if inputfilename.endswith('.txt'):
+    if inputfilename.endswith('.txt'): # Checks to see if filetype is text file
         try:
-            open_file = open(inputfilename).read()
+            open_file = open(inputfilename).read() # Attempts to load text file without conversion
         except:
-            open_file = ConvertAnsi(inputfilename)
+            open_file = ConvertAnsi(inputfilename) # Sets openfile to ANSI converted copy
         return open_file
-    elif inputfilename.endswith('.docx'):
-        open_file = docx2txt.process(inputfilename)
+    elif inputfilename.endswith('.docx'): # Check if document is Word Document
+        open_file = docx2txt.process(inputfilename) # stores opened word document as variable
         return open_file
-    elif inputfilename.endswith('.pdf'):
-        pdf = wi(filename = inputfilename, resolution = 300)
-        pdfImg = pdf.convert('jpeg')
-        open_file = ""
-        for img in tqdm(pdfImg.sequence, desc=os.path.basename(inputfilename)):
-            page = wi(image = img)
-            pic = im.open(io.BytesIO(page.make_blob('jpeg')))
-            text = tess.image_to_string(pic, lang = 'eng')
-            open_file += text        
+    elif inputfilename.endswith('.pdf'): # Check if document is a PDF
+        pdf = wi(filename = inputfilename, resolution = 300) # Processes PDF and converts to image for further processing
+        pdfImg = pdf.convert('jpeg') # Converts image to jpeg format
+        open_file = "" # Defines string variable to store text
+        for img in tqdm(pdfImg.sequence, desc=os.path.basename(inputfilename)): # For each image (page)
+            page = wi(image = img) # Sets image to page variable
+            pic = im.open(io.BytesIO(page.make_blob('jpeg'))) # Opens image and stores in pic variable
+            text = tess.image_to_string(pic, lang = 'eng') # Processes image through tesseract and stores extracted text as a variable
+            open_file += text # Concatenate extracted text to the full string file
         return open_file
     else:
         print("Oops! Your file format is not supported. Please convert your file to .txt, .docx, or .pdf to continue.")
 def ConvertAnsi(file_input): # Converts .txt files if not formatted properly (UTF-8 > ANSI)
-    import codecs
-    inputfile = file_input
-    if current_sys.lower() == "windows":
-        with io.open( inputfile , mode='r', encoding='utf8') as fc:
-            content = fc.read()
+    import codecs # Imports codecs for reading utf8
+    inputfile = file_input # Stores file as variable
+    if current_sys.lower() == "windows": # If operating system is windows
+        with io.open( inputfile , mode='r', encoding='utf8') as fc: # Open utf file
+            content = fc.read() # Stores text in new variable with ANSI encoding
         return content
     else:
         return inputfile
 def ParagraphParse(ocr_input): # Splits paragraphs before processing text
-    all_paragraphs = re.split('\n{2,}', ocr_input)
-    parsed_paragraphs = ""
-    for paragraph in all_paragraphs:
-        paragraph = paragraph.replace("\n", " ")
-        parsed_paragraphs += str(paragraph) + "\n"    
-    return parsed_paragraphs
+    all_paragraphs = re.split('\n{2,}', ocr_input) # Splits paragraphs by multiple newline characters
+    parsed_paragraphs = "" # Sets variable for the parsed paragraphs
+    for paragraph in all_paragraphs: # For each paragraph
+        paragraph = paragraph.replace("\n", " ") # Replaces newline characters with spaces
+        parsed_paragraphs += str(paragraph) + "\n" # Concatenates paragraph to paragraph string with new line character at the end
+    return parsed_paragraphs # returns paragraphs
 def BulletUpperRemove(textinput): # Removes bulleted items and calls paragraph to lower
     ex_bulleted_text = re.sub(r'\([A-z0-9]{1,3}?\)',"",textinput) # Remove (a), (b), (iii) bulleting
     caps_to_lower_text = re.sub(r'\b[A-Z]{2,}\b',ParagraphToLower,ex_bulleted_text) # Change full uppercase paragraphs to lower
-    return caps_to_lower_text
+    return caps_to_lower_text # Returns lower case strings
 def ParagraphToLower(m): # Changes full uppercase paragraphs to lower.
-    return m.group(0).lower()
+    return m.group(0).lower() # Returns lower case paragraphs
 def UrlList(sentences): # Generates listing of websites identified in the document
-    from spacy import attrs
-    UrlList = []
-    for sentence in sentences:
-        doc = nlp(str(sentence))
-        for token in doc:
-            if token.like_url == True:
-                UrlList.append(token.text)
-    return UrlList
+    from spacy import attrs # Imports spacy attributes function to find specific attributes
+    UrlList = [] # Defines array for discovered URLs
+    for sentence in sentences: # For each sentence
+        doc = nlp(str(sentence)) # Sets NLP sentence object to variable
+        for token in doc: # For each sentence in document
+            if token.like_url == True: # If the sentenece matches the URL attribute
+                UrlList.append(token.text) # Store URL in array
+    return UrlList # Return URL array
 def RemoveNewLine(s): # Removes new line characters from strings
-    return re.sub(r'\n{1,}'," ",str(s))
+    return re.sub(r'\n{1,}'," ",str(s)) # Returns lines without excessive newline characters
 def AseulaMain(jobfile): # Performs data extraction from the converted documents
     #**********************************************    Organization     ***************************************************#
-    processed_file = ProcessInputFile(jobfile)
-    parsed_paragraphs = ParagraphParse(processed_file)
-    text = BulletUpperRemove(parsed_paragraphs)
-    document = nlp(text)
-    sentences = []
-    for sent in document.sents:
-        sentences.append(RemoveNewLine(sent)) # Remove new line characters from each sentence
-    full_job_text = ""
-    for sentence in sentences:
-        full_job_text = full_job_text + str(sentence) + "\n"
+    processed_file = ProcessInputFile(jobfile) # Determines file type and conversion steps.
+    parsed_paragraphs = ParagraphParse(processed_file) # Splits paragraphs before processing text.
+    text = BulletUpperRemove(parsed_paragraphs) # Cleans bulleted items in document and converts full uppercase paragraphs to lower.
+    document = nlp(text) # Sets document text to a Natural Language Processing (NLP) format.
+    sentences = [] # Array initialized to store individual sentences retrieved from NLP processing.
+    for sent in document.sents: # Extracts each sentence from NLP document.
+        sentences.append(RemoveNewLine(sent)) # Remove new line characters from each sentence and appends to sentence array.
+    full_job_text = "" # Sets variable to store full document text
+    for sentence in sentences: # Extracts each sentence from the sentence array.
+        full_job_text = full_job_text + str(sentence) + "\n" # Concatenates each sentence to the full job text file with a new line character.
     # Establish variables to store publisher
-    organization_entity_array = []
-    
-    for entity in document.ents:
-        if entity.label_ == "ORG":
-            if any(pattern in entity.text.lower() for pattern in publisher_patterns):
-                for element in publisher_patterns:
+    organization_entity_array = [] # Defines array to store items determined as organizational entities
+    for entity in document.ents: # For each NLP entity object
+        if entity.label_ == "ORG": # If the entity label == ORG
+            if any(pattern in entity.text.lower() for pattern in publisher_patterns): # If entity value contains any pattern from publisher_patterns
+                for element in publisher_patterns: 
                     if entity.text != element:
-                        organization_entity_array.append(str(entity.text).title())
+                        organization_entity_array.append(str(entity.text).title()) # Append entity value to organization_entity_array
                     
     # Checks if organization_entity_array is empty. Prints mode of the array if elements exist.
-    if organization_entity_array:
-        publisher_name = ArrayMode(organization_entity_array)
-        publisher_name = publisher_name.replace('\n', ' ')
-    else:
-        publisher_name = "Unknown"
+    if organization_entity_array: # If organizations are contained in the array
+        publisher_name = ArrayMode(organization_entity_array) # Uses mode to select the publisher name
+        publisher_name = publisher_name.replace('\n', ' ') # Removes the newline character from the string
+    else: # If no organizations are listed in the organization_entity_array
+        publisher_name = "Unknown" # Set publisher name to Unknown
     #**********************************************  Software Name   ***************************************************#
     # Establishes variable to store matching entities.
-    person_entity_string = ""
-    for entity in document.ents:
-        if entity.label_ == "PERSON":
-            person_entity_string += entity.text + "\n"
-    propn_check = nlp(person_entity_string)
+    person_entity_string = "" # Establishes string variable for software name
+    for entity in document.ents: # For each NLP entity object
+        if entity.label_ == "PERSON": # If entity label = PERSON
+            person_entity_string += entity.text + "\n" # Set person_entity_string to entity.text
+    propn_check = nlp(person_entity_string) # Stores NLP object as propn_check variable
 
     # Establishes variable to store matching entities.
-    propn_token_array = []
-    for token in propn_check:
-        if token.pos_ == "PROPN":
-            propn_token_array.append(token.text)
-    clean_propn_token_array = RemoveDuplicate(propn_token_array)
-    matching = [item for item in clean_propn_token_array if item in publisher_name]
-    stripped_matching = RemoveDuplicate(matching)
-
-    if matching:
-        software_name = ArrayToString(stripped_matching)
-    elif not matching:
-        software_name = ArrayMode(propn_token_array)
-    else:
-        software_name = "Unknown"
-    software_findings = clean_propn_token_array + stripped_matching
-    software_findings = RemoveDuplicate(software_findings)
+    propn_token_array = [] # Defines array to store propn tokens
+    for token in propn_check: # Loops through each token in propn_check
+        if token.pos_ == "PROPN":  # Verifies the NLP object is a proper noun (common for the entity type)
+            propn_token_array.append(token.text) # Appends the token text to the propn_token_array
+    clean_propn_token_array = RemoveDuplicate(propn_token_array) # Removes duplicate tokens from propn_token_array
+    matching = [item for item in clean_propn_token_array if item in publisher_name] # Finds all items contained in both propn_token_array and person_entity_string
+    stripped_matching = RemoveDuplicate(matching) # Removes all duplicate items from matching and stores in stripped_matching
+    if matching: # If there are names in matching
+        software_name = ArrayToString(stripped_matching) # Sets array to string
+    elif not matching: # If there are no names matching
+        software_name = ArrayMode(propn_token_array) # Set software_name by using the ArrayMode function
+    else: # If no others
+        software_name = "Unknown" # Set software name to Unknown
+    software_findings = clean_propn_token_array + stripped_matching # Adds stripped matching to clean_propn_token_array
+    software_findings = RemoveDuplicate(software_findings) # Remove all duplicates from software_findings Array
 
     # Extracts each word within the input file as an array. Space characters used as a delimiter.
     url_array = UrlList(sentences) # FORCE URL FUNCTION FILL instead of regex
-    if url_array:
-        information_webpage = ArrayMode(url_array)
-        information_webpage = information_webpage.replace('\n', '')
-    else:
-        information_webpage = "Unknown"
+    if url_array: # If there are values in the URL array
+        information_webpage = ArrayMode(url_array) # Set information_webpage by using the ArrayMode
+        information_webpage = information_webpage.replace('\n', '') # Remove new line character from variable
+    else: # If no URL variables exist
+        information_webpage = "Unknown" # Set to Unknown
     
-    restriction_sentence_dict,rxion_array = ProcessRestrictions(document)
-    rxion_array_string = ArrayToString(RemoveDuplicate(rxion_array))
+    restriction_sentence_dict,rxion_array = ProcessRestrictions(document) # Processes restrictions via processrestrictions and stores sentence dictionary
+    rxion_array_string = ArrayToString(RemoveDuplicate(rxion_array)) # Sets restriction array to string value
 
-    fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"]
-    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string}
-    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)}
+    fields = ["Software name", "Publisher","Information Webpage",  "Licensing Restrictions"] # Establishes field names for titles
+    selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string} # Stores all discovered variables for the job
+    field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)} # Defines output information dictionary
     
-    return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text]
+    return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text] # Return job data
 def ProcessRestrictions(document): # Establishes restriction variables and executes each type
-    rxion_array = []
-    
-    restriction_sentence_dict = dict()
-    for rxion in rxion_patterns:
-        rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion))
-        if rxiontmp:
-            rxion_array.append(str(rxion))
-            restriction_sentence_dict[str(rxion)] = RemoveDuplicate(rxiontmp)
-    if not rxion_array:
-        rxion_array.append("Needs Review")
-    return restriction_sentence_dict, rxion_array
+    rxion_array = [] # Defines restriction array to store restrictions found for each file
+    restriction_sentence_dict = dict() # Defines restriction sentence dictionary that uses the restriction name as a key    
+    for rxion in rxion_patterns: # Loops through restriction types to determine if the restriction applies to the document
+        rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion)) # Returns restriction type to document
+        if rxiontmp: # If the document contains any sentences with the restriction type
+            rxion_array.append(str(rxion)) # Append the restriction type string to the array
+            restriction_sentence_dict[str(rxion)] = RemoveDuplicate(rxiontmp) # Append all unique sentences found for the restriction type to the dictionary
+    if not rxion_array: # If no restriction types were identified
+        rxion_array.append("Needs Review") # Set the restrictions to "needs review"
+    return restriction_sentence_dict, rxion_array # Returns restriction sentences and restriction types array
 def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # Function to find restriction sentences
-    rxion_sentences_array = []
-    rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions]
-    for sent in document.sents:
-        sentence = str(sent).lower()
-        for rx in rx_array:
-            if rx[2] in sentence: # All sentences containing a restriction
-                if any(pattern in restrictionString.lower() for pattern in neg): # All sentences containing a negative trigger
-                    if rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
-                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
-                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-                        if re.search(reg_pattern,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
-                        elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
-                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
-                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2])
-                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?")
-                        if re.search(reg_pattern,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
-                        elif re.search(reg_pattern_rev,sentence):
-                            rxion_sentences_array.append(HighlightText(str(sent)))
-                elif rx[0] in sentence and str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array: # All sentences containing a positive trigger
-                    reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2])
-                    reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0])
-                    if re.search(reg_pattern,sentence):
-                        rxion_sentences_array.append(HighlightText(str(sent)))
-                    elif re.search(reg_pattern_rev,sentence):
-                        rxion_sentences_array.append(HighlightText(str(sent)))
-                elif str(sent) not in rxion_sentences_array and HighlightText(str(sent)) not in rxion_sentences_array:
-                    rxion_sentences_array.append(str(sent))
-    if len(rxion_sentences_array) > 0:
-        return rxion_sentences_array
+    rxion_sentences_array = [] # Define the array to store sentences flagged for the restriction type
+    rx_array = [(p,n,r) for p in pos for n in neg for r in restrictions] #sets all variables in custom array for processing
+    for sent in document.sents: # Loops through each sentence in the document
+        sentence = str(sent).lower() # converts the sentence to lower to be compatible with term matching
+        for rx in rx_array: # For each pos, neg, restriction term combination
+            if rx[2] in sentence: # If there is a restriction term in the sentence
+                if any(pattern in restrictionString.lower() for pattern in neg): # If there are any negative terms in the restriction type (NO RDP), ONLY search for RESTRICTED ITEMS
+                    if rx[0] in sentence and str(sent) not in rxion_sentences_array:# and str(sent) not in rxion_sentences_array: # If there is both a positive and negative trigger word, and the sentence has not been flagged.
+                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2]) # If sentence contains negative, positive, then restriction (NOT...ALLOWED...REMOTE)
+                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?") # If sentence contains restriction, negative, then positive (REMOTE...NOT...ALLOWED)
+                        if re.search(reg_pattern,sentence): # If first search version found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                        elif re.search(reg_pattern_rev,sentence): # If second (reverse negative) found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                    elif rx[0] not in sentence and str(sent) not in rxion_sentences_array:# and str(sent) not in rxion_sentences_array: # If only a negative and restriction term are in sentence and sentence has not been flagged.
+                        reg_pattern = re.compile(rx[1] + r"(.*" + rx[0] + r")?.*" + rx[2]) # If sentence contains negative, then restriction (No...Remote)
+                        reg_pattern_rev = re.compile(rx[2] + r".*" + rx[1] + r"(.*" + rx[0] + r")?") # If sentence contains restriction, then negative (Remote...Prohibited)
+                        if re.search(reg_pattern,sentence): # If first search version found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                        elif re.search(reg_pattern_rev,sentence): # If second search version found
+                            rxion_sentences_array.append(str(sent)) # Append to sentence array
+                elif rx[0] in sentence and str(sent) not in rxion_sentences_array:# and str(sent) not in rxion_sentences_array: # All sentences containing a positive trigger
+                    reg_pattern = re.compile(r"("+ rx[1] + r".*)?" + rx[0] + r".*" + rx[2]) # If sentence contains an optional negative, positive, then restriction (grants...remote)
+                    reg_pattern_rev = re.compile(rx[2] + r"(.*" + rx[1] + r".*)?" + rx[0]) # If sentence contains restriction, optional negative, then positive (remote...allowed)
+                    if re.search(reg_pattern,sentence): # If first search version found
+                        rxion_sentences_array.append(str(sent)) # Append to sentence array
+                    elif re.search(reg_pattern_rev,sentence): # If second search version found
+                        rxion_sentences_array.append(str(sent)) # Append to sentence array
+                elif str(sent) not in rxion_sentences_array and str(sent) not in rxion_sentences_array: # If there is a restriction term and the sentence has not been flagged
+                    rxion_sentences_array.append(str(sent)) # Append to the sentence array
+    if len(rxion_sentences_array) > 0: # If sentences were flagged during the search
+        return rxion_sentences_array # Return the sentence array
 def OutputResults(job): # Summarized output
     print("\nPlease verify all information is correct for", job[0])
     print("------------------------------------------------------")
@@ -351,41 +356,40 @@ def RestrictionSentenceOutput(dictionary): # Displays restriction sentences used
             print ("This restriction will be unflagged\n")
     return new_rxion_array
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
-    return Fore.YELLOW + str(usertext) + Fore.RESET
+    return Fore.YELLOW + str(usertext) + Fore.RESET  # Returns highlighed characters
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
-    return(mode(list))
+    try:
+        return(mode(list)) # Returns the array value that appears the most
+    except:
+        return str("Unknown") # Returns unknown if the mode function errors
 def RemoveDuplicate(array): # Removes duplicate elements in an array.
-    array = list(dict.fromkeys(array))
+    array = list(dict.fromkeys(array)) # Removes duplicate array items
     return array
 def ArrayToString(array): # Converts an array to a string.
-    array_string = ""
+    array_string = "" # Defines empty string
     i = 0
-    while i <= (len(array)-1):
-        if (i != (len(array)-1)):
-            array_string += array[i] + ", "
-        elif (i == (len(array)-1)):
-            array_string += array[i]
-        i += 1
+    while i <= (len(array)-1): # While array element is less than array length
+        if (i != (len(array)-1)):  # If element is not the last item in array
+            array_string += array[i] + ", " # Concatenate array item plus comma
+        elif (i == (len(array)-1)): # If element is the last element in array
+            array_string += array[i] # Concatenate array item without comma
+        i += 1 # Add to i
     return array_string
 def XlsxDump(jobDataArray): # Output to CSV for download and site import
-    wb = Workbook()
-    ws = wb.active
-    ws.append(["Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions"])
-    for job in jobDataArray:
-        ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]])
-    tab = Table(displayName="Table1", ref="A1:D" + str(len(jobDataArray)+1))
-    ws.add_table(tab)
-    wb.save("./xlsx_dump.xlsx")
+    wb = Workbook() # Establishes workbook object format for sharepoint list
+    ws = wb.active 
+    ws.append(["Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions"]) # Appends header to ws object
+    for job in jobDataArray: # Loops through each job
+        ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]]) # Appends data from each job to line in ws object
+    tab = Table(displayName="Table1", ref="A1:D" + str(len(jobDataArray)+1)) # Defines table dimensions
+    ws.add_table(tab) # Adds table dimensions to ws object
+    wb.save("./xlsx_dump.xlsx") # Saves excel table document
     # wb.save("media/xlsx_dump.xlsx") # FOR DJANGO
 
 #######################################################    PROGRAM EXECUTION    #############################################################
 #                                                  Executes CLI functions for ASEULA                                                        #
 #############################################################################################################################################
 
-filename_array = [] #Filename storage for jobs
-rxion_array = []
-rxionjob_sentence_array = [] #Temporary pattern matched sentence storage for jobs
-jobDataArray = []
 i = 0
 if len(sys.argv) >= 2:
     for filename in sys.argv[1:]:
