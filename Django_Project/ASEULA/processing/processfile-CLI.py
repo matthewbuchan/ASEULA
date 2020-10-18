@@ -7,7 +7,6 @@
 # pip install pytesseract
 # pip install wand
 # pip install docx2txt
-# pip install tqdm
 # pip install openpyxl
 # pip install colorama
 

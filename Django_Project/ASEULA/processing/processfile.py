@@ -8,6 +8,8 @@
 # pip install wand
 # pip install docx2txt
 # pip install openpyxl
+# pip install wfastcgi
+# wfastcgi-enable
 # install imagemagick for windows using default system installation settings
 # install ghostscript for windows 
 # install Tesseract-OCR for windows 
