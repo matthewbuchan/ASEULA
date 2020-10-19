@@ -97,7 +97,7 @@ def ProcessFiles(request):
                                         for item in jobData[4][element]:
                                                 infoFieldArray.objects.create(filename=processingData.objects.get(filename=jobData[0]), categoryname=infoFieldCategory.objects.get(categoryname=element), listvalue=item)
                                 i=0
-                                texthighlight = ["yellow","orange","darkkhaki","cyan","goldenrod","springgreen","lightcoral","violet","hotpink","aquamarine","darksalmon","lightsteelblue","plum"]
+                                texthighlight = ["yellow","orange","hotpink","darkkhaki","cyan","goldenrod","springgreen","lightcoral","aquamarine","darksalmon","lightsteelblue","violet"]
                                 for category in jobData[5]:
                                         if flaggedRestriction.objects.filter(filename=processingData.objects.get(filename=jobData[0]), restriction__icontains=category.lower()):
                                                 pass

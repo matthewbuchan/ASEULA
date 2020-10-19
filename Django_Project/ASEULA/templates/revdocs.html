@@ -22,6 +22,78 @@
     border-style: inset;
     background-color: rgb(245, 245, 245);
 }
+#yellow{    
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), yellow);
+    border-radius: 10px;
+}
+#orange{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), orange);
+    border-radius: 10px;
+}
+#hotpink{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), hotpink);
+    border-radius: 10px;
+}
+#darkkhaki{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), darkkhaki);
+    border-radius: 10px;
+}
+#cyan{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), cyan);
+    border-radius: 10px;
+}
+#goldenrod{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), goldenrod);
+    border-radius: 10px;
+}
+#springgreen{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), springgreen);
+    border-radius: 10px;
+}
+#lightcoral{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), lightcoral);
+    border-radius: 10px;
+}
+#aquamarine{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), aquamarine);
+    border-radius: 10px;
+}
+#darksalmon{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), darksalmon);
+    border-radius: 10px;
+}
+#lightsteelblue{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), lightsteelblue);
+    border-radius: 10px;
+}
+#violet{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), violet);
+    border-radius: 10px;
+}
 
 </style>
 <div class="reviewwrapper">
@@ -89,19 +161,17 @@
                 <tr>
                     <td>
                         <h6>Restriction List:</h6>
-                        <ul>
-                            <fieldset id="{{ item.restriction }}">
+                        <ul>                            
                             {% for item in Restrictions %}
-                            <li style="list-style-type: none;">                            
+                            <li style="list-style-type: none;">
                                 <input type="checkbox" id="{{ item.restriction }}" value="{{ item.restriction }}" name="{{ item.restriction }}">
-                                <label for="{{ item.restriction }}"><h6>{{ item.restriction }}</h6></label>
-                                {% for flaggeditem in FlaggedRestrictions %}
+                                <label><h6>{{ item.restriction }}</h6></label>
+                                {% for flaggeditem in FlaggedRestrictions %}                                
                                 {% if flaggeditem.restriction == item.restriction %}
-                                <label class="float-right w-50" style="background-image: linear-gradient(to right, rgba(255,0,0,0), {{ flaggeditem.flaggedcolor }}); border-radius: 10px"> Flagged</label>
+                                <label id="{{ flaggeditem.flaggedcolor }}" class="float-right"> <strong><em>Flagged</em></strong></label>
                                 {% endif %}
                                 {% endfor %}
-                                </li>
-                            </fieldset>
+                                </li>                            
                             {% endfor %}
                         </ul>
                     </td> 

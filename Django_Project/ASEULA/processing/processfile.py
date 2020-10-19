@@ -135,7 +135,7 @@ def ProcessInputFile(inputfilename): # Determines file type and conversion steps
         open_file = docx2txt.process(inputfilename) # stores opened word document as variable
         return open_file
     elif inputfilename.endswith('.pdf'): # Check if document is a PDF
-        pdf = wi(filename = inputfilename, resolution = 300) # Processes PDF and converts to image for further processing
+        pdf = wi(filename = inputfilename, resolution = 400) # Processes PDF and converts to image for further processing
         pdfImg = pdf.convert('jpeg') # Converts image to jpeg format
         open_file = "" # Defines string variable to store text
         for img in tqdm(pdfImg.sequence, desc=os.path.basename(inputfilename)): # For each image (page)
