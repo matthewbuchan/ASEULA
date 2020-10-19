@@ -1,0 +1,67 @@
+html,body{
+    margin: 0px;
+    height: 100%;
+    color: #333333;
+    font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+    background-image: url('/static/img/pitchfork4.jpg');
+    background-repeat: no-repeat;
+    background-position: center;    
+    background-size: 700px;
+}
+.wrapper{
+    height: 100%;
+    display: grid;
+    grid-template-columns: 180px auto;
+    grid-template-rows: 85px auto;
+    grid-template-areas:
+    "header header"
+    "main main";
+}
+.header{
+    grid-area: header;
+    background-color: rgba(234, 234, 234, 0.78);
+    padding-left: 1em;
+}
+.sidebar{
+    grid-area: sidebar;
+}
+.sidebar > ul{
+    padding-inline-start: 0%;
+}
+.sidebar > ul > li{
+    padding: .5em;
+}
+.main-wrapper{
+    grid-area: main;
+}
+
+/* MAIN CONTENT PAGE */
+.main-select{
+    grid-area: main-select;
+    text-align: center;
+}        
+.main-content{
+    grid-area: main-content;
+    text-align: center;
+}
+button{
+    padding: .5em;
+    margin: 1em;
+}
+
+/* Software Page */
+table,tbody,tr,td,th{
+    padding: .25em;
+    margin: auto;
+    text-align: left;
+    border-collapse: collapse;
+    border-top: 1px solid silver;
+}
+.tablehead > td{
+    text-align: center;
+    font-weight: 900;
+}
+/* Results Page */
+.resultstable{
+    width: 90%;
+}

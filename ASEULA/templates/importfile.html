@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% block title %} File Upload Form {% endblock %}
+{% block body %}
+<form class="main-content" method="post" enctype="multipart/form-data">
+    <h1>File Upload Form</h1>
+    <br>
+    <h4>Please upload a file using the area below.</h4>
+    {% csrf_token %}
+    <div><input name="document" type="file" multiple><button class="btn btn-primary" type="submit">Upload File(s)</button></div>    
+    <div style="height: 550px; width: 75%; margin: auto; text-align: left;">
+        {% if FileQueue %}
+        <table>            
+            <tbody>
+                <tr>
+                    <td>
+                        <h6 style="text-align: center;">Queued File(s):</h6>
+                    </td>
+                </tr>
+                {% for document in FileQueue %}
+                <tr>
+                    <td><h6>{{document.filename}}</h6></td>
+                </tr>            
+                {% endfor %}                
+            </tbody>
+        </table>        
+        {% else %}
+        <h6 style="text-align: center;">The import queue is currently empty.</h6>
+        {% endif %}
+    </div>    
+</form>
+{% endblock %}
