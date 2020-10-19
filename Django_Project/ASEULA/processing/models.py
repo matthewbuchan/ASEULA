@@ -76,6 +76,7 @@ class infoFieldArray(models.Model):
 class flaggedRestriction(models.Model):
     filename = models.ForeignKey('processingData',on_delete=models.CASCADE)
     restriction = models.CharField(max_length=80)
+    flaggedcolor = models.CharField(max_length=20, default="none")
 
     def __str__(self):
         return self.restriction

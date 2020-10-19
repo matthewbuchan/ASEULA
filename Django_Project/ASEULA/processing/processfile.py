@@ -123,7 +123,7 @@ def AseulaMain(jobfile, pos, neg, rxion_dict): # Performs data extraction from t
     selected_variables_dict = {"software name": software_name, "publisher": publisher_name, "information webpage": information_webpage, "licensing restrictions": rxion_array_string} # Stores all discovered variables for the job
     field_variables_dict = {"software name": software_findings, "publisher": RemoveDuplicate(organization_entity_array), "information webpage": RemoveDuplicate(url_array)} # Defines output information dictionary
     
-    return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,full_job_text] # Return job data to Django
+    return [os.path.basename(jobfile),selected_variables_dict,fields,rxion_array,field_variables_dict,restriction_sentence_dict,text] # Return job data to Django
 def ProcessInputFile(inputfilename): # Determines file type and conversion steps
     if inputfilename.endswith('.txt'): # Checks to see if filetype is text file
         try:
@@ -160,7 +160,7 @@ def ParagraphParse(ocr_input): # Splits paragraphs before processing text
     parsed_paragraphs = "" # Sets variable for the parsed paragraphs
     for paragraph in all_paragraphs: # For each paragraph
         paragraph = paragraph.replace("\n", " ") # Replaces newline characters with spaces
-        parsed_paragraphs += str(paragraph) + "\n" # Concatenates paragraph to paragraph string with new line character at the end
+        parsed_paragraphs += str(paragraph) + "\n\n" # Concatenates paragraph to paragraph string with new line character at the end    
     return parsed_paragraphs # returns paragraphs
 def BulletUpperRemove(textinput): # Removes bulleted items and calls paragraph to lower
     ex_bulleted_text = re.sub(r'\([A-z0-9]{1,3}?\)',"",textinput) # Remove (a), (b), (iii) bulleting
@@ -225,8 +225,8 @@ def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # F
         return rxion_sentences_array # Return the sentence array
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
     return Fore.YELLOW + str(usertext) + Fore.RESET # Returns highlighed characters
-def StrongText(usertext): # Returns strong tag for easy identification in HTML    
-    return "<mark><strong><em>" + str(usertext) + "</em></strong></mark>" # Returns string contained in HTML tags
+def StrongText(usertext,fcolor): # Returns strong tag for easy identification in HTML    
+    return '<mark style="background-color:'+fcolor+'; border-radius: 10px;" ><strong><em>' + str(usertext) + "</em></strong></mark>" # Returns string contained in HTML tags
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     try:
         return(mode(list)) # Returns the array value that appears the most

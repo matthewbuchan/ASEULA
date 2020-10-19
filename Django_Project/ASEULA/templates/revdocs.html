@@ -32,7 +32,7 @@
         <br>
         <form method='post' style="height: 650px;" action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <table class="resultstable">                
+            <table class="resultstable">
                 <tr>
                     <td>
                         <h6>Please validate all findings for {{ RevDoc.filename }}.</h6>
@@ -89,20 +89,21 @@
                 <tr>
                     <td>
                         <h6>Restriction List:</h6>
-                        {% if Restrictions %}
                         <ul>
                             <fieldset id="{{ item.restriction }}">
-                        {% for item in Restrictions %}
-                            <li style="list-style-type: none;">
+                            {% for item in Restrictions %}
+                            <li style="list-style-type: none;">                            
                                 <input type="checkbox" id="{{ item.restriction }}" value="{{ item.restriction }}" name="{{ item.restriction }}">
                                 <label for="{{ item.restriction }}"><h6>{{ item.restriction }}</h6></label>
-                            </li>
-                        {% endfor %}
+                                {% for flaggeditem in FlaggedRestrictions %}
+                                {% if flaggeditem.restriction == item.restriction %}
+                                <label class="float-right w-50" style="background-image: linear-gradient(to right, rgba(255,0,0,0), {{ flaggeditem.flaggedcolor }}); border-radius: 10px"> Flagged</label>
+                                {% endif %}
+                                {% endfor %}
+                                </li>
                             </fieldset>
+                            {% endfor %}
                         </ul>
-                        {% else %}
-                        <h6>No restrictions have been flagged. Please review the license agreement.</h6>
-                        {% endif %}
                     </td> 
                 </tr>
             </table>

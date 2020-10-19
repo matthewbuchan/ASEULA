@@ -96,13 +96,16 @@ def ProcessFiles(request):
                                 for element in jobData[4]: # Store possible information variables
                                         for item in jobData[4][element]:
                                                 infoFieldArray.objects.create(filename=processingData.objects.get(filename=jobData[0]), categoryname=infoFieldCategory.objects.get(categoryname=element), listvalue=item)
+                                i=0
+                                texthighlight = ["yellow","orange","darkkhaki","cyan","goldenrod","springgreen","lightcoral","violet","hotpink","aquamarine","darksalmon","lightsteelblue","plum"]
                                 for category in jobData[5]:
                                         if flaggedRestriction.objects.filter(filename=processingData.objects.get(filename=jobData[0]), restriction__icontains=category.lower()):
                                                 pass
                                         else:
-                                                flaggedRestriction.objects.create(filename=processingData.objects.get(filename=jobData[0]),restriction=category)
+                                                flaggedRestriction.objects.create(filename=processingData.objects.get(filename=jobData[0]),restriction=category, flaggedcolor=texthighlight[i])
                                         for sentence in jobData[5][category]:
                                                 flaggedSentence.objects.create(filename=processingData.objects.get(filename=jobData[0]), restriction=flaggedRestriction.objects.get(filename=processingData.objects.get(filename=jobData[0]),restriction=category), sentence=sentence)
+                                        i += 1
                 return redirect('ReviewSoft')
                 
         else:
@@ -110,7 +113,7 @@ def ProcessFiles(request):
 
 def flagsentences(document, restrictions):
                 sent_array = []
-                strongtext = str(document.fulldoctext)
+                strongtext = str("<p>" + document.fulldoctext + "</p>")                
                 for restriction in restrictions:
                         restrictionsentences = flaggedSentence.objects.filter(restriction=restriction.id)
                         for sentence in restrictionsentences:
@@ -119,7 +122,8 @@ def flagsentences(document, restrictions):
                                         pass
                                 else:
                                         sent_array.append(sentence)
-                                        strongtext = str(strongtext.replace(sentence, StrongText(sentence)))
+                                        strongtext = str(strongtext.replace(sentence, StrongText(sentence,restriction.flaggedcolor)))
+                strongtext = strongtext.replace("\n\n","</p>\n\n<p>")                
                 return strongtext
 
 def soft_review(request):
@@ -129,9 +133,10 @@ def soft_review(request):
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                strongtext = flagsentences(document, restrictions)
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'Strongtext':strongtext})
+                restrictions = restrictionTitle.objects.all()
+                flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
+                strongtext = flagsentences(document, flaggedrestrictions)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
         else:
                 return redirect('Home')
 
@@ -144,9 +149,10 @@ def next_review(request,pk):
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                strongtext = flagsentences(document, restrictions)
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'Strongtext':strongtext})
+                restrictions = restrictionTitle.objects.all()
+                flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
+                strongtext = flagsentences(document, flaggedrestrictions)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
                 
 
 def prev_review(request,pk):
@@ -158,9 +164,10 @@ def prev_review(request,pk):
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                restrictions = flaggedRestriction.objects.filter(filename=document.id)
-                strongtext = flagsentences(document, restrictions)
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'Strongtext':strongtext})
+                restrictions = restrictionTitle.objects.all()
+                flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
+                strongtext = flagsentences(document, flaggedrestrictions)
+                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
 
 def del_review(request,pk):
         if request.method == 'POST':
