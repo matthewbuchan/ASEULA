@@ -226,7 +226,7 @@ def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # F
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
     return Fore.YELLOW + str(usertext) + Fore.RESET # Returns highlighed characters
 def StrongText(usertext,fcolor): # Returns strong tag for easy identification in HTML    
-    return '<mark style="background-color:'+fcolor+'; border-radius: 10px;" ><strong><em>' + str(usertext) + "</em></strong></mark>" # Returns string contained in HTML tags
+    return '<mark style="background-color:'+fcolor+'; border-radius: 10px; opacity: .8;" ><strong><em>' + str(usertext) + "</em></strong></mark>" # Returns string contained in HTML tags
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     try:
         return(mode(list)) # Returns the array value that appears the most

@@ -5,7 +5,7 @@
 .reviewwrapper{    
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 850px;
+    grid-template-rows: 870px;
     grid-template-areas:
     "l-panel r-panel";
 }
@@ -20,7 +20,7 @@
     overflow-y: scroll;
     padding: 1em;
     border-style: inset;
-    background-color: rgb(245, 245, 245);
+    backdrop-filter: blur(10px);
 }
 #yellow{    
     float: right;    
@@ -114,7 +114,7 @@
                     <td>
                         <h6>Software Name: 
                             {% if SoftwareField %}
-                            <input name="Softwarename" type="text" list="softwarelist" value="{{RevDoc.softwarename}}">
+                            <input style="border-style: inset;" name="Softwarename" type="text" list="softwarelist" value="{{RevDoc.softwarename}}">
                             <datalist id="softwarelist">
                             {% for item in SoftwareField %}
                             <option value="{{ item }}">{{ item }}</option>
@@ -130,7 +130,7 @@
                     <td>
                         <h6>Publisher Name: 
                             {% if PublisherField %}
-                            <input name="Publishername" type="text" list="publisherlist" value="{{RevDoc.publishername}}">
+                            <input style="border-style: inset;" name="Publishername" type="text" list="publisherlist" value="{{RevDoc.publishername}}">
                             <datalist id="publisherlist">
                             {% for item in PublisherField %}
                             <option value="{{ item }}">{{ item }}</option>
@@ -146,7 +146,7 @@
                     <td>
                         <h6>Information Page: 
                             {% if InfoField %}
-                            <input name="Informationpage" type="text" id="informationpage" value="{{RevDoc.informationpage}}">
+                            <input style="border-style: inset;" name="Informationpage" type="text" id="informationpage" value="{{RevDoc.informationpage}}">
                             <datalist id="informationpage">
                             {% for item in InfoField %}
                             <option value="{{ item }}">{{ item }}</option>
@@ -161,17 +161,17 @@
                 <tr>
                     <td>
                         <h6>Restriction List:</h6>
-                        <ul>                            
+                        <ul>
                             {% for item in Restrictions %}
                             <li style="list-style-type: none;">
-                                <input type="checkbox" id="{{ item.restriction }}" value="{{ item.restriction }}" name="{{ item.restriction }}">
+                                <input type="checkbox" name="{{ item.postname }}" id="{{ item.postname }}" value="{{ item.restriction }}">
                                 <label><h6>{{ item.restriction }}</h6></label>
-                                {% for flaggeditem in FlaggedRestrictions %}                                
+                                {% for flaggeditem in FlaggedRestrictions %}
                                 {% if flaggeditem.restriction == item.restriction %}
                                 <label id="{{ flaggeditem.flaggedcolor }}" class="float-right"> <strong><em>Flagged</em></strong></label>
                                 {% endif %}
                                 {% endfor %}
-                                </li>                            
+                                </li>
                             {% endfor %}
                         </ul>
                     </td> 

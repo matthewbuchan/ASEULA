@@ -6,6 +6,7 @@ from processing.processfile import *
 from django.conf import settings
 from .models import softwareIndex
 import datetime
+import re
 
 # Create your views here.
 def Home(request):
@@ -107,13 +108,12 @@ def ProcessFiles(request):
                                                 flaggedSentence.objects.create(filename=processingData.objects.get(filename=jobData[0]), restriction=flaggedRestriction.objects.get(filename=processingData.objects.get(filename=jobData[0]),restriction=category), sentence=sentence)
                                         i += 1
                 return redirect('ReviewSoft')
-                
         else:
                 return redirect('ProcessFiles')
 
 def flagsentences(document, restrictions):
                 sent_array = []
-                strongtext = str("<p>" + document.fulldoctext + "</p>")                
+                strongtext = str("<p>" + document.fulldoctext + "</p>")
                 for restriction in restrictions:
                         restrictionsentences = flaggedSentence.objects.filter(restriction=restriction.id)
                         for sentence in restrictionsentences:
@@ -123,7 +123,7 @@ def flagsentences(document, restrictions):
                                 else:
                                         sent_array.append(sentence)
                                         strongtext = str(strongtext.replace(sentence, StrongText(sentence,restriction.flaggedcolor)))
-                strongtext = strongtext.replace("\n\n","</p>\n\n<p>")                
+                strongtext = strongtext.replace("\n\n","</p>\n\n<p>")
                 return strongtext
 
 def soft_review(request):
@@ -133,7 +133,7 @@ def soft_review(request):
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                restrictions = restrictionTitle.objects.all()
+                restrictions = restrictionTitle.objects.all()                
                 flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
                 strongtext = flagsentences(document, flaggedrestrictions)
                 return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
@@ -178,9 +178,18 @@ def del_review(request,pk):
 def update_review(request,pk):
         document = processingData.objects.get(id=pk)
         if request.method == 'POST':
-                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'))
+                restrictionarray = []
+                i = 0
+                for item in request.POST:
+                        if i < 4:
+                                pass
+                        else:
+                                restrictionarray.append(request.POST.get(item))
+                        i += 1
+
+                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=ArrayToString(restrictionarray))                
                 document.delete()
-                return redirect('ReviewSoft')
+                return redirect('Software')
                 
 
 def Software(request):

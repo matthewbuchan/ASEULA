@@ -1,5 +1,6 @@
 from django.db import models
 import os
+import re
 
 # Create your models here.
 class positiveTerm(models.Model):
@@ -15,7 +16,8 @@ class negativeTerm(models.Model):
         return self.negterm
 
 class restrictionTitle(models.Model):
-    restriction = models.CharField(max_length=30)
+    restriction = models.CharField(max_length=40)
+    postname = models.CharField(max_length=40)
 
     def __str__(self):
         return self.restriction
