@@ -32,7 +32,7 @@
                         <th scope="col">File Name</th>
                         <th scope="col">File Size (b)</th>
                         <th scope="col">Link</th>
-                        <th scope="col">Remove</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,7 @@
                         <td>
                             <form method="post" action="{% url 'delete_file' document.pk %}" >
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger" style="margin: 0;">Remove</button>
+                                <button type="submit" class="btn btn-danger" style="margin: 0;">Delete</button>
                             </form>
                         </td>
                     </tr>            

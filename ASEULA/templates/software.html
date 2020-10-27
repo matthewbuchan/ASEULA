@@ -3,42 +3,49 @@
 {% block body %}
 <body>    
     <div class="main-select">
-        <h2>Processed Software Listing</h2>
-        {% if Softwares %}
-        <table>
-            <tr class="table-head">
-                <td>Software Name</td>
-                <td>Version</td>
-                <td>Publisher</td>
-                <td>Information URL</td>
-                <td>License Type</td>
-                <td>License Count</td>
-                <td>Restrictions</td>
-                <td>Last Checked</td>
-                <td>Checked By</td>
-                <td>Update</td>
-                <td>Delete</td>
-            </tr>            
-            {% for software in Softwares %}
-            <tr>
-                <td>{{software.softwarename}}</td>
-                <td>{{software.version}}</td>
-                <td>{{software.publishername}}</td>
-                <td>{{software.informationurl}}</td>
-                <td>{{software.licensetype}}</td>
-                <td>{{software.licensecount}}</td>
-                <td>{{software.flaggedrestrictions}}</td>
-                <td>{{software.checkdate}}</td>
-                <td>{{software.checkby}}</td>
-                <td><a href="">Update</a></td>
-                <td><a href="">Delete</a></td>
-            </tr>
-            {% endfor %}        
-        </table>
-        <button>Export</button>
-        {% else %}
-        <p>No software has been processed</p>
-        {% endif %}
+        <h1>Processed Software Listing</h1>
+        <br>
+        <div style="height: 550px; width: 75%; margin: auto;">
+            {% if Softwares %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Software Name</th>
+                        <th scope="col">Version</th>
+                        <th scope="col">Publisher</th>
+                        <th scope="col">Information URL</th>
+                        <th scope="col">License Type</th>
+                        <th scope="col">License Count</th>
+                        <th scope="col">Restrictions</th>
+                        <th scope="col">Last Checked</th>
+                        <th scope="col">Checked By</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for software in Softwares %}
+                    <tr>
+                        <td>{{software.softwarename}}</td>
+                        <td>{{software.version}}</td>
+                        <td>{{software.publishername}}</td>
+                        <td>{{software.informationurl}}</td>
+                        <td>{{software.licensetype}}</td>
+                        <td>{{software.licensecount}}</td>
+                        <td>{{software.flaggedrestrictions}}</td>
+                        <td>{{software.checkdate}}</td>
+                        <td>{{software.checkby}}</td>
+                        <td><button class="btn btn-primary" style="margin: 0;">Update</button></td>
+                        <td><button class="btn btn-danger" style="margin: 0;">Delete</button></td>
+                    </tr>
+                    {% endfor %}  
+                </tbody>
+            </table>
+            <button class="btn btn-primary">Export</button>
+            {% else %}
+            <p>No software has been processed.</p>
+            {% endif %}
+        </div>
     </div>
 </body>
 {% endblock %}
