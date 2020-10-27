@@ -196,3 +196,9 @@ def Software(request):
         all_software = softwareIndex.objects.all()
         review_docs = processingData.objects.all()
         return render(request,"software.html",{'PendingReview':review_docs,'Softwares': all_software})
+
+def del_software(request, pk):
+        if request.method == 'POST':
+                softwarerecord = softwareIndex.objects.get(pk=pk)
+                softwarerecord.delete()
+                return redirect('Software')

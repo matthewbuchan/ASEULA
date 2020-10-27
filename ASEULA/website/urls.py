@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Home, Software,ImportFile,ImportText, ProcessFiles, delete_file, soft_review, prev_review, next_review, del_review, update_review
+from .views import Home, Software,ImportFile,ImportText, ProcessFiles, delete_file, soft_review, prev_review, next_review, del_review, update_review, del_software
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -16,6 +16,7 @@ urlpatterns = [
     path('nextreview/<int:pk>/', next_review, name='nextdoc'),
     path('updatereview/<int:pk>/', update_review, name='update_review'),
     path('software/',Software, name='Software'),
+    path('deletesoftware/<int:pk>/', del_software, name='del_software'),
 ]
 
 if settings.DEBUG:

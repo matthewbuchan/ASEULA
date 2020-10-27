@@ -35,8 +35,18 @@
                         <td>{{software.flaggedrestrictions}}</td>
                         <td>{{software.checkdate}}</td>
                         <td>{{software.checkby}}</td>
-                        <td><button class="btn btn-primary" style="margin: 0;">Update</button></td>
-                        <td><button class="btn btn-danger" style="margin: 0;">Delete</button></td>
+                        <td>
+                            <form method="post" action="" >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" style="margin: 0;">Update</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" action="{% url 'del_software' software.pk %}" >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" style="margin: 0;">Delete</button>
+                            </form>
+                        </td>                        
                     </tr>
                     {% endfor %}  
                 </tbody>
