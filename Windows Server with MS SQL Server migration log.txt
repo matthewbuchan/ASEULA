@@ -1,0 +1,85 @@
+########################################
+# WINDOWS SERVER 2019 DEPLOYMENT STEPS #
+########################################
+[x] Apply ALL updates
+[x] Edge Browser Enterprise
+[x] IIS
+[x] Firewall inbound set for port 80
+[x] SQL Server (Default Folders, Name: MSSQLSERVER, Authentication: Windows)
+- database engine services
+- sql server replication
+- client tool connectivity
+- client tools backwards compatibility
+- client tools SDK
+- SQL client connectivity SDK
+[x] SQL Server Management Studio (SSMS)
+[x] Visual Studio Code (User Installation)
+[x] Python (C:\Python directory)
+- path limit disabled
+[x] Tesseract OCR
+[x] Imagemagick
+- add application directory
+- install ffmpeg
+- install legacy
+[x] ghostscript
+[x] git bash for windows
+
+### Pull and configure ASEULA ###
+[x] git clone or download files from github, then extract 'ASEULA' folder to 'wwwroot'
+[x] Give IIS modify permissions for IIS_IUSRS (Python folder)
+[x] Give IIS modify permissions for IIS_IUSRS (wwwroot contents)
+[x] extract web.config.root from 'web.config.zip' to wwwroot as web.config
+[x] extract web.config.static from 'web.config.zip' to wwwroot\ASEULA\static as web.config
+
+[x] unlock IIS server => configuration editor => system.webserver => handlers
+[x] add virtual directory 'static' for static folder in ASEULA
+[x] add "ASEULA/" in front of DIRS variable for Templates (TEMPORARY WORKAROUND)
+[x] add "ASEULA/" in front of "media/processing/" on line 87 of website/views.py (TEMPORARY WORKAROUND)
+[x] add IP address to settings.py
+[x] add STATIC_ROOT to settings.py
+[x] ASEULA_Win_Setup.bat
+[x] Test ASEULA to validate functionality with SQL Lite
+
+**** Bug Fix for processing timeouts: Increase timeout in IIS Server => FastCGI => edit => activity Timeout (70=1 min, 10 sec. Recommend increasing to 600)
+
+### Conversion from SQL Lite to MS SQL Server ###
+[x] Install MS SQL Server (NAME MSSQLSERVER)
+[x] (SQL Server configuration manager) SQL server network configuration => Protocols => TCPIP = Enabled => IPALL TCP PORT 1433
+[x] (SQL Server configuration manager) SQL Server services => right click SQL server => restart
+[x] Install MS SQL Server Management Studio (SSMS)
+[x] Set SQL Server and Windows Authentication
+[x] (SSMS => right click database => new database) Add "aseula"
+[x] (SSMS => right click security => new login) Add "djangoservice" in SQL Server WJ17zBe$eR5& => disable change password on login and expiration, set database to aseula
+[x] Configure SQL Server Permissions Right click on server => Properties => Configure permissions for databases for groups/full admin access
+
+[x] pip install pyodbc
+[x] pip install django-mssql-backend
+[x] update database in settings.py
+
+# SETTINGS.PY DB SETTINGS #
+DATABASES = {
+    'default': {        
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'aseula',
+        'USER': '<machine_username>',
+        'PASSWORD': '<machine_password>',
+        'HOST': '<Hostname>',
+        'PORT': '1433',
+
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    },
+}
+# set this to False if you want to turn off pyodbc's connection pooling
+DATABASE_CONNECTION_POOLING = False
+
+[x] delete __pycache__ folders (including inside migration folders)
+[x] delete numbered migration files ( DO NOT DELETE the __init__.py files)
+[x] run makemigrations and migrate in the ASEULA folder
+*** FIX CHANGE restrictionTerm restrictionterm to varchar=40
+*** FIX CHANGE infofieldarray listvalue to varchar=100
+[x] run python script to populate database variables
+[x] test ASEULA with SQL Server to verify functions operate
+
+******** TEST DJANGO 3.1 with migration changes.

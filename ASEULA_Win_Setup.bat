@@ -1,5 +1,5 @@
 python -m pip install --upgrade pip
-pip install django
+pip install django==3.0.10
 pip install wheel
 pip install spacy
 python -m spacy download en_core_web_sm

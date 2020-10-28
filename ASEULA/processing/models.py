@@ -24,7 +24,7 @@ class restrictionTitle(models.Model):
 
 class restrictionTerm(models.Model):
     restriction = models.ForeignKey('restrictionTitle',on_delete=models.CASCADE)
-    restrictionterm = models.CharField(max_length=20)
+    restrictionterm = models.CharField(max_length=40)
 
     def __str__(self):
         return self.restrictionterm
@@ -70,7 +70,7 @@ class infoFieldCategory(models.Model):
 class infoFieldArray(models.Model):
     filename = models.ForeignKey('processingData',on_delete=models.CASCADE)
     categoryname = models.ForeignKey('infoFieldCategory',on_delete=models.DO_NOTHING)
-    listvalue = models.CharField(max_length=50)
+    listvalue = models.CharField(max_length=100)
 
     def __str__(self):
         return self.listvalue
