@@ -12,3 +12,8 @@ function Show_Progress() {
     filebutton.disabled = true;
     textbutton.disabled = true;
   }
+
+  function Export_Disable_Button() {
+    var exportbutton = document.getElementById("export-btn");
+    exportbutton.disabled = true;
+  }

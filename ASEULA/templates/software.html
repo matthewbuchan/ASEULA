@@ -51,9 +51,13 @@
                     {% endfor %}  
                 </tbody>
             </table>
-            <button class="btn btn-primary">Export</button>
+            
+            <form method="post" action="{% url 'export_file' %}" >
+                {% csrf_token %}
+                <button id="export-btn" class="btn btn-primary" onclick="Export_Disable_Button();">Export</button>
+            </form>
             {% else %}
-            <p>No software has been processed.</p>
+            <h4>No software has been processed.</h4>
             {% endif %}
         </div>
     </div>

@@ -250,11 +250,14 @@ def XlsxDump(jobDataArray): # Output to CSV for download and site import
     ws = wb.active 
     ws.append(["Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions"]) # Appends header to ws object
     for job in jobDataArray: # Loops through each job
-        ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]]) # Appends data from each job to line in ws object
-    tab = Table(displayName="Table1", ref="A1:D" + str(len(jobDataArray)+1)) # Defines table dimensions
+        ws.append(job)
+        # ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]]) # Appends data from each job to line in ws object
+    tab = Table(displayName="Export_Results", ref="A1:D" + str(len(jobDataArray)+1)) # Defines table dimensions
     ws.add_table(tab) # Adds table dimensions to ws object
-    wb.save("./xlsx_dump.xlsx") # Saves excel table document
-    # wb.save("media/xlsx_dump.xlsx") # FOR DJANGO
+    # wb.save("./xlsx_dump.xlsx") # Saves excel table document
+    wb.save("media/xlsx_dump.xlsx") # FOR DJANGO
+
+
 
 ###############################################    DJANGO FRAMEWORK EXECUTION    ###############################################
 #  if the database gets corrupted, use the script below to re-establish default values after clearing all cache files          #

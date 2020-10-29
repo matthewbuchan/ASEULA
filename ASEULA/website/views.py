@@ -202,3 +202,21 @@ def del_software(request, pk):
                 softwarerecord = softwareIndex.objects.get(pk=pk)
                 softwarerecord.delete()
                 return redirect('Software')
+
+def export_file(request):
+        export_docs = softwareIndex.objects.all()
+        if request.method == 'POST':
+                job_array = []
+                for record in export_docs:
+                        record_elements = []
+                        record_elements.append(record.softwarename)
+                        record_elements.append(record.publishername)
+                        record_elements.append(record.informationurl)
+                        record_elements.append(record.flaggedrestrictions)
+                        # software_name = record.softwarename
+                        # publisher_name = record.publishername
+                        # information_webpage = record.informationurl
+                        # restrictions = record.flaggedrestrictions
+                        job_array.append(record_elements)
+                XlsxDump(job_array)
+                return redirect('Software')
