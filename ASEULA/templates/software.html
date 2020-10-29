@@ -19,7 +19,7 @@
                         <th scope="col">Restrictions</th>
                         <th scope="col">Last Checked</th>
                         <th scope="col">Checked By</th>
-                        <th scope="col">Update</th>
+                        <!-- <th scope="col">Update</th> -->
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
@@ -35,12 +35,12 @@
                         <td>{{software.flaggedrestrictions}}</td>
                         <td>{{software.checkdate}}</td>
                         <td>{{software.checkby}}</td>
-                        <td>
+                        <!-- <td>
                             <form method="post" action="" >
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-primary" style="margin: 0;">Update</button>
                             </form>
-                        </td>
+                        </td> -->
                         <td>
                             <form method="post" action="{% url 'del_software' software.pk %}" >
                                 {% csrf_token %}
