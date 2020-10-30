@@ -24,7 +24,7 @@ class restrictionTitle(models.Model):
 
 class restrictionTerm(models.Model):
     restriction = models.ForeignKey('restrictionTitle',on_delete=models.CASCADE)
-    restrictionterm = models.CharField(max_length=40)
+    restrictionterm = models.CharField(max_length=40, null=True)
 
     def __str__(self):
         return self.restrictionterm
