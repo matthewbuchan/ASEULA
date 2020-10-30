@@ -1,0 +1,16 @@
+- Migrated to windows server with IIS
+- Cosmetic updates
+-- Added restriction identification
+-- Standardized page layouts
+- Added manual validation
+- Added validated software page
+-- Added delete function
+-- Added Export to create Excel Workbook
+- Security review completed for Django server
+-- additional libraries are currently under review
+
+Upcoming
+- BRAIN CHILD (SQL SERVER instead of SQL Lite3)
+- Additional scripting for sharepoint information exchange
+- Database modifications to allow updating validated software packages
+- Add authentication for website access

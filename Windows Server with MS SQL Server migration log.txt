@@ -77,8 +77,6 @@ DATABASE_CONNECTION_POOLING = False
 [x] delete __pycache__ folders (including inside migration folders)
 [x] delete numbered migration files ( DO NOT DELETE the __init__.py files)
 [x] run makemigrations and migrate in the ASEULA folder
-*** FIX CHANGE restrictionTerm restrictionterm to varchar=40
-*** FIX CHANGE infofieldarray listvalue to varchar=100
 [x] run python script to populate database variables
 [x] test ASEULA with SQL Server to verify functions operate
 
