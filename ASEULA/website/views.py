@@ -189,7 +189,7 @@ def update_review(request,pk):
 
                 softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=ArrayToString(restrictionarray))                
                 document.delete()
-                return redirect('Software')
+                return redirect('ReviewSoft')
                 
 
 def Software(request):
