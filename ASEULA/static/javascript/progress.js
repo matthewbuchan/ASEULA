@@ -12,7 +12,7 @@ function Show_Progress() {
     filebutton.disabled = true;
     textbutton.disabled = true;
   }
-
+// Disabled because export fails.
   function Export_Disable_Button() {
     var exportbutton = document.getElementById("export-btn");
     exportbutton.disabled = true;

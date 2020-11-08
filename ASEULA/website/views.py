@@ -186,8 +186,7 @@ def update_review(request,pk):
                         else:
                                 restrictionarray.append(request.POST.get(item))
                         i += 1
-
-                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=ArrayToString(restrictionarray))                
+                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(',','#;',ArrayToString(restrictionarray)))
                 document.delete()
                 return redirect('ReviewSoft')
                 
