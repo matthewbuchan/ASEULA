@@ -1,13 +1,3 @@
 Software Name,Publisher Name,Information Webpage,Licensing Restrictions
 Anaconda,Unknown,http://docs.anaconda.com/anaconda/pkg-docs,Instructional-use only
-User,Unknown,Unknown,Instructional-use only;#Research-use only
-Services,Amazon Web Services Inc.,www.axure.com,Instructional-use only;#Research-use only;#Requires Physical Device
-Bluebeam,BluebeamInc.,https:/fwww.bluebeam.com,Instructional-use only;#Research-use only;#Requires Physical Device;#No RDP use
-SolidWorks,Unknown,www.3ds.com/terms/support-policies,Instructional-use only;#Research-use only;#Requires Physical Device;#No RDP use;#Use geographically limited (Campus)
-License,Codesourcery Inc License,Unknown,Instructional-use only;#Research-use only;#Requires Physical Device;#No RDP use;#Use geographically limited (Campus);#Use geographically limited (radius)
-Abaqus,Unknown,www.3ds.com/terms/glossary,Instructional-use only;#Research-use only;#Requires Physical Device;#No RDP use;#Use geographically limited (Campus);#Use geographically limited (radius);#US use only
-Data,Adobe Systems Incorporated,http://www.3ds.com/terms/ost,Instructional-use only;#Research-use only;#Requires Physical Device;#No RDP use;#Use geographically limited (Campus);#Use geographically limited (radius);#US use only;#VPN required off-site
-Bruce, Pincus,Bruce Pincus,Minitab.com,VPN required off-site;#Block embargoed countries;#Block use from Persons of Concern;#On-site use for on-site students only
-Prairie,Stratasys Inc.,www.stratasys.com,US use only;#VPN required off-site;#Block use from Persons of Concern
-Pro,Unknown,Unknown,Block embargoed countries;#Block use from Persons of Concern;#On-site (lab) use only
-Vernier,Llc,www.vernier.com,US use only;#VPN required off-site
+User,Unknown,Unknown,Research-use only;#Requires Physical Device

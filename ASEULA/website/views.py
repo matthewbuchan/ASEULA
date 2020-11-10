@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from processing.models import positiveTerm, negativeTerm, restrictionTitle, restrictionTerm,infoFieldCategory,infoFieldArray,processingData,fileQueue, flaggedRestriction, flaggedSentence, softwareIndex
-from website.models import softwareIndex
 from processing.processfile import *
 from django.conf import settings
 import datetime
