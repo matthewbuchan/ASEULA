@@ -47,7 +47,7 @@
                                 <button type="submit" class="btn btn-danger" style="margin: 0;">Delete</button>
                             </form>
                         </td>
-                    </tr>            
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -57,7 +57,7 @@
             <div style="text-align: center;"><button id="submission-btn" class="btn btn-primary" onclick="Show_Progress();window.location.href='{% url 'ProcessFiles' %}';">Submit File(s)</button></div>
             {% else %}
             <h6 style="text-align: center;">The processing queue is currently empty.</h6>
-            {% endif %}                
+            {% endif %}
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

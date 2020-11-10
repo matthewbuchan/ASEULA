@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import fileQueue, positiveTerm, negativeTerm, restrictionTitle, restrictionTerm, processingData, infoFieldCategory, infoFieldArray,flaggedRestriction,flaggedSentence
+from .models import fileQueue, positiveTerm, negativeTerm, restrictionTitle, restrictionTerm, processingData, infoFieldCategory, infoFieldArray,flaggedRestriction,flaggedSentence,softwareIndex
 
 # Register your models here.
 admin.site.register(fileQueue)
@@ -12,3 +12,4 @@ admin.site.register(infoFieldCategory)
 admin.site.register(infoFieldArray)
 admin.site.register(flaggedRestriction)
 admin.site.register(flaggedSentence)
+admin.site.register(softwareIndex)

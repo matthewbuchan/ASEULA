@@ -4,8 +4,9 @@ html,body{
     color: #333333;
     font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
     background-image: url('/static/img/pitchfork4.jpg');
+    background-attachment: fixed;
+    background-position: center;
     background-repeat: no-repeat;
-    background-position: center;    
     background-size: 700px;
 }
 .wrapper{
@@ -17,7 +18,7 @@ html,body{
     "header header"
     "main main";
 }
-.header{
+.header{    
     grid-area: header;
     background-color: rgba(234, 234, 234, 0.78);
     padding-left: 1em;

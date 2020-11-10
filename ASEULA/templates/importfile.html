@@ -6,10 +6,10 @@
     <br>
     <h4>Please upload a file using the area below.</h4>
     {% csrf_token %}
-    <div><input name="document" type="file" multiple><button class="btn btn-primary" type="submit">Upload File(s)</button></div>    
+    <div><input name="document" type="file" multiple><button class="btn btn-primary" type="submit">Upload File(s)</button></div>
     <div style="height: 550px; width: 75%; margin: auto; text-align: left;">
         {% if FileQueue %}
-        <table>            
+        <table>
             <tbody>
                 <tr>
                     <td>
@@ -19,13 +19,13 @@
                 {% for document in FileQueue %}
                 <tr>
                     <td><h6>{{document.filename}}</h6></td>
-                </tr>            
-                {% endfor %}                
+                </tr>
+                {% endfor %}
             </tbody>
-        </table>        
+        </table>
         {% else %}
         <h6 style="text-align: center;">The import queue is currently empty.</h6>
         {% endif %}
-    </div>    
+    </div>
 </form>
 {% endblock %}

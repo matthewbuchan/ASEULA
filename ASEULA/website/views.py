@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
-from processing.models import positiveTerm, negativeTerm, restrictionTitle, restrictionTerm,infoFieldCategory,infoFieldArray,processingData,fileQueue, flaggedRestriction, flaggedSentence
+from processing.models import positiveTerm, negativeTerm, restrictionTitle, restrictionTerm,infoFieldCategory,infoFieldArray,processingData,fileQueue, flaggedRestriction, flaggedSentence, softwareIndex
 from website.models import softwareIndex
 from processing.processfile import *
 from django.conf import settings
-from .models import softwareIndex
 import datetime
 import re
 
@@ -16,7 +15,7 @@ def Home(request):
 
 def ImportFile(request):
         review_docs = processingData.objects.all()
-        filequeue = fileQueue.objects.all()        
+        filequeue = fileQueue.objects.all()
         if request.method == "POST":
                 if request.FILES:
                         filelist = request.FILES
@@ -24,11 +23,10 @@ def ImportFile(request):
                         postfile = filelist['document']
                         if len(filelisting) >= 2:
                                 for items in filelisting:
-                                        print(items)
                                         fs=FileSystemStorage()
                                         fs.save("processing/"+ str(items),items)
                                         fileQueue.objects.create(filefield="processing/"+ str(items), filename=items)
-                        else:                        
+                        else:
                                 fs=FileSystemStorage()
                                 fs.save("processing/"+ str(postfile),postfile)
                                 fileQueue.objects.create(filefield="processing/"+ str(filelist['document']), filename=request.FILES)
@@ -133,7 +131,7 @@ def soft_review(request):
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
-                restrictions = restrictionTitle.objects.all()                
+                restrictions = restrictionTitle.objects.all()
                 flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
                 strongtext = flagsentences(document, flaggedrestrictions)
                 return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
@@ -153,7 +151,6 @@ def next_review(request,pk):
                 flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
                 strongtext = flagsentences(document, flaggedrestrictions)
                 return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
-                
 
 def prev_review(request,pk):
         review_docs = processingData.objects.all()
@@ -186,10 +183,9 @@ def update_review(request,pk):
                         else:
                                 restrictionarray.append(request.POST.get(item))
                         i += 1
-                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(',','#;',ArrayToString(restrictionarray)))
+                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)))
                 document.delete()
                 return redirect('ReviewSoft')
-                
 
 def Software(request):
         all_software = softwareIndex.objects.all()

@@ -181,7 +181,7 @@ def RemoveNewLine(s): # Removes new line characters from strings
     return re.sub(r'\n{1,}'," ",str(s)) # Returns lines without excessive newline characters
 def ProcessRestrictions(document, pos_trigger_words, neg_trigger_words, rxion_patterns): # Establishes restriction variables and executes each type
     rxion_array = [] # Defines restriction array to store restrictions found for each file
-    restriction_sentence_dict = dict() # Defines restriction sentence dictionary that uses the restriction name as a key    
+    restriction_sentence_dict = dict() # Defines restriction sentence dictionary that uses the restriction name as a key
     for rxion in rxion_patterns: # Loops through restriction types to determine if the restriction applies to the document
         rxiontmp = ProcessRestrictionType(document,rxion_patterns[str(rxion)],pos_trigger_words,neg_trigger_words,str(rxion)) # Returns restriction type to document
         if rxiontmp: # If the document contains any sentences with the restriction type
@@ -225,7 +225,7 @@ def ProcessRestrictionType(document,restrictions,pos,neg,restrictionString): # F
         return rxion_sentences_array # Return the sentence array
 def HighlightText(usertext): # Returns inputted text as yellow for easy identification
     return Fore.YELLOW + str(usertext) + Fore.RESET # Returns highlighed characters
-def StrongText(usertext,fcolor): # Returns strong tag for easy identification in HTML    
+def StrongText(usertext,fcolor): # Returns strong tag for easy identification in HTML
     return '<mark style="background-color:'+fcolor+'; border-radius: 10px; opacity: .8;" ><strong><em>' + str(usertext) + "</em></strong></mark>" # Returns string contained in HTML tags
 def ArrayMode(list): # Assists in determining entities from the AseulaMain
     try:
@@ -252,12 +252,11 @@ def XlsxDump(jobDataArray): # Output to CSV for download and site import
     for job in jobDataArray: # Loops through each job
         jobline = ""        
         for element in job:
-            if job.index(str(element)) == 0:                
+            if job.index(str(element)) == 0:
                 jobline = element
             else:
                 jobline = jobline + "," + re.sub(',','',element)
         csv_dump.write(str(jobline) + "\n")
-        print(jobline)
     csv_dump.close()
 
 # def XlsxDump(jobDataArray): # Output to CSV for download and site import
