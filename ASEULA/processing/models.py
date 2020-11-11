@@ -68,6 +68,7 @@ class processingData(models.Model):
     informationpage = models.CharField(max_length=50,blank=True, null=True)
     restrictionlist = models.TextField(blank=True, null=True)
     fulldoctext = models.TextField()
+    parentsoftware = models.ForeignKey('softwareIndex', on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return self.filename

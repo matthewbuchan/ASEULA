@@ -102,7 +102,7 @@
             <h4>Proccessing Confirmation</h4>
         </div>
         <br>
-        <form method='post' style="height: 650px;" action="{% url 'update_review' RevDoc.pk %}" enctype="multipart/form-data">
+        <form method='post' style="height: 650px;" action="{% url 'submit_review' RevDoc.pk %}" enctype="multipart/form-data">
             {% csrf_token %}
             <table class="resultstable">
                 <tr>

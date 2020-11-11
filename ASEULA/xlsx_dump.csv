@@ -1,3 +1,13 @@
 Software Name,Publisher Name,Information Webpage,Licensing Restrictions
-Anaconda,Unknown,http://docs.anaconda.com/anaconda/pkg-docs,Instructional-use only
-User,Unknown,Unknown,Research-use only;#Requires Physical Device
+Anaconda,Anaconda Inc,http://docs.anaconda.com/anaconda/pkg-docs,Instructional-use only;#Research-use only;#Requires Physical Device;#No RDP use;#Use geographically limited (Campus);#Use geographically limited (radius)
+Ansys,Ansys Inc,Unknown,Instructional-use only;#Research-use only
+Axure,Axure Software Solutions Inc.,www.axure.com,Instructional-use only;#Research-use only
+Bluebeam,BluebeamInc.,https:/www.bluebeam.com,Instructional-use only;#Use geographically limited (radius);#On-site (lab) use only
+SolidWorks,Unknown,www.3ds.com/terms/support-policies,Instructional-use only;#Research-use only
+Quartus Prime,Codesourcery Inc,Unknown,Instructional-use only;#Requires Physical Device;#No RDP use;#Use geographically limited (Campus)
+simulia,Unknown,www.3ds.com/terms/glossary,Instructional-use only
+Solidworks,Dassault Systems,http://www.3ds.com/terms/ost,Instructional-use only;#Research-use only
+SPM Cart Pro,Minitab LLC,Minitab.com,Instructional-use only
+Stratasys,Stratasys Inc.,www.stratasys.com,Requires Physical Device;#US use only
+Unity,Unknown,Unknown,Instructional-use only;#No RDP use
+Vernier,Vernier Software & Technology LLC,www.vernier.com,Instructional-use only;#US use only

@@ -125,6 +125,7 @@ def flagsentences(document, restrictions):
 
 def soft_review(request):
         review_docs = processingData.objects.all()
+        softwarelist = softwareIndex.objects.all()
         if review_docs:
                 document = processingData.objects.order_by('id').first()
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
@@ -133,12 +134,12 @@ def soft_review(request):
                 restrictions = restrictionTitle.objects.all()
                 flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
                 strongtext = flagsentences(document, flaggedrestrictions)
-                return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
+                return render(request, 'revdocs.html', {'Softwares': softwarelist,'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
         else:
                 return redirect('Home')
 
 def next_review(request,pk):
-        review_docs = processingData.objects.all()
+        review_docs = processingData.objects.all()        
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)
                 if processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first():
@@ -171,7 +172,7 @@ def del_review(request,pk):
                 currentrecord.delete()
                 return redirect('ReviewSoft')
 
-def update_review(request,pk):
+def submit_review(request,pk):
         document = processingData.objects.get(id=pk)
         if request.method == 'POST':
                 restrictionarray = []
@@ -198,19 +199,21 @@ def del_software(request, pk):
                 return redirect('Software')
 
 def export_file(request):
+        import subprocess #allows execution of powershell commands
         export_docs = softwareIndex.objects.all()
-        if request.method == 'POST':
+        if request.method == 'POST':                
                 job_array = []
                 for record in export_docs:
                         record_elements = []
                         record_elements.append(record.softwarename)
                         record_elements.append(record.publishername)
                         record_elements.append(record.informationurl)
-                        record_elements.append(record.flaggedrestrictions)
-                        # software_name = record.softwarename
-                        # publisher_name = record.publishername
-                        # information_webpage = record.informationurl
-                        # restrictions = record.flaggedrestrictions
+                        record_elements.append(record.flaggedrestrictions)                        
                         job_array.append(record_elements)
                 XlsxDump(job_array)
                 return redirect('Software')
+        try:
+                subprocess.Popen('powershell.exe C:\\inetpub\\wwwroot\\export_to_sharepoint.ps1')
+                return redirect('Home')
+        except:
+                return redirect('Home')
