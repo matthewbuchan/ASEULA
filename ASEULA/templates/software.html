@@ -14,9 +14,9 @@
                         <th scope="col">Publisher</th>
                         <th scope="col">Information URL</th>
                         <th scope="col">Restrictions</th>
-                        <th scope="col">Last Checked</th>
+                        <th scope="col">Last Checked (GMT)</th>
                         <th scope="col">Checked By</th>
-                        <!-- <th scope="col">Update</th> -->
+                        <th scope="col">Update</th>
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
@@ -29,12 +29,12 @@
                         <td>{{software.flaggedrestrictions}}</td>
                         <td>{{software.checkdate}}</td>
                         <td>{{software.checkby}}</td>
-                        <!-- <td>
-                            <form method="post" action="" >
+                        <td>
+                            <form method="post" action="{% url 'change_soft' software.pk %}" >
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-primary" style="margin: 0;">Update</button>
                             </form>
-                        </td> -->
+                        </td>
                         <td>
                             <form method="post" action="{% url 'del_software' software.pk %}" >
                                 {% csrf_token %}

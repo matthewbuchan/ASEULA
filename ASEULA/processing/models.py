@@ -69,6 +69,7 @@ class processingData(models.Model):
     restrictionlist = models.TextField(blank=True, null=True)
     fulldoctext = models.TextField()
     parentsoftware = models.ForeignKey('softwareIndex', on_delete=models.CASCADE,null=True)
+    reviewed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.filename

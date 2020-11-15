@@ -1,0 +1,183 @@
+{% extends 'index.html' %}
+{% block title %} Processing Files {% endblock %}
+{% block body %}
+<style>
+.reviewwrapper{    
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 870px;
+    grid-template-areas:
+    "l-panel r-panel";
+}
+.l-panel{
+    grid-area: l-panel;
+}
+.r-panel{
+    grid-area: r-panel;
+}
+.r-panel-txt{
+    height: 800px;
+    overflow-y: scroll;
+    padding: 1em;
+    border-style: inset;
+    backdrop-filter: blur(10px);
+}
+#yellow{    
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), yellow);
+    border-radius: 10px;
+}
+#orange{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), orange);
+    border-radius: 10px;
+}
+#hotpink{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), hotpink);
+    border-radius: 10px;
+}
+#darkkhaki{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), darkkhaki);
+    border-radius: 10px;
+}
+#cyan{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), cyan);
+    border-radius: 10px;
+}
+#goldenrod{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), goldenrod);
+    border-radius: 10px;
+}
+#springgreen{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), springgreen);
+    border-radius: 10px;
+}
+#lightcoral{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), lightcoral);
+    border-radius: 10px;
+}
+#aquamarine{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), aquamarine);
+    border-radius: 10px;
+}
+#darksalmon{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), darksalmon);
+    border-radius: 10px;
+}
+#lightsteelblue{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), lightsteelblue);
+    border-radius: 10px;
+}
+#violet{
+    float: right;    
+    width: 100px;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), violet);
+    border-radius: 10px;
+}
+
+</style>
+<div class="reviewwrapper">
+    <div class="l-panel">
+        <div class="text-center">
+            <h4>Proccessing Confirmation</h4>
+        </div>
+        <br>
+        <form method='post' style="height: 650px;" action="{% url 'submit_soft' SoftDoc.pk %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="resultstable">
+                <tr>
+                    <td>
+                        <h6>Please validate all findings for {{ SoftDoc.softwarename }}.</h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h6>Software Name: 
+                            {% if SoftDoc.softwarename %}
+                            <input style="border-style: inset;" name="Softwarename" type="text" value="{{ SoftDoc.softwarename }}">
+                            {% else %}
+                            <input name="Softwarename" type="text" value="sdfaseUnknown">
+                            {% endif %}
+                            </h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h6>Publisher Name: 
+                            {% if SoftDoc.publishername %}
+                            <input style="border-style: inset;" name="Publishername" type="text" value="{{ SoftDoc.publishername }}">
+                            {% else %}
+                            <input name="Publishername" type="text" value="Unknown">
+                            {% endif %}
+                        </h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h6>Information Page: 
+                            {% if SoftDoc.informationurl %}
+                            <input style="border-style: inset;" name="Informationpage" type="text" value="{{ SoftDoc.informationurl }}">
+                            {% else %}
+                            <input name="Informationpage" type="text" value="Unknown">
+                            {% endif %}
+                        </h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h6>Restriction List:</h6>
+                        <ul>
+                            {% for item in Restrictions %}                            
+                            <li style="list-style-type: none;">
+                                {% if item.restriction in SelectedRestrictions %}
+                                <input type="checkbox" name="{{ item.postname }}" id="{{ item.postname }}" value="{{ item.restriction }}" checked>
+                                {% else %}
+                                <input type="checkbox" name="{{ item.postname }}" id="{{ item.postname }}" value="{{ item.restriction }}">
+                                {% endif %}
+                                <label><h6>{{ item.restriction }}</h6></label>
+                                {% for flaggeditem in FlaggedRestrictions %}
+                                {% if flaggeditem.restriction == item.restriction %}
+                                <label id="{{ flaggeditem.flaggedcolor }}" class="float-right"> <strong><em>Flagged</em></strong></label>
+                                {% endif %}
+                                {% endfor %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td> 
+                </tr>
+            </table>
+            <div class="text-center position-relative fixed-bottom">
+                <button class="btn btn-primary" type="submit">Confirm</button>
+            </div>
+        </form>        
+    </div>
+    <div class="r-panel">
+        <div class="text-center">
+            <h4>EULA Document</h4>
+        </div>
+        <div class="rounded r-panel-txt">
+            {{ Strongtext | safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}

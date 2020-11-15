@@ -1,19 +1,19 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
+from django.core.files import File
 from processing.models import positiveTerm, negativeTerm, restrictionTitle, restrictionTerm,infoFieldCategory,infoFieldArray,processingData,fileQueue, flaggedRestriction, flaggedSentence, softwareIndex
 from processing.processfile import *
 from django.conf import settings
-import datetime
-import re
+import datetime, re, os, getpass
 
 # Create your views here.
 def Home(request):
         all_documents = fileQueue.objects.all()
-        review_docs = processingData.objects.all()
+        review_docs = processingData.objects.filter(reviewed=False)
         return render(request, 'main.html', {'Documents' : all_documents, 'PendingReview':review_docs})
 
 def ImportFile(request):
-        review_docs = processingData.objects.all()
+        review_docs = processingData.objects.filter(reviewed=False)
         filequeue = fileQueue.objects.all()
         if request.method == "POST":
                 if request.FILES:
@@ -23,19 +23,19 @@ def ImportFile(request):
                         if len(filelisting) >= 2:
                                 for items in filelisting:
                                         fs=FileSystemStorage()
-                                        fs.save("processing/"+ str(items),items)
-                                        fileQueue.objects.create(filefield="processing/"+ str(items), filename=items)
+                                        fs.save("processing/"+ str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(items), items)
+                                        fileQueue.objects.create(filefield="processing/"+ str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(items), filename=str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(items))
                         else:
                                 fs=FileSystemStorage()
-                                fs.save("processing/"+ str(postfile),postfile)
-                                fileQueue.objects.create(filefield="processing/"+ str(filelist['document']), filename=request.FILES)
+                                fs.save("processing/"+ str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(postfile),postfile)
+                                fileQueue.objects.create(filefield="processing/"+ str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(filelist['document']), filename=str(datetime.datetime.now().strftime("%Y%m%d%H%M%S") + str(request.FILES)))
                         return redirect('Home')
                 else:
                         pass
         return render(request, 'importfile.html', {'PendingReview':review_docs,'FileQueue':filequeue,})
 
 def ImportText(request):
-        review_docs = processingData.objects.all()
+        review_docs = processingData.objects.filter(reviewed=False)
         filequeue = fileQueue.objects.all()
         if request.method == 'POST':
                 if request.POST.get('document'):
@@ -124,10 +124,10 @@ def flagsentences(document, restrictions):
                 return strongtext
 
 def soft_review(request):
-        review_docs = processingData.objects.all()
+        review_docs = processingData.objects.filter(reviewed=False)
         softwarelist = softwareIndex.objects.all()
         if review_docs:
-                document = processingData.objects.order_by('id').first()
+                document = processingData.objects.filter(reviewed=False).order_by('id').first()
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
@@ -139,11 +139,11 @@ def soft_review(request):
                 return redirect('Home')
 
 def next_review(request,pk):
-        review_docs = processingData.objects.all()        
+        review_docs = processingData.objects.filter(reviewed=False)
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)
-                if processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first():
-                        document = processingData.objects.filter(id__gte=document.id).exclude(id=document.id).order_by('id').first()
+                if processingData.objects.filter(reviewed=False,id__gte=document.id).exclude(id=document.id).order_by('id').first():
+                        document = processingData.objects.filter(reviewed=False,id__gte=document.id).exclude(id=document.id).order_by('id').first()
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
@@ -153,11 +153,11 @@ def next_review(request,pk):
                 return render(request, 'revdocs.html', {'PendingReview':review_docs,'RevDoc':document,'InfoField':infofield,'SoftwareField':softwarefield,'PublisherField':publisherfield, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'Strongtext':strongtext})
 
 def prev_review(request,pk):
-        review_docs = processingData.objects.all()
+        review_docs = processingData.objects.filter(reviewed=False)
         if request.method == 'POST':
                 document = processingData.objects.get(id=pk)
-                if processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first():
-                        document = processingData.objects.filter(id__lte=document.id).exclude(id=document.id).order_by('-id').first()
+                if processingData.objects.filter(reviewed=False,id__lte=document.id).exclude(id=document.id).order_by('-id').first():
+                        document = processingData.objects.filter(reviewed=False,id__lte=document.id).exclude(id=document.id).order_by('-id').first()
                 softwarefield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="software name").id)
                 publisherfield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="publisher").id)
                 infofield = infoFieldArray.objects.filter(filename=document.id, categoryname=infoFieldCategory.objects.get(categoryname="information webpage").id)
@@ -183,13 +183,21 @@ def submit_review(request,pk):
                         else:
                                 restrictionarray.append(request.POST.get(item))
                         i += 1
-                softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)))
-                document.delete()
+                if softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')) :
+                        #Update software information in software list
+                        softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')).update(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")) ,checkby=str(getpass.getuser()))
+                        
+                else:
+                        #Create new record in software list
+                        softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")) ,checkby=str(getpass.getuser()))
+                processingData.objects.filter(pk=pk).update(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename')),reviewed=True)
+                for record in processingData.objects.filter(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename'))).exclude(id=document.id):
+                        record.delete()
                 return redirect('ReviewSoft')
 
 def Software(request):
         all_software = softwareIndex.objects.all()
-        review_docs = processingData.objects.all()
+        review_docs = processingData.objects.filter(reviewed=False)
         return render(request,"software.html",{'PendingReview':review_docs,'Softwares': all_software})
 
 def del_software(request, pk):
@@ -197,18 +205,59 @@ def del_software(request, pk):
                 softwarerecord = softwareIndex.objects.get(pk=pk)
                 softwarerecord.delete()
                 return redirect('Software')
-
+# Individual Software change screen
+def change_soft(request,pk):        
+        softwarelist = softwareIndex.objects.all()
+        review_docs = processingData.objects.all()
+        if review_docs:
+                document = processingData.objects.filter(parentsoftware=pk).first()
+                softdoc = softwareIndex.objects.get(pk=pk)
+                # softwarefield = softwareIndex.objects.get(pk=pk).softwarename
+                # publisherfield = softwareIndex.objects.get(pk=pk).publishername
+                # infofield = softwareIndex.objects.get(pk=pk).informationurl
+                restrictions = restrictionTitle.objects.all()
+                flaggedrestrictions = flaggedRestriction.objects.filter(filename=document.id)
+                selectedrestrictions = softwareIndex.objects.get(pk=pk).flaggedrestrictions.split(';#')
+                strongtext = flagsentences(document, flaggedrestrictions)
+                return render(request, 'updatesoft.html', {'Softwares': softwarelist,'PendingReview':review_docs,'RevDoc':document,'SoftDoc':softdoc, 'Restrictions':restrictions, 'FlaggedRestrictions':flaggedrestrictions, 'SelectedRestrictions':selectedrestrictions, 'Strongtext':strongtext})
+        else:
+                return redirect('Software')
+# Individual Software update command
+def submit_soft(request,pk):
+        document = softwareIndex.objects.get(pk=pk)
+        if request.method == 'POST':
+                restrictionarray = []
+                i = 0
+                for item in request.POST:
+                        if i < 4:
+                                pass
+                        else:
+                                restrictionarray.append(request.POST.get(item))
+                        i += 1
+                if softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')) :
+                        #Update software information in software list
+                        print("updating software:",request.POST.get('Softwarename'))
+                        print(document.checkdate)
+                        softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')).update(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")) ,checkby=str(getpass.getuser()))
+                else:
+                        #Create new record in software list
+                        softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")),checkby=str(getpass.getuser()))
+                processingData.objects.filter(pk=pk).update(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename')),reviewed=True)
+                # for record in processingData.objects.filter(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename'))).exclude(id=document.id):
+                #         record.delete()
+                return redirect('Software')
+                
 def export_file(request):
         import subprocess #allows execution of powershell commands
         export_docs = softwareIndex.objects.all()
-        if request.method == 'POST':                
+        if request.method == 'POST':
                 job_array = []
                 for record in export_docs:
                         record_elements = []
                         record_elements.append(record.softwarename)
                         record_elements.append(record.publishername)
                         record_elements.append(record.informationurl)
-                        record_elements.append(record.flaggedrestrictions)                        
+                        record_elements.append(record.flaggedrestrictions)
                         job_array.append(record_elements)
                 XlsxDump(job_array)
                 return redirect('Software')
