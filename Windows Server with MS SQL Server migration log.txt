@@ -33,14 +33,17 @@
 
 [x] unlock IIS server => configuration editor => system.webserver => handlers
 [x] add virtual directory 'static' for static folder in ASEULA
-[x] add "ASEULA/" in front of DIRS variable for Templates (TEMPORARY WORKAROUND)
+**[x] add "ASEULA/" in front of DIRS variable for Templates of settings.py(TEMPORARY WORKAROUND)
 [x] add "ASEULA/" in front of "media/processing/" on line 87 of website/views.py (TEMPORARY WORKAROUND)
 [x] add IP address to settings.py
 [x] add STATIC_ROOT to settings.py
 [x] ASEULA_Win_Setup.bat
+**[x] enable pnponline module in powershell with Install-Module SharePointPnPPowerShellOnline
+**[x] set execution policy with set-ExecutionPolicy RemoteSigned ** did nothing
 [x] Test ASEULA to validate functionality with SQL Lite
+[ ] Insert secret key in settings.py and switch debugging mode to "OFF"
 
-**** Bug Fix for processing timeouts: Increase timeout in IIS Server => FastCGI => edit => activity Timeout (70=1 min, 10 sec. Recommend increasing to 600)
+**** Bug Fix for processing timeouts: Increase timeout in IIS Server => FastCGI => edit => activity Timeout (70=1 min, 10 sec. Recommend increasing to 1500 (25 min))
 
 ### Conversion from SQL Lite to MS SQL Server ###
 [x] Install MS SQL Server (NAME MSSQLSERVER)
@@ -81,3 +84,15 @@ DATABASE_CONNECTION_POOLING = False
 [x] test ASEULA with SQL Server to verify functions operate
 
 ******** TEST DJANGO 3.1 with migration changes.
+import socket
+socket.getfqdn()
+
+import getpass
+print(getpass.getuser()) #username
+
+import platform
+print(platform.node()) #hostname
+
+import os
+domain = os.environ['userdomain']
+print(os.getlogin())

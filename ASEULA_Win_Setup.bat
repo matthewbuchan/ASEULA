@@ -1,7 +1,8 @@
-python -m pip install --upgrade pip
+python -m pip install --upgrade
 pip install django==3.0.10
 pip install wheel
-pip install spacy
+pip install spacy==2.3.2
+pip install numpy==1.19.3
 python -m spacy download en_core_web_sm
 pip install pytesseract
 pip install wand

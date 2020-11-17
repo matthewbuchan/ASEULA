@@ -4,7 +4,7 @@ from django.core.files import File
 from processing.models import positiveTerm, negativeTerm, restrictionTitle, restrictionTerm,infoFieldCategory,infoFieldArray,processingData,fileQueue, flaggedRestriction, flaggedSentence, softwareIndex
 from processing.processfile import *
 from django.conf import settings
-import datetime, re, os, getpass
+import datetime, re, os, getpass, subprocess,sys
 
 # Create your views here.
 def Home(request):
@@ -23,8 +23,9 @@ def ImportFile(request):
                         if len(filelisting) >= 2:
                                 for items in filelisting:
                                         fs=FileSystemStorage()
-                                        fs.save("processing/"+ str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(items), items)
-                                        fileQueue.objects.create(filefield="processing/"+ str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(items), filename=str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(items))
+                                        queuename = str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+                                        fs.save("processing/"+ str(queuename) + str(items), items)
+                                        fileQueue.objects.create(filefield="processing/"+ str(queuename) + str(items), filename=str(queuename) + str(items))
                         else:
                                 fs=FileSystemStorage()
                                 fs.save("processing/"+ str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")) + str(postfile),postfile)
@@ -185,11 +186,11 @@ def submit_review(request,pk):
                         i += 1
                 if softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')) :
                         #Update software information in software list
-                        softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')).update(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")) ,checkby=str(getpass.getuser()))
+                        softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')).update(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) ,checkby=str(getpass.getuser()))
                         
                 else:
                         #Create new record in software list
-                        softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")) ,checkby=str(getpass.getuser()))
+                        softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) ,checkby=str(getpass.getuser()))
                 processingData.objects.filter(pk=pk).update(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename')),reviewed=True)
                 for record in processingData.objects.filter(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename'))).exclude(id=document.id):
                         record.delete()
@@ -238,10 +239,10 @@ def submit_soft(request,pk):
                         #Update software information in software list
                         print("updating software:",request.POST.get('Softwarename'))
                         print(document.checkdate)
-                        softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')).update(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")) ,checkby=str(getpass.getuser()))
+                        softwareIndex.objects.filter(softwarename=request.POST.get('Softwarename')).update(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) ,checkby=str(getpass.getuser()))
                 else:
                         #Create new record in software list
-                        softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S+00:00")),checkby=str(getpass.getuser()))
+                        softwareIndex.objects.create(softwarename=request.POST.get('Softwarename'),publishername=request.POST.get('Publishername'),informationurl=request.POST.get('Informationpage'), flaggedrestrictions=re.sub(', ',';#',ArrayToString(restrictionarray)),checkdate=str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")),checkby=str(getpass.getuser()))
                 processingData.objects.filter(pk=pk).update(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename')),reviewed=True)
                 # for record in processingData.objects.filter(parentsoftware=softwareIndex.objects.get(softwarename=request.POST.get('Softwarename'))).exclude(id=document.id):
                 #         record.delete()
@@ -257,12 +258,15 @@ def export_file(request):
                         record_elements.append(record.softwarename)
                         record_elements.append(record.publishername)
                         record_elements.append(record.informationurl)
-                        record_elements.append(record.flaggedrestrictions)
+                        record_elements.append(record.flaggedrestrictions)                        
                         job_array.append(record_elements)
                 XlsxDump(job_array)
-                return redirect('Software')
-        try:
-                subprocess.Popen('powershell.exe C:\\inetpub\\wwwroot\\export_to_sharepoint.ps1')
-                return redirect('Home')
-        except:
-                return redirect('Home')
+                # subprocess.call("powershell.exe","c:\\inetpub\\wwwroot\\export_to_sharepoint.ps1")
+                subprocess.Popen(["powershell.exe","X:/ASEULA/export_to_sharepoint.ps1"])
+                return redirect('pushsuccess')
+                
+
+def pushsuccess(request):
+        all_documents = fileQueue.objects.all()
+        review_docs = processingData.objects.filter(reviewed=False)
+        return render(request, 'pushsuccess.html', {'Documents' : all_documents, 'PendingReview':review_docs})
