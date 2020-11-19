@@ -26,17 +26,17 @@
 
 ### Pull and configure ASEULA ###
 [x] git clone or download files from github, then extract 'ASEULA' folder to 'wwwroot'
-[x] Give IIS modify permissions for IIS_IUSRS (Python folder)
-[x] Give IIS modify permissions for IIS_IUSRS (wwwroot contents)
+[x] Give IIS modify permissions for IIS_IUSRS, IIS AppPool\DefaultAppPool and/or server equivalent (Python folder)
+[x] Give IIS modify permissions for IIS_IUSRS, IIS AppPool\DefaultAppPool and/or server equivalent (wwwroot contents)
 [x] extract web.config.root from 'web.config.zip' to wwwroot as web.config
 [x] extract web.config.static from 'web.config.zip' to wwwroot\ASEULA\static as web.config
 
-[x] unlock IIS server => configuration editor => system.webserver => handlers
+[x] unlock IIS server (globe icon) => configuration editor => system.webserver => handlers
 [x] add virtual directory 'static' for static folder in ASEULA
 **[x] add "ASEULA/" in front of DIRS variable for Templates of settings.py(TEMPORARY WORKAROUND)
-[x] add "ASEULA/" in front of "media/processing/" on line 87 of website/views.py (TEMPORARY WORKAROUND)
 [x] add IP address to settings.py
 [x] add STATIC_ROOT to settings.py
+[x] add "ASEULA/" in front of "media/processing/" on line 87 of website/views.py (TEMPORARY WORKAROUND)
 [x] ASEULA_Win_Setup.bat
 **[x] enable pnponline module in powershell with Install-Module SharePointPnPPowerShellOnline
 **[x] set execution policy with set-ExecutionPolicy RemoteSigned ** did nothing
