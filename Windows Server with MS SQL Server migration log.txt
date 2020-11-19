@@ -33,13 +33,13 @@
 
 [x] unlock IIS server (globe icon) => configuration editor => system.webserver => handlers
 [x] add virtual directory 'static' for static folder in ASEULA
-**[x] add "ASEULA/" in front of DIRS variable for Templates of settings.py(TEMPORARY WORKAROUND)
+[x] add "ASEULA/" in front of DIRS variable for Templates of settings.py(TEMPORARY WORKAROUND)
 [x] add IP address to settings.py
-[x] add STATIC_ROOT to settings.py
-[x] add "ASEULA/" in front of "media/processing/" on line 87 of website/views.py (TEMPORARY WORKAROUND)
+[x] add STATIC_ROOT = os.path.join(BASE_DIR,'static') on line 121, remove STATIC DIRS 122-124 from settings.py
+[x] add "ASEULA/" in front of "media/processing/" on line 81 of processing/views.py (TEMPORARY WORKAROUND)
+[x] add "ASEULA/" in front of "media/processing/" on line 249 of processing/processfile.py (TEMPORARY WORKAROUND)
 [x] ASEULA_Win_Setup.bat
-**[x] enable pnponline module in powershell with Install-Module SharePointPnPPowerShellOnline
-**[x] set execution policy with set-ExecutionPolicy RemoteSigned ** did nothing
+[x] Install pnponline module in powershell with Install-Module SharePointPnPPowerShellOnline
 [x] Test ASEULA to validate functionality with SQL Lite
 [ ] Insert secret key in settings.py and switch debugging mode to "OFF"
 
