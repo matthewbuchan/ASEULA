@@ -7,6 +7,9 @@ $rootSite = "https://arizonastateu.sharepoint.com/sites/O365FSEETSClassroom"
 # Stores CSV contents to a variable.
 $csv_file = '.\xlsx_dump.csv'
 
+# Stores Restriction Choices for SharePoint checkboxes
+$Choices = @("Instructional-use only","Research-use only","Requires Physical Device","No RDP Use","Use geographically limited (Campus)","Use geographically limited (radius)","US use only","VPN required off-site","Block embargoed countries","Block use from Persons of Concern","On-site (lab) use only","On-site use for on-site students only","Virtualization Not Allowed")
+
 #Add items to SP list (FUNCTIONING)
 
 Function Check-SPListItem([string]$csvInfo){
