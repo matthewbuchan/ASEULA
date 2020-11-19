@@ -48,7 +48,7 @@
             
             <form method="post" action="{% url 'export_file' %}" >
                 {% csrf_token %}
-                <button id="export-btn" type="submit" class="btn btn-primary" onclick="alert('Your file has been exported');">Export</button>
+                <button id="export-btn" type="submit" class="btn btn-primary">Export</button>
             </form>
             {% else %}
             <h4>No software has been processed.</h4>

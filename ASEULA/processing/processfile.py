@@ -245,9 +245,10 @@ def ArrayToString(array): # Converts an array to a string.
             array_string += array[i] # Concatenate array item without comma
         i += 1 # Add to i
     return array_string
-
-def XlsxDump(jobDataArray): # Output to CSV for download and site import
+def XlsxDump(jobDataArray,expdate): # Output to CSV for download and site import
+    csv_archive = open("media/archive/" + str(expdate) + "_software_push.csv","w")
     csv_dump = open("xlsx_dump.csv","w")
+    csv_archive.write("Software Name,Publisher Name,Information Webpage,Licensing Restrictions\n")
     csv_dump.write("Software Name,Publisher Name,Information Webpage,Licensing Restrictions\n")
     for job in jobDataArray: # Loops through each job
         jobline = ""        
@@ -256,21 +257,10 @@ def XlsxDump(jobDataArray): # Output to CSV for download and site import
                 jobline = element
             else:
                 jobline = jobline + "," + re.sub(',','',element)
+        csv_archive.write(str(jobline) + "\n")
         csv_dump.write(str(jobline) + "\n")
+    csv_archive.close()
     csv_dump.close()
-
-# def XlsxDump(jobDataArray): # Output to CSV for download and site import
-#     wb = Workbook() # Establishes workbook object format for sharepoint list
-#     ws = wb.active 
-#     ws.append(["Software Name", "Publisher Name", "Information Webpage", "Licensing Restrictions"]) # Appends header to ws object
-#     for job in jobDataArray: # Loops through each job
-#         ws.append(job)
-#         # ws.append([job[1]["software name"], job[1]["publisher"], job[1]["information webpage"], job[1]["licensing restrictions"]]) # Appends data from each job to line in ws object
-#     tab = Table(displayName="Export_Results", ref="A1:D" + str(len(jobDataArray)+1)) # Defines table dimensions
-#     ws.add_table(tab) # Adds table dimensions to ws object
-#     # wb.save("./xlsx_dump.xlsx") # Saves excel table document
-#     wb.save("media/xlsx_dump.xlsx") # FOR DJANGO
-
 
 ###############################################    DJANGO FRAMEWORK EXECUTION    ###############################################
 #  if the database gets corrupted, use the script below to re-establish default values after clearing all cache files          #
@@ -302,8 +292,6 @@ def XlsxDump(jobDataArray): # Output to CSV for download and site import
 # rxion_patterns["On-site use for on-site students only"] = ["single fixed geographic site", "fixed geographic site",\
 #         "geographic site", "on-site", "on-site use"]
 # rxion_patterns["Virtualization Allowed"] = ["virtualization", "virtualizing", "multiplexing", "pooling"]
-
-
 # for pattern in rxion_patterns:
 #     print("----",pattern)
 #     restrictionTitle.objects.create(restriction=pattern)
@@ -321,10 +309,3 @@ def XlsxDump(jobDataArray): # Output to CSV for download and site import
 # infoFieldCategory.objects.create(categoryname="publisher")
 # infoFieldCategory.objects.create(categoryname="information webpage")
 # infoFieldCategory.objects.create(categoryname="licensing restrictions")
-
-# # Execution
-
-# queuearray = [str(jobData.objects.get(pk=21).filefield.path)]
-
-# print(queuearray[0])
-# AseulaMain(queuearray[0])
